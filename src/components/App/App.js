@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import FirstPage from "../first-page"
-//import SecondPage from "../second-page"
+import FirstPage from "../FirstPage"
+//import SecondPage from "../SecondPage"
 
 const HEADER_TITLE = "სლამი • Slami"
 
