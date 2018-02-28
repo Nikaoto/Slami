@@ -1,0 +1,17 @@
+img {
+  user-drag: none; 
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+img.hover-shadow {
+  transition: 0.2s;
+}
+
+.hover-shadow:hover {
+  cursor: pointer;
+  box-shadow: 3px 5px 10px 3px rgba(0, 0, 0, 0.5)
+}
