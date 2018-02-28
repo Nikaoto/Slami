@@ -24,8 +24,11 @@ export default class MediaItem extends Component {
     const { url, title, num } = this.props
 
     return(
-      <div>
-        <p style={this.state.selected ? styles.numSelected : styles.numDefault}>{num}</p>
+      <div style={styles.container}>
+        <div className="slide-num" 
+        style={this.state.selected ? styles.numSelected : styles.numDefault}>
+          {num}
+        </div>
         <img className="hover-shadow slideLeftFadeIn"
           alt={title}
           src={url}
@@ -36,31 +39,46 @@ export default class MediaItem extends Component {
     )
   }
 }
+const selectedColor = "#0080ff"
 
 const styles = {
-  default: {
-    margin: 6,
+  container: {
+    position: "relative",
+    textAlign: "center",
     maxWidth: 120,
     maxHeight: 120,
+    margin: 6,
+  },
+  default: {
     borderWidth: 0,
     borderStyle: "solid",
-  },
-  selected: {
-    margin: "6 1 6 1",
     maxWidth: 120,
     maxHeight: 120,
-    borderRadius: 5,
+  },
+  selected: {
+    borderRadius: 4,
     borderWidth: 5,
     borderStyle: "solid",
-    borderColor: "#0080ff",
+    borderColor: selectedColor,
+    maxWidth: 120,
+    maxHeight: 120,
   },
   numDefault: {
-    display: "none",
-    postiion: "absolute",
+    visibility: "hidden",
+    opacity: 0,
+    position: "absolute",
+    height: 0,
   },
   numSelected: {
-    display: "block",
-    postiion: "absolute",
-    margin: 6,
+    visibility: "visible",
+    opacity: 1,
+    color: "white",
+    position: "absolute",
+    top: "0px",
+    left: "0px",
+    paddingLeft: 4,
+    paddingRight: 4,
+    backgroundColor: selectedColor,
+    borderRadius: 10,
   }
 }

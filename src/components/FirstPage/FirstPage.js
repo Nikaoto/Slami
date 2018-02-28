@@ -140,7 +140,7 @@ class FirstPage extends Component {
           }
         }
       })
-      
+
       media[index].num = null
     }
 
@@ -169,7 +169,9 @@ class FirstPage extends Component {
   }
 
   nextPage() {
-    console.log("NEXT PAGE")
+    if (this.props.onNextPage) {
+      this.props.onNextPage()
+    }
   }
 
   render() {

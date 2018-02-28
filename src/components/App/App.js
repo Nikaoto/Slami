@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import FirstPage from "../FirstPage"
-//import SecondPage from "../SecondPage"
+import SecondPage from "../SecondPage"
 
 const HEADER_TITLE = "სლამი • Slami"
 
@@ -11,16 +11,15 @@ class App extends Component {
   }
 
   renderCurrentPage() {
-    return <FirstPage />
-    /*
-    switch(this.state.currentPage) {
-      case 0: return <FirstPage />; break;
+        switch(this.state.currentPage) {
+      case 0: return <FirstPage onNextPage={() => this.onFinishFirstPage()}/>; break;
       case 1: return <SecondPage />; break;
-
     }
-    if (this.state.currentPage === 0) {
-      return <FirstPage />
-    }*/
+  }
+
+  onFinishFirstPage() {
+    console.log("FIRST PAGE FINISHED")
+    this.setState({ currentPage: 1 })
   }
 
   render() {
