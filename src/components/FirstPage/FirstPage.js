@@ -28,34 +28,6 @@ class FirstPage extends Component {
     }
   }
 
-  addMedia(media) {
-    const paragraphCount = this.state.paragraphs.length - 1
-
-    let currentMedia = this.state.media
-    
-    if (currentMedia[paragraphCount] === undefined) {
-      console.log("new request media")
-      currentMedia[paragraphCount] = []
-    }
-
-    media.forEach(m => {
-      const key = `p${paragraphCount}i${currentMedia[paragraphCount].length}`
-      const mediaItem = { 
-        key: key, 
-        title: m.title, 
-        url: m.mediaurl, 
-        source: m.link,
-        size: m.size // TODO change this to description or smth
-      }
-
-      currentMedia[paragraphCount].push(mediaItem)
-    })
-
-    this.setState({ media: currentMedia })
-
-    console.log(currentMedia)
-  }
-
   addBulkMedia(media) {
     media.forEach(({ mediaurl, title, link }) => this.addMediaItem(mediaurl, title, link))
   }
@@ -165,7 +137,7 @@ class FirstPage extends Component {
 
   nextPage() {
     if (this.props.onNextPage) {
-      this.props.onNextPage()
+      this.props.onNextPage(this.state.media.filter(m => m.num !== null && m.num > 0))
     }
   }
 

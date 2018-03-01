@@ -12,13 +12,14 @@ class App extends Component {
 
   renderCurrentPage() {
         switch(this.state.currentPage) {
-      case 0: return <FirstPage onNextPage={() => this.onFinishFirstPage()}/>; break;
+      case 0: return <FirstPage onNextPage={(media) => this.onFinishFirstPage(media)}/>; break;
       case 1: return <SecondPage />; break;
     }
   }
 
-  onFinishFirstPage() {
+  onFinishFirstPage(media) {
     console.log("FIRST PAGE FINISHED")
+    console.log("Chosen Media urls:", media.map(m => m.url))
     this.setState({ currentPage: 1 })
   }
 
