@@ -2,17 +2,12 @@ import React, { Component } from 'react'
 import EditorCard from "../EditorCard"
 import MediaItem from "../MediaItem"
 import { getImportantWords } from "../../util"
-import { paragraph_delimiter_char } from "../../config"
-
-const devMode = true
-const devUrl = "http://localhost:1000"
-const prodUrl = "http://temp-slami"
-const scrapeApi = devMode ? devUrl : prodUrl
+import { paragraph_delimiter_char, scrapeApi } from "../../config"
 
 class FirstPage extends Component {
   constructor(props) {
     super(props)
-    this.state = { 
+    this.state = {
       paragraphs: [],
       media: [],
       customMedia: [],
