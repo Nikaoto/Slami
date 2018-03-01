@@ -7,8 +7,11 @@ export default class SecondPage extends Component {
   }
 
   render() {
+    const { slides } = this.props
+
     return(
       <div className="row">
+        { slides.map(sl => <img key={sl.key} src={sl.url} alt={sl.title} />) }
       </div>
     )
   }

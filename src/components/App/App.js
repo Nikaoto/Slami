@@ -7,20 +7,18 @@ const HEADER_TITLE = "სლამი • Slami"
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = { currentPage: 0 }
+    this.state = { currentPage: 0, slides: [] }
   }
 
   renderCurrentPage() {
-        switch(this.state.currentPage) {
-      case 0: return <FirstPage onNextPage={(media) => this.onFinishFirstPage(media)}/>; break;
-      case 1: return <SecondPage />; break;
+      switch(this.state.currentPage) {
+        case 0: return <FirstPage onNextPage={(media) => this.onFinishFirstPage(media)} />; break;
+        case 1: return <SecondPage slides={this.state.slides} />; break;
     }
   }
 
   onFinishFirstPage(media) {
-    console.log("FIRST PAGE FINISHED")
-    console.log("Chosen Media urls:", media.map(m => m.url))
-    this.setState({ currentPage: 1 })
+    this.setState({ currentPage: 1, slides: media })
   }
 
   render() {
