@@ -40,12 +40,28 @@ export default class SecondPage extends Component {
         <div className="col s12">
           <div className="row">
 
-            {/* Slides Grid */}
-            <div style={ styles.grid } className="col s6">
-              { this.renderSlides() }
+            {/* Left Side */}
+            <div className="col s6">
+
+              {/* Slides Grid */}
+              <div className="row">
+                <div style={ styles.grid } className="col s12">
+                  { this.renderSlides() }
+                </div>
+              </div>
+
+              {/* Generate Button */}
+              <div className="row">
+                <div className="col s3">
+                  <button onClick={this.onBackButtonClick} className="waves-effect waves-light btn">
+                    <i className="material-icons">arrow_back</i>
+                  </button>
+                </div>
+              </div>
+
             </div>
 
-            {/* Editor */}
+            {/* Editor (+ Right Side) */}
             <div style={styles.editorContainer} className="col s6">
               <div style={styles.editor}>
                 <div style={styles.aspectRatioBox}>

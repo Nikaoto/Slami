@@ -160,7 +160,8 @@ class FirstPage extends Component {
               <form action="#">
                 <div className="file-field input-field">
                   <div className="btn">
-                    <span>ამოირჩიე ფაილები</span>
+                    <i className="material-icons">file_upload</i>
+                    {/*<span>ამოირჩიე ფაილები</span>*/}
                     <input type="file" multiple onChange={(e) => this.onFileUpload(e)}/>
                   </div>
                   <div className="file-path-wrapper">
@@ -175,7 +176,8 @@ class FirstPage extends Component {
               <button className="waves-effect waves-light btn" 
               onClick={() => this.nextPage()}
               style={styles.nextPageButton}>
-                შემდეგი
+                {/*შემდეგი*/}
+                <i className="material-icons">arrow_forward</i>
               </button>
             </div>
             
