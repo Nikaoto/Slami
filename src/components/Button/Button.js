@@ -26,21 +26,36 @@ export default class Button extends Component {
   }
 
   componentDidMount() {
+    if (!this.props.text) {
+      this.setState({ 
+        buttonStyle: styles.buttonWithNoText,
+        textStyle: styles.noText
+      })
+      console.log("BREJK")
+      return
+    }
+
     if (this.props.iconLeft && this.props.iconRight) {
-      this.setState({ buttonStyle: styles.buttonWithBothIcons })
-      this.setState({ textStyle: styles.textWithBothIcons })
+      this.setState({ 
+        buttonStyle: styles.buttonWithBothIcons, 
+        textStyle: styles.textWithBothIcons
+      })
       return
     }
 
     if (this.props.iconLeft) {
-      this.setState({ buttonStyle: styles.buttonWithIconLeft })
-      this.setState({ textStyle: styles.textWithIconLeft })
+      this.setState({ 
+        buttonStyle: styles.buttonWithIconLeft, 
+        textStyle: styles.textWithIconLeft
+      })
       return
     }
 
     if (this.props.iconRight) {
-      this.setState({ buttonStyle: styles.buttonWithIconRight })
-      this.setState({ textStyle: styles.textWithIconRight })
+      this.setState({ 
+        buttonStyle: styles.buttonWithIconRight,
+        textStyle: styles.textWithIconRight
+      })
     }
   }
 
@@ -57,6 +72,16 @@ export default class Button extends Component {
 }
 
 const styles = {
+  buttonWithNoText: {
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  noText: {
+    height: 0,
+    width: 0,
+    padding: 0,
+    margin: 0
+  },
   buttonWithBothIcons: {
     display: "flex",
     paddingLeft: 15,
