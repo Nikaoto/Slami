@@ -37,7 +37,7 @@ export default class SecondPage extends Component {
 
         {/* Back Button */}
         <div style={{ marginBottom: 40 }} className="col s1">
-          <Button onClick={this.onBackButtonClick} iconLeft={"arrow_back"} />
+          <Button onClick={this.onBackButtonClick} text={"უკან"} iconLeft={"arrow_back"} />
         </div>
 
         <div className="col s12">

@@ -160,9 +160,9 @@ class FirstPage extends Component {
             <div id="file-upload" className="col s8">
               <form action="#">
                 <div className="file-field input-field">
-                  <div className="btn">
+                  <div className="btn" style={{ display: "flex", paddingLeft: 20, paddingRight: 20 }}>
                     <i className="material-icons">file_upload</i>
-                    {/*<span>ამოირჩიე ფაილები</span>*/}
+                    <span style={{ alignSelf: "center", marginLeft: 15 }} >ამოირჩიე ფაილები</span>
                     <input type="file" multiple onChange={(e) => this.onFileUpload(e)}/>
                   </div>
                   <div className="file-path-wrapper">
