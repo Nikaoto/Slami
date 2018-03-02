@@ -20,14 +20,18 @@ export default class MediaItem extends Component {
     this.setState({ selected: selected })
   }
 
+  renderNum(num) {
+    if(num === null) return "null"; else return num
+  }
+
   render() {
     const { url, title, num } = this.props
 
     return(
       <div style={styles.container}>
         <div className="slide-num" 
-        style={this.state.selected ? styles.numSelected : styles.numDefault}>
-          {num}
+        style={styles.numSelected }>
+          {this.renderNum(num)}
         </div>
         <img className="hover-shadow slideLeftFadeIn"
           alt={title}
