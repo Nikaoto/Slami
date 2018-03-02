@@ -16,9 +16,12 @@ export default class SecondPage extends Component {
 
   renderSlides() {
     return this.props.slides.map(sl => 
-      <img key={sl.key} style={styles.img}
-      src={sl.url} 
-      alt={sl.title} />
+      <div key={sl.key}>
+        <div>{sl.text}</div>
+        <img style={styles.img}
+        src={sl.url} 
+        alt={sl.title} />
+      </div>
     )
   }
 
