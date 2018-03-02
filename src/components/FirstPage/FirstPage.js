@@ -39,23 +39,11 @@ class FirstPage extends Component {
       key: currentMedia.length,
       url: url,
       title: title,
-      source: source      
+      source: source,
+      num: null, 
     })
 
       this.setState({ media: currentMedia })
-  }
-
-  addCustomMedia(name, url, type) {
-    const newItem = {
-      key: "c" + this.state.customMedia.length,
-      title: name,
-      url: url,
-      source: url,
-      size: type // TODO change this
-    }
-    const customMedia = this.state.customMedia
-    customMedia.push(newItem)
-    this.setState({ customMedia: customMedia })
   }
 
   updateTitleText(newText) {
@@ -83,8 +71,7 @@ class FirstPage extends Component {
   }
 
   onMediaItemClick(itemId, selected) {
-
-    const media = this.state.media
+    let media = this.state.media
     let index = media.findIndex(item => item.key === itemId)
 
     if (selected) {
@@ -137,7 +124,15 @@ class FirstPage extends Component {
 
   nextPage() {
     if (this.props.onNextPage) {
-      this.props.onNextPage(this.state.media.filter(m => m.num !== null && m.num > 0))
+      const finalMedia = this.state.media
+          .filter(m => m.num !== null && m.num > 0)
+          .map(m => { 
+            m.text = this.state.paragraphs[m.num - 1]
+            return m 
+          })
+          .sort((a, b) => a.num - b.num)
+      
+      this.props.onNextPage(finalMedia)
     }
   }
 
