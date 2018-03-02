@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 //import GridSlide from "../GridSlide"
+import Button from "../Button"
 import "./SecondPage.css"
 
 export default class SecondPage extends Component {
@@ -15,13 +16,17 @@ export default class SecondPage extends Component {
     }
   }
 
+  onGenerateClick() {
+    console.log("onGenerateClick")
+  }
+
   renderSlides() {
     return this.props.slides.map(sl => 
       <div key={sl.key}>
         <div>{sl.text}</div>
         <img style={styles.slideImage}
-        src={sl.url} 
-        alt={sl.title} />
+            src={sl.url} 
+            alt={sl.title} />
       </div>
     )
   }
@@ -32,9 +37,7 @@ export default class SecondPage extends Component {
 
         {/* Back Button */}
         <div style={{ marginBottom: 40 }} className="col s1">
-          <button onClick={this.onBackButtonClick} className="waves-effect waves-light btn">
-            <i className="material-icons">arrow_back</i>
-          </button>
+          <Button onClick={this.onBackButtonClick} iconLeft={"arrow_back"} />
         </div>
 
         <div className="col s12">
@@ -53,9 +56,8 @@ export default class SecondPage extends Component {
               {/* Generate Button */}
               <div className="row">
                 <div className="col s3">
-                  <button onClick={this.onBackButtonClick} className="waves-effect waves-light btn">
-                    <i className="material-icons">arrow_back</i>
-                  </button>
+                  <Button text={"დააგენერირე"} iconLeft={"settings"} iconRight={"settings"} 
+                      onClick={() => this.onGenerateClick()}/>
                 </div>
               </div>
 

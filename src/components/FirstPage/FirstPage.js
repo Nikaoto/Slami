@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import EditorCard from "../EditorCard"
 import MediaItem from "../MediaItem"
+import Button from "../Button"
 import { getImportantWords } from "../../util"
 import { paragraph_delimiter_char, scrapeApi } from "../../config"
 
@@ -173,12 +174,8 @@ class FirstPage extends Component {
 
             {/* Next Page Button */}
             <div className="col s4">
-              <button className="waves-effect waves-light btn" 
-              onClick={() => this.nextPage()}
-              style={styles.nextPageButton}>
-                {/*შემდეგი*/}
-                <i className="material-icons">arrow_forward</i>
-              </button>
+              <Button onClick={() => this.nextPage()} iconRight={"arrow_forward"} text={"შემდეგი"}
+                  style={styles.nextPageButton}/>
             </div>
             
           </div>

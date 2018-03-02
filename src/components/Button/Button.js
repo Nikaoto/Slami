@@ -1,9 +1,11 @@
 import React, { Component } from "react"
 
+const default_class_name = "waves-effect waves-light btn"
+
 export default class Button extends Component {
   constructor(props) {
     super(props)
-    this.state = { buttonStyle: {}, textStyle: {}}
+    this.state = { buttonStyle: {}, textStyle: {}, className: default_class_name }
     this.onClick = this.onClick.bind(this)
   }
 
@@ -26,6 +28,10 @@ export default class Button extends Component {
   }
 
   componentDidMount() {
+    if (this.props.customClassName) {
+      this.setState({ className: this.props.customClassName })
+    }
+
     if (!this.props.text) {
       this.setState({ 
         buttonStyle: styles.buttonWithNoText,
@@ -61,7 +67,7 @@ export default class Button extends Component {
 
   render() {
     return(
-      <button className="waves-effect waves-light btn" onClick={this.onClick}
+      <button className={this.state.className} onClick={this.onClick}
           style={Object.assign(this.state.buttonStyle, this.props.style)}>
         {this.renderLeftIcon()}
         <span style={this.state.textStyle}>{this.props.text}</span>
