@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 //import GridSlide from "../GridSlide"
+import "./SecondPage.css"
 
 export default class SecondPage extends Component {
   constructor(props) {
@@ -49,7 +50,7 @@ export default class SecondPage extends Component {
               <div style={styles.editor}>
                 <div style={styles.aspectRatioBox}>
                   <img src={this.state.chosenSlide.url} alt={this.state.chosenSlide.title} 
-                      style={styles.editorImage}/>
+                      style={styles.editorImage} className="non-draggable"/>
                 </div>
               </div>
             </div>
