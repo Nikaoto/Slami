@@ -9,8 +9,8 @@ class App extends Component {
   constructor(props) {
     super(props)
     // TODO remove TempData after finishing SecondPage testing
-    //this.state = { currentPage: 1, slides: TempData }
-    this.state = { currentPage: 0, slides: [] }
+    this.state = { currentPage: 1, slides: TempData }
+    //this.state = { currentPage: 0, slides: [] }
   }
 
   renderCurrentPage() {
@@ -33,7 +33,9 @@ class App extends Component {
     return (
       <div className="blue-grey lighten-1">
         <header style={styles.headerTitle} >
-          <h2 className="amber-text text-darken-3">{HEADER_TITLE}</h2>
+          <a href="/">
+            <h2 className="amber-text text-darken-3">{HEADER_TITLE}</h2>
+          </a>
         </header>
 
         <div style={styles.pageStyle} className="page-container">
