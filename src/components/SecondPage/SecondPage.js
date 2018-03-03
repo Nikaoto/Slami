@@ -1,8 +1,10 @@
 import React, { Component } from "react"
 //import GridSlide from "../GridSlide"
 import Button from "../Button"
-import Whammy from "../../whammy"
+import { generateVideo } from "../../util"
 import "./SecondPage.css"
+
+const canvas_size = 240
 
 export default class SecondPage extends Component {
   constructor(props) {
@@ -19,6 +21,14 @@ export default class SecondPage extends Component {
 
   onGenerateClick() {
     console.log("onGenerateClick")
+    const canvas = this.refs.canvas
+    const videoPlayer = this.refs.videoPlayer
+    const context = canvas.getContext("2d")
+
+    generateVideo(this.props.slides, context, canvas, (output) => {
+      const url = window.URL.createObjectURL(output)
+      videoPlayer.src = url
+    })
   }
 
   renderSlides() {
@@ -30,6 +40,12 @@ export default class SecondPage extends Component {
             alt={sl.title} />
       </div>
     )
+  }
+
+  componentDidMount() {
+    const canvas = this.refs.canvas
+    canvas.width = canvas_size
+    canvas.height = canvas_size
   }
 
   render() {
@@ -62,6 +78,11 @@ export default class SecondPage extends Component {
                 </div>
               </div>
 
+              {/* Temporary Canvas and Video */}
+              <canvas ref="canvas" style={styles.canvas} />
+              <video ref="videoplayer" controls autoPlay loop style={styles.videoPlayer} 
+                  width={canvas_size} height={canvas_size} />
+
             </div>
 
             {/* Editor (+ Right Side) */}
@@ -76,8 +97,6 @@ export default class SecondPage extends Component {
 
           </div>
         </div>
-
-        <canvas id="canvas" style={{ display:"none"}} width={720} height={720} />
 
       </div>
     )
@@ -126,4 +145,12 @@ const styles = {
     width: "100%",
     height: "100%",
   },
+  canvas: {
+    margin: 30,
+    boxShadow: "0px 3px 13px 3px rgba(0,0,0,0.2)"
+  },
+  videoPlayer: {
+    margin: 30,
+    boxShadow: "0px 3px 13px 3px rgba(0,0,0,0.2)"
+  }
 }
