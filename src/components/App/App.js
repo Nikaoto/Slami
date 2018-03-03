@@ -10,12 +10,8 @@ class App extends Component {
   constructor(props) {
     super(props)
     // TODO remove TempData after finishing SecondPage testing
-    //this.state = { currentPage: 1, slides: TempData }
-    this.state = { 
-      currentPage: 0,
-      slides: [],
-      pageAnimation: "scene-element--fadeinright"
-    }
+    this.state = { currentPage: 1, slides: TempData, pageAnimation: "scene-element--fadeinright" }
+    //this.state = { currentPage: 0, slides: [], pageAnimation: "scene-element--fadeinright" }
   }
 
   renderCurrentPage() {

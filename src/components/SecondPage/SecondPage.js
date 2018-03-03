@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 //import GridSlide from "../GridSlide"
 import Button from "../Button"
+import Whammy from "../../whammy"
 import "./SecondPage.css"
 
 export default class SecondPage extends Component {
@@ -75,6 +76,8 @@ export default class SecondPage extends Component {
 
           </div>
         </div>
+
+        <canvas id="canvas" style={{ display:"none"}} width={720} height={720} />
 
       </div>
     )
