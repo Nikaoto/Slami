@@ -66,9 +66,11 @@ export default class Button extends Component {
   }
 
   render() {
+    const buttonStyle = { ...this.state.buttonStyle, ...this.props.style }
+
     return(
       <button className={this.state.className} onClick={this.onClick}
-          style={Object.assign(this.state.buttonStyle, this.props.style)}>
+          style={buttonStyle}>
         {this.renderLeftIcon()}
         <span style={this.state.textStyle}>{this.props.text}</span>
         {this.renderRightIcon()}
