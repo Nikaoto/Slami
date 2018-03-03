@@ -20,6 +20,7 @@ class App extends Component {
           onNextPage={(media) => this.onFinishFirstPage(media)} />
       case 1: return <SecondPage animation={this.state.pageAnimation} slides={this.state.slides} 
           onBack={() => this.onBackToFirstPage()} />
+      default: break
     }
   }
 
