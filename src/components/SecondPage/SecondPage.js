@@ -33,7 +33,7 @@ export default class SecondPage extends Component {
 
   render() {
     return(
-      <div className="row">
+      <div className={"row scene-element " + this.props.animation}>
 
         {/* Back Button */}
         <div style={{ marginBottom: 40 }} className="col s1">

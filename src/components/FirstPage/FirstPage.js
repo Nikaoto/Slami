@@ -139,7 +139,7 @@ class FirstPage extends Component {
 
   render() {
     return (
-      <div className="row">
+      <div className={"row scene-element " + this.props.animation}>
 
         <div className="col s6" style={styles.editor}>
           <EditorCard 
