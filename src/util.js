@@ -1,4 +1,4 @@
-import { important_word_length } from "./config"
+import { important_word_length, scrapeApi } from "./config"
 
 export function getImportantWords(paragraph) {
   let words = paragraph.trim().split(" ").map(x => x.trim())
@@ -34,14 +34,24 @@ export function generateVideo(slides, context, canvas, onFinish) {
   const clearCanvas = (ctx) => ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
   slides.forEach((slide, index) => {
-
     const img = new Image()
-    img.crossOrigin = "use-credentials"
-    img.onload = () => {
+    const onLoad = () => {
       context.drawImage(img, 0, 0, canvas.width, canvas.height)
       //drawText
       console.log("add frame")
-      video.add(context)
+      try {
+        video.add(context)
+      } catch (err) {
+        console.log("CORS not allowed, calling proxy server")
+
+        sendDownloadRequest(slide.url, (res) => {
+          console.log("download request result:", res)
+          
+          const newImg = new Image()
+          newImg.onload = onLoad
+          newImg.src = res.url
+        })
+      }
       clearCanvas(context)
 
       // Check if finished
@@ -54,7 +64,19 @@ export function generateVideo(slides, context, canvas, onFinish) {
         })*/
       }
     }
+    //img.crossOrigin = "Anonymous"
+    img.onload = () => onLoad()
     img.src = slide.url //TODO: check if I have to use FileReader for local images
-
   })
+}
+
+export function sendDownloadRequest(url, callback) {
+  if (url.length > 0) {
+    fetch(`${scrapeApi}/download?url=${url}`)
+      .then(res => res.json())
+      .then(res => callback(res))
+      .catch(err => console.log(err))
+  } else {
+      console.log("url is empty")
+  }
 }
