@@ -1,6 +1,7 @@
 const devMode = true
 const devUrl = "http://localhost:2000"
-const prodUrl = "http://temp-slami"
+const realProdUrl = "https://scr-api"
+const prodUrl = "https://scr-api.herokuapp.com"
 
 module.exports = {
   devMode: devMode,
