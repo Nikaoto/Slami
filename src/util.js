@@ -21,6 +21,10 @@ export function getImportantWords(paragraph) {
   }
 }
 
+function clearCanvas(context) {
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+}
+
 export function generateVideo(slides, context, canvas, onFinish) {
   const fps = 10
 
@@ -30,12 +34,13 @@ export function generateVideo(slides, context, canvas, onFinish) {
   const Whammy = require("./whammy")
   const video = new Whammy.Video(fps)
 
-  // TODO: if fails check with canvas.width and height (pass canvas as arg)
-  const clearCanvas = (ctx) => ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-
   slides.forEach((slide, index) => {
+
+    let looped = false // TODO use this to restrict looping
+
     const img = new Image()
     const onLoad = () => {
+      looped = true
       context.drawImage(img, 0, 0, canvas.width, canvas.height)
       //drawText
       console.log("add frame")
@@ -47,9 +52,7 @@ export function generateVideo(slides, context, canvas, onFinish) {
         sendDownloadRequest(slide.url, (res) => {
           console.log("download request result:", res)
           
-          const newImg = new Image()
-          newImg.onload = onLoad
-          newImg.src = res.url
+          img.src = res.url
         })
       }
       clearCanvas(context)
@@ -68,6 +71,10 @@ export function generateVideo(slides, context, canvas, onFinish) {
     img.onload = () => onLoad()
     img.src = slide.url //TODO: check if I have to use FileReader for local images
   })
+}
+
+function processImage(context, canvas, video, ) {
+
 }
 
 export function sendDownloadRequest(url, callback) {
