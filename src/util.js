@@ -39,15 +39,17 @@ export function generateVideo(slides, context, canvas, onFinish) {
     let looped = false // TODO use this to restrict looping
 
     const img = new Image()
+    img.crossOrigin = "Anonymous"
     const onLoad = () => {
       looped = true
       context.drawImage(img, 0, 0, canvas.width, canvas.height)
-      //drawText
+      //drawText()
       console.log("add frame")
       try {
         video.add(context)
       } catch (err) {
         console.log("CORS not allowed, calling proxy server")
+        // TODO: identify if err is actually because of CORS
 
         sendDownloadRequest(slide.url, (res) => {
           console.log("download request result:", res)
@@ -67,7 +69,6 @@ export function generateVideo(slides, context, canvas, onFinish) {
         })*/
       }
     }
-    //img.crossOrigin = "Anonymous"
     img.onload = () => onLoad()
     img.src = slide.url //TODO: check if I have to use FileReader for local images
   })
