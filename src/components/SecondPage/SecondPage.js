@@ -24,7 +24,6 @@ export default class SecondPage extends Component {
     const canvas = this.refs.canvas
     const videoPlayer = this.refs.videoPlayer
     const context = canvas.getContext("2d")
-
     generateVideo(this.props.slides, context, canvas, (output) => {
       const url = window.URL.createObjectURL(output)
       videoPlayer.src = url

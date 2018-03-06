@@ -25,52 +25,70 @@ function clearCanvas(context) {
   context.clearRect(0, 0, context.canvas.width, context.canvas.height)
 }
 
+function corsAllowed(url) {
+  return new Promise(resolve => {
+    try {
+      fetch(url)
+      .then(res => resolve(true))
+      .catch(err => resolve(false))
+    } catch(err) {
+      resolve(false)
+    }
+  })
+}
+
+export function generateVideoASD(slides, context, canvas, onFinish) {
+  console.log("genvid")
+  corsAllowed(slides[0].url)
+  .then(isAllowed => console.log(isAllowed))
+  .catch(err => console.log(err))
+}
+
 export function generateVideo(slides, context, canvas, onFinish) {
-  const fps = 10
+  const fps = 1
 
   // Geo font
   //const Kartuli = new FontFace('Kartuli', 'url(fonts/NotoSansGeorgian-Regular.ttf)');
 
   const Whammy = require("./whammy")
   const video = new Whammy.Video(fps)
-
+  
   slides.forEach((slide, index) => {
-
-    let looped = false // TODO use this to restrict looping
+    let looped = false
 
     const img = new Image()
-    img.crossOrigin = "Anonymous"
-    const onLoad = () => {
-      looped = true
-      context.drawImage(img, 0, 0, canvas.width, canvas.height)
-      //drawText()
-      console.log("add frame")
+    img.onload = () => {
+      console.log("onload")
       try {
+        context.drawImage(img, 0, 0, canvas.width, canvas.height)
+        //drawText()
         video.add(context)
-      } catch (err) {
-        console.log("CORS not allowed, calling proxy server")
-        // TODO: identify if err is actually because of CORS
 
-        sendDownloadRequest(slide.url, (res) => {
-          console.log("download request result:", res)
-          
-          img.src = res.url
+
+        clearCanvas(context)
+
+        video.compile(false, output => {
+          console.log("compile")
         })
-      }
-      clearCanvas(context)
+      } catch(err) {
+        if (looped) {
+          console.log("Looped. ERROR.")
+          console.log("img:", img)
+        } else {
+          looped = true
+          console.log("Calling proxy server")
 
-      // Check if finished
-      if (index >= slides.length) {
-/*        console.log("compile")
-
-        video.compile(false, (output) => {
-          console.log(output)
-          onFinish(output)
-        })*/
+          sendDownloadRequest(slide.url, (res) => {
+            console.log("Proxy result:", res)
+            img.crossOrigin = "Anonymous"
+            img.src = res.url
+          })
+        }
       }
     }
-    img.onload = () => onLoad()
+
     img.src = slide.url //TODO: check if I have to use FileReader for local images
+    
   })
 }
 
