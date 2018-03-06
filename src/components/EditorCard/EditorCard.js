@@ -13,7 +13,7 @@ class EditorCard extends Component {
     this.onKeyPress = this.onKeyPress.bind(this)
   }
 
-  udpateTitleText(newText) {
+  updateTitleText(newText) {
     this.setState({ titleText: newText })
 
     if (this.props.updateTitle) {
