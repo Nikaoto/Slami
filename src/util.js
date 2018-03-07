@@ -21,6 +21,7 @@ export function getImportantWords(paragraph) {
   }
 }
 
+
 // Networking
 
 export function sendScrapeRequest(query) {
@@ -54,17 +55,6 @@ function corsAllowed(url) {
 
 // Canvas stuff
 
-export function generateVideoASD(slides, context, canvas, onFinish) {
-  console.log("genvid")
-  corsAllowed(slides[0].url)
-  .then(isAllowed => console.log(isAllowed))
-  .catch(err => console.log(err))
-}
-
-function clearCanvas(context) {
-  context.clearRect(0, 0, context.canvas.width, context.canvas.height)
-}
-
 export function generateVideo(slides, context, canvas, onFinish) {
   processSlides(slides, context)
   .then(video => video.compile(false, output => {
@@ -97,7 +87,7 @@ function processSlide(slide, context, video) {
       console.log("onload")
 
       context.drawImage(img, 0, 0, context.canvas.width, context.canvas.height)
-      //drawText()
+      drawText(context, slide.text)
       video.add(context)
 
       clearCanvas(context)
@@ -111,4 +101,13 @@ function processSlide(slide, context, video) {
       img.src = slide.url //TODO: check if I have to use FileReader for local images
     }
   })
+}
+
+function drawText(context, text) {
+  context.font = "30px Arial"
+  context.fillText(text, 10, 50)
+}
+
+function clearCanvas(context) {
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height)
 }
