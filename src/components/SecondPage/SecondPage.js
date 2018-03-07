@@ -25,7 +25,7 @@ export default class SecondPage extends Component {
     const videoPlayer = this.refs.videoPlayer
     const context = canvas.getContext("2d")
     generateVideo(this.props.slides, context, canvas, (output) => {
-      const url = window.URL.createObjectURL(output)
+      const url = URL.createObjectURL(output)
       videoPlayer.src = url
     })
   }
@@ -35,7 +35,7 @@ export default class SecondPage extends Component {
       <div key={sl.key}>
         <div>{sl.text}</div>
         <img style={styles.slideImage}
-            src={sl.url} 
+            src={sl.thumbnailUrl} 
             alt={sl.title} />
       </div>
     )
@@ -79,7 +79,7 @@ export default class SecondPage extends Component {
 
               {/* Temporary Canvas and Video */}
               <canvas ref="canvas" style={styles.canvas} />
-              <video ref="videoplayer" controls autoPlay loop style={styles.videoPlayer} 
+              <video ref="videoPlayer" controls autoPlay loop style={styles.videoPlayer} 
                   width={canvas_size} height={canvas_size} />
 
             </div>

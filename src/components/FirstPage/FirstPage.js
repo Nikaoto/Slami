@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import EditorCard from "../EditorCard"
 import MediaItem from "../MediaItem"
 import Button from "../Button"
-import { getImportantWords } from "../../util"
-import { paragraph_delimiter_char, scrapeApi } from "../../config"
+import { getImportantWords, sendScrapeRequest } from "../../util"
+import { custom_media_source, paragraph_delimiter_char } from "../../config"
 
 class FirstPage extends Component {
   constructor(props) {
@@ -18,33 +18,25 @@ class FirstPage extends Component {
     }
   }
 
-  sendScrapeRequest(query, max = 1) {
-    if (query.length > 0) {
-      fetch(`${scrapeApi}/bing?query=${query}&max=${max}`)
-      .then(res => res.json())
-      .then(media => this.addBulkMedia(media))
-      .catch(err => console.log(err))
-    } else {
-      console.log("query is empty")
-    }
-  }
-
   addBulkMedia(media) {
     media.forEach(({ mediaurl, title, link }) => this.addMediaItem(mediaurl, title, link))
   }
 
-  addMediaItem(url, title, source) {
+  addMediaItem(url, thumbnailUrl, title, source) {
     let currentMedia = this.state.media
 
     currentMedia.push({
       key: currentMedia.length,
       url: url,
       title: title,
+      thumbnailUrl: thumbnailUrl || url,
       source: source,
       num: null, 
     })
 
-      this.setState({ media: currentMedia })
+    console.log("currentMedia:", currentMedia)
+
+    this.setState({ media: currentMedia })
   }
 
   updateTitleText(newText) {
@@ -63,7 +55,11 @@ class FirstPage extends Component {
 
   onNewParagraph() {
     const paragraphs = this.getParagraphs()
-    getImportantWords(paragraphs[paragraphs.length - 1]).forEach(q => this.sendScrapeRequest(q))
+    getImportantWords(paragraphs[paragraphs.length - 1]).forEach(q => {
+      sendScrapeRequest(q)
+      .then(({ url, thumbnailUrl, title, source }) => this.addMediaItem(url, thumbnailUrl, title, source))
+      .catch(err => console.log(err))
+    })
     this.setState({ paragraphs: paragraphs })
   }
 
@@ -104,7 +100,7 @@ class FirstPage extends Component {
 
   renderMedia() {
     return this.state.media.map(m => 
-      <MediaItem key={m.key} url={m.url} title={m.title} num={m.num} 
+      <MediaItem key={m.key} url={m.thumbnailUrl} title={m.title} num={m.num} 
         onClick={(selected) => this.onMediaItemClick(m.key, selected)}/>
     )
   }
@@ -117,7 +113,7 @@ class FirstPage extends Component {
       values.forEach(file => {
         console.log("file:",file)
         const reader = new FileReader()
-        reader.onload = (e) => this.addMediaItem(e.target.result, file.name, "custom")
+        reader.onload = (e) => this.addMediaItem(e.target.result, null, file.name, custom_media_source)
         reader.readAsDataURL(file)
       })
     }
@@ -129,7 +125,7 @@ class FirstPage extends Component {
           .filter(m => m.num !== null && m.num > 0)
           .map(m => { 
             m.text = this.state.paragraphs[m.num - 1]
-            return m 
+            return m
           })
           .sort((a, b) => a.num - b.num)
       

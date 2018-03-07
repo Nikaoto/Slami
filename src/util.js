@@ -1,4 +1,4 @@
-import { important_word_length, scrapeApi } from "./config"
+import { custom_media_source, important_word_length, scrapeApi, proxyApi } from "./config"
 
 export function getImportantWords(paragraph) {
   let words = paragraph.trim().split(" ").map(x => x.trim())
@@ -21,9 +21,23 @@ export function getImportantWords(paragraph) {
   }
 }
 
-function clearCanvas(context) {
-  context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+// Networking
+
+export function sendScrapeRequest(query) {
+  if (query.length <= 0) {
+    console.log("query is empty")
+    return
+  }
+
+  return new Promise((resolve, reject) => {
+    fetch(`${scrapeApi}?query=${query}`)
+    .then(res => res.json())
+    .then(res => resolve(res))
+    .catch(err => reject(err))
+  })
 }
+
+export const proxy = (url) => `${proxyApi}?url=${url}`
 
 function corsAllowed(url) {
   return new Promise(resolve => {
@@ -37,6 +51,9 @@ function corsAllowed(url) {
   })
 }
 
+
+// Canvas stuff
+
 export function generateVideoASD(slides, context, canvas, onFinish) {
   console.log("genvid")
   corsAllowed(slides[0].url)
@@ -44,65 +61,54 @@ export function generateVideoASD(slides, context, canvas, onFinish) {
   .catch(err => console.log(err))
 }
 
+function clearCanvas(context) {
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+}
+
 export function generateVideo(slides, context, canvas, onFinish) {
-  const fps = 1
+  processSlides(slides, context)
+  .then(video => video.compile(false, output => {
+    console.log("compile")
+    onFinish(output)
+  })).catch(err => console.log(err))
+}
 
-  // Geo font
-  //const Kartuli = new FontFace('Kartuli', 'url(fonts/NotoSansGeorgian-Regular.ttf)');
-
-  const Whammy = require("./whammy")
-  const video = new Whammy.Video(fps)
-  
-  slides.forEach((slide, index) => {
-    let looped = false
-
-    const img = new Image()
-    img.onload = () => {
-      console.log("onload")
-      try {
-        context.drawImage(img, 0, 0, canvas.width, canvas.height)
-        //drawText()
-        video.add(context)
-
-
-        clearCanvas(context)
-
-        video.compile(false, output => {
-          console.log("compile")
-        })
-      } catch(err) {
-        if (looped) {
-          console.log("Looped. ERROR.")
-          console.log("img:", img)
-        } else {
-          looped = true
-          console.log("Calling proxy server")
-
-          sendDownloadRequest(slide.url, (res) => {
-            console.log("Proxy result:", res)
-            img.crossOrigin = "Anonymous"
-            img.src = res.url
-          })
-        }
-      }
+function processSlides(slides, context) {
+  return new Promise(async resolve => {
+    // Geo font
+    //const Kartuli = new FontFace('Kartuli', 'url(fonts/NotoSansGeorgian-Regular.ttf)');
+    const fps = 1
+    const Whammy = require("./whammy")
+    const video = new Whammy.Video(fps)
+    
+    for (const slide of slides) {
+      await processSlide(slide, context, video)
     }
 
-    img.src = slide.url //TODO: check if I have to use FileReader for local images
-    
+    resolve(video)
   })
 }
 
-function processImage(context, canvas, video, ) {
+function processSlide(slide, context, video) {
+  return new Promise(resolve => {
+    const img = new Image()
+    img.crossOrigin = "Anonymous"
+    img.onload = () => {
+      console.log("onload")
 
-}
+      context.drawImage(img, 0, 0, context.canvas.width, context.canvas.height)
+      //drawText()
+      video.add(context)
 
-export function sendDownloadRequest(url, callback) {
-  if (url.length > 0) {
-    fetch(`${scrapeApi}/download?url=${url}`)
-      .then(res => res.json())
-      .then(res => callback(res))
-      .catch(err => console.log(err))
-  } else {
-      console.log("url is empty")
-  }
+      clearCanvas(context)
+
+      resolve()
+    }
+
+    if (!slide.source || slide.source !== custom_media_source) {
+      img.src = proxy(slide.url)
+    } else {
+      img.src = slide.url //TODO: check if I have to use FileReader for local images
+    }
+  })
 }
