@@ -1,19 +1,52 @@
 import React, { Component } from "react"
 
+
 export default class SlideEditor extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+
+    const passedText = this.props.slideObj.text
+    this.state = { 
+      text: passedText,
+      textStyle: { width: this.calculateTextWidth(passedText) }
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const passedText = nextProps.slideObj.text
+    this.setState({ 
+      text: passedText,
+      textStyle: { width: this.calculateTextWidth(passedText) }
+    })
+  }
+
+  onTextChange(newText) {
+    this.setState({ 
+      text: newText,
+      textStyle: { width: this.calculateTextWidth(newText) }
+    })
+
+    if (this.props.onTextChange) {
+      this.props.onTextChange(newText)
+    }
+  }
+
+  calculateTextWidth(text, fontSize = styles.text.fontSize) {
+    return (text.length + 1) * fontSize * 0.46
   }
 
   render() {
     const { url, title, text } = this.props.slideObj
+
     return(
       <div style={styles.editor}>
         <div style={styles.aspectRatioBox}>
           <img src={url} alt={title} 
               style={styles.editorImage} className="non-draggable"/>
-          <div style={styles.text}>{text}</div>
+          <input type="text"
+              value={this.state.text}
+              onChange={(e) => this.onTextChange(e.target.value)}
+              style={{...this.state.textStyle, ...styles.text}} />
         </div>
       </div>
     )
@@ -37,7 +70,7 @@ const styles = {
     position: "absolute",
     left: 10,
     top: 10,
-    fontSize: 30,
+    fontSize: 30
   },
   aspectRatioBox: {
     height: 0,

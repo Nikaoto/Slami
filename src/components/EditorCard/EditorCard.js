@@ -79,11 +79,10 @@ class EditorCard extends Component {
               <div className="input-field col s12 outline">
 
                 <textarea className="materialize-textarea justify"
-                value={this.state.contentText}
-                onChange={(e) => this.udpateContentText(e.target.value)}
-                onKeyDown={this.onKeyPress}
-                style={styles.cardText}
-                />
+                    value={this.state.contentText}
+                    onChange={(e) => this.udpateContentText(e.target.value)}
+                    onKeyDown={this.onKeyPress}
+                    style={styles.cardText} />
 
               </div>
             </form>

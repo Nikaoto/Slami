@@ -55,7 +55,14 @@ export default class SecondPage extends Component {
     })
   }
 
-  getChosenSlide = () => this.state.editSlides[this.state.chosenSlideIndex]
+  getCurrentSlide = () => this.state.editSlides[this.state.chosenSlideIndex]
+
+  updateCurrentSlideText(newText) {
+    console.log(newText)
+    const editSlides = this.state.editSlides
+    editSlides[this.state.chosenSlideIndex].text = newText
+    this.setState({ editSlides: editSlides })
+  }
 
   renderSlides() {
     return this.state.editSlides.map(sl => 
@@ -109,7 +116,9 @@ export default class SecondPage extends Component {
             
             {/* Editor (+ Right Side) */}
             <div style={styles.editorContainer} className="col s6">
-              <SlideEditor slideObj={this.getChosenSlide()} />
+              <SlideEditor slideObj={this.getCurrentSlide()}
+                  text={this.getCurrentSlide().text}
+                  onTextChange={(newText) => this.updateCurrentSlideText(newText)} />
             </div>
 
           </div>
