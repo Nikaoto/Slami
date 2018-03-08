@@ -35,7 +35,6 @@ const styles = {
   container: {
     borderWidth: 12,
     borderRadius: 12,
-    overflow: "hidden"
   },
   selectedImage: {
     width: 125,
