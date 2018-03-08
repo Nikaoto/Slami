@@ -6,6 +6,7 @@ import { generateVideo } from "../../util"
 import "./SecondPage.css"
 
 const canvas_size = 1024
+const video_preview_size = 300
 
 export default class SecondPage extends Component {
   constructor(props) {
@@ -101,14 +102,14 @@ export default class SecondPage extends Component {
               {/* Canvas and Video */}
               <canvas ref="canvas" style={styles.canvas} />
               <video ref="videoPlayer" controls autoPlay loop style={styles.videoPlayer} 
-                  width={300} height={300} />
+                  width={video_preview_size} height={video_preview_size} />
 
             </div>
 
             
             {/* Editor (+ Right Side) */}
             <div style={styles.editorContainer} className="col s6">
-              <SlideEditor chosenSlide={this.getChosenSlide()} />
+              <SlideEditor slideObj={this.getChosenSlide()} />
             </div>
 
           </div>

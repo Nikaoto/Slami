@@ -7,11 +7,13 @@ export default class SlideEditor extends Component {
   }
 
   render() {
+    const { url, title, text } = this.props.slideObj
     return(
       <div style={styles.editor}>
         <div style={styles.aspectRatioBox}>
-          <img src={this.props.chosenSlide.url} alt={this.props.chosenSlide.title} 
+          <img src={url} alt={title} 
               style={styles.editorImage} className="non-draggable"/>
+          <div style={styles.text}>{text}</div>
         </div>
       </div>
     )
@@ -20,13 +22,22 @@ export default class SlideEditor extends Component {
 
 const styles = {
   editor: {
-    backgroundColor: "green",
     alignSelf: "stretch",
     flex: 1,
     minWidth: 240,
     minHeight: 240,
     maxWidth: 650,
     maxHeight: 650,
+  },
+  text: {
+    paddingLeft: 12,
+    paddingRight: 12,
+    color: "black",
+    backgroundColor: "white",
+    position: "absolute",
+    left: 10,
+    top: 10,
+    fontSize: 30,
   },
   aspectRatioBox: {
     height: 0,
