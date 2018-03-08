@@ -56,7 +56,7 @@ class App extends Component {
         </div>
 
         <footer className="footer">
-          <div style={{height: 200, backgroundColor: "orange"}}/>
+          <div style={{height: 120, backgroundColor: "orange"}}/>
         </footer>
       </div>
     );
@@ -71,7 +71,8 @@ const styles = {
     marginBottom: 20,
   },
   pageStyle: {
-    minHeight: 600
+    minHeight: 600,
+    marginBottom: 50,
   },
 }
 

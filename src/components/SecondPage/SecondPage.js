@@ -1,15 +1,27 @@
 import React, { Component } from "react"
-//import GridSlide from "../GridSlide"
 import Button from "../Button"
+import Slide from "../Slide"
+import SlideEditor from "../SlideEditor"
 import { generateVideo } from "../../util"
 import "./SecondPage.css"
 
-const canvas_size = 240
+const canvas_size = 1024
 
 export default class SecondPage extends Component {
   constructor(props) {
     super(props)
-    this.state = { chosenSlide: this.props.slides[0] }
+    
+    const editSlides = this.props.slides.map(sl => {
+      sl.selected = false
+      sl.textPosition = { x: 0, y:0 }
+      return sl
+    })
+
+    this.state = {
+      chosenSlideIndex: 0,
+      editSlides: editSlides
+    }
+
     this.onBackButtonClick = this.onBackButtonClick.bind(this)
   }
 
@@ -24,20 +36,29 @@ export default class SecondPage extends Component {
     const canvas = this.refs.canvas
     const videoPlayer = this.refs.videoPlayer
     const context = canvas.getContext("2d")
-    generateVideo(this.props.slides, context, canvas, (output) => {
+    generateVideo(this.state.editSlides, context, canvas, (output) => {
       const url = URL.createObjectURL(output)
       videoPlayer.src = url
     })
   }
 
+  onSlideClick(slideKey) {
+    const slides = this.state.editSlides
+    const i = slides.findIndex(sl => sl.key === slideKey)
+    slides.forEach(sl => sl.selected = false)
+    slides[i].selected = true
+
+    this.setState({
+      chosenSlideIndex: i,
+      editSlides: slides
+    })
+  }
+
+  getChosenSlide = () => this.state.editSlides[this.state.chosenSlideIndex]
+
   renderSlides() {
-    return this.props.slides.map(sl => 
-      <div key={sl.key}>
-        <div>{sl.text}</div>
-        <img style={styles.slideImage}
-            src={sl.thumbnailUrl} 
-            alt={sl.title} />
-      </div>
+    return this.state.editSlides.map(sl => 
+      <Slide key={sl.key} slideObj={sl} onClick={() => this.onSlideClick(sl.key)}/>
     )
   }
 
@@ -77,21 +98,17 @@ export default class SecondPage extends Component {
                 </div>
               </div>
 
-              {/* Temporary Canvas and Video */}
+              {/* Canvas and Video */}
               <canvas ref="canvas" style={styles.canvas} />
               <video ref="videoPlayer" controls autoPlay loop style={styles.videoPlayer} 
-                  width={canvas_size} height={canvas_size} />
+                  width={300} height={300} />
 
             </div>
 
+            
             {/* Editor (+ Right Side) */}
             <div style={styles.editorContainer} className="col s6">
-              <div style={styles.editor}>
-                <div style={styles.aspectRatioBox}>
-                  <img src={this.state.chosenSlide.url} alt={this.state.chosenSlide.title} 
-                      style={styles.editorImage} className="non-draggable"/>
-                </div>
-              </div>
+              <SlideEditor chosenSlide={this.getChosenSlide()} />
             </div>
 
           </div>
@@ -110,46 +127,16 @@ const styles = {
     flexFlow: "row wrap",
     justifyContent: "flex-start",
   },
-  slideImage: {
-    width: 120,
-    height: 120,
-    marginBottom: 15,
-    marginRight: 15,
-  },
   editorContainer: {
     display: "flex",
     justifyContent: "center",
     height: "100%",
   },
-  editor: {
-    backgroundColor: "green",
-    alignSelf: "stretch",
-    flex: 1,
-    minWidth: 240,
-    minHeight: 240,
-    maxWidth: 650,
-    maxHeight: 650,
-  },
-  aspectRatioBox: {
-    height: 0,
-    overflow: "hidden",
-    paddingTop: "100%",
-    background: "black",
-    position: "relative",
-  },
-  editorImage: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-  },
   canvas: {
-    margin: 30,
-    boxShadow: "0px 3px 13px 3px rgba(0,0,0,0.2)"
+    display: "none"
   },
   videoPlayer: {
-    margin: 30,
+    margin: 10,
     boxShadow: "0px 3px 13px 3px rgba(0,0,0,0.2)"
   }
 }
