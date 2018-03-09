@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import Img from "react-image"
+import Draggable from "react-draggable"
 import Spinner from "../Spinner"
 
 export default class SlideEditor extends Component {
@@ -46,10 +47,15 @@ export default class SlideEditor extends Component {
               loader={<Spinner/>}
               style={styles.editorImage} 
               className="non-draggable"/>
-          <input type="text"
-              value={this.state.text}
-              onChange={(e) => this.onTextChange(e.target.value)}
-              style={{...this.state.textStyle, ...styles.text}} />
+          <Draggable handle=".handle">
+            <div style={styles.text} >
+              <div className="handle" style={{position:"absolute", backgroundColor: "black", top: 0, left: 0, width: 20, height:20}}/>
+              <input type="text"
+                  value={this.state.text}
+                  onChange={(e) => this.onTextChange(e.target.value)}
+                  style={{...this.state.textStyle, ...styles.text}} />
+            </div>
+          </Draggable>
         </div>
       </div>
     )
