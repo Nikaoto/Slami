@@ -1,5 +1,6 @@
 import React, { Component } from "react"
-
+import Img from "react-image"
+import Spinner from "../Spinner"
 
 export default class SlideEditor extends Component {
   constructor(props) {
@@ -41,8 +42,10 @@ export default class SlideEditor extends Component {
     return(
       <div style={styles.editor}>
         <div style={styles.aspectRatioBox}>
-          <img src={url} alt={title} 
-              style={styles.editorImage} className="non-draggable"/>
+          <Img src={url} alt={title} 
+              loader={<Spinner/>}
+              style={styles.editorImage} 
+              className="non-draggable"/>
           <input type="text"
               value={this.state.text}
               onChange={(e) => this.onTextChange(e.target.value)}
