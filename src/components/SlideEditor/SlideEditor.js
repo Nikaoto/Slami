@@ -32,7 +32,7 @@ export default class SlideEditor extends Component {
   }
 
   calculateTextWidth(text, fontSize = styles.text.fontSize) {
-    return (text.length + 1) * fontSize * 0.46
+    return (text.length + 1) * fontSize * 0.47
   }
 
   render() {
@@ -70,7 +70,8 @@ const styles = {
     position: "absolute",
     left: 10,
     top: 10,
-    fontSize: 30
+    fontSize: 30,
+    textAlign: "center"
   },
   aspectRatioBox: {
     height: 0,
