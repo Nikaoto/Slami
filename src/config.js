@@ -14,5 +14,6 @@ module.exports = {
   paragraph_delimiter_char: "\u21B5",
   delete_key: "Backspace",
   important_word_length: 4,
-  custom_media_source: "self"
+  custom_media_source: "self",
+  textPos: { x: 7, y: 7 }, // default position of slide text
 }

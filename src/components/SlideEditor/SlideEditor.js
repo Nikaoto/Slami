@@ -10,15 +10,22 @@ export default class SlideEditor extends Component {
     const passedText = this.props.slideObj.text
     this.state = { 
       text: passedText,
+      textPosition: this.props.slideObj.textPosition,
       textStyle: { width: this.calculateTextWidth(passedText) }
     }
+
+    this.onTextDrag = this.onTextDrag.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
     const passedText = nextProps.slideObj.text
+    const textPosition = nextProps.slideObj.textPosition
     this.setState({ 
       text: passedText,
-      textStyle: { width: this.calculateTextWidth(passedText) }
+      textPosition: textPosition,
+      textStyle: { 
+        width: this.calculateTextWidth(passedText)
+      }
     })
   }
 
@@ -33,27 +40,43 @@ export default class SlideEditor extends Component {
     }
   }
 
+  onTextDrag(e, data) {
+    const newPosition = { 
+      x: data.x,
+      y: data.y
+    }
+
+    this.setState({
+      textPosition: newPosition
+    })
+
+    if (this.props.onTextDrag) {
+      this.props.onTextDrag(newPosition)
+    }
+  }
+
   calculateTextWidth(text, fontSize = styles.text.fontSize) {
-    return (text.length + 1) * fontSize * 0.47
+    return (text.length + 1) * fontSize * 0.55
   }
 
   render() {
     const { url, title, text } = this.props.slideObj
 
     return(
-      <div style={styles.editor}>
+      <div style={styles.editor} className="editor-container">
         <div style={styles.aspectRatioBox}>
           <Img src={url} alt={title} 
               loader={<Spinner/>}
               style={styles.editorImage} 
-              className="non-draggable"/>
-          <Draggable handle=".handle">
-            <div style={styles.text} >
-              <div className="handle" style={{position:"absolute", backgroundColor: "black", top: 0, left: 0, width: 20, height:20}}/>
+              className="non-draggable editor-image"/>
+          <Draggable handle=".handle" bounds=".editor-container" onDrag={this.onTextDrag}
+              position={this.state.textPosition}>
+            <div style={{...styles.text, ...this.state.textStyle}}>
+              <div className="handle" style={styles.handle}/>
               <input type="text"
                   value={this.state.text}
                   onChange={(e) => this.onTextChange(e.target.value)}
-                  style={{...this.state.textStyle, ...styles.text}} />
+                  style={{...styles.text, ...this.state.textStyle}} />
             </div>
           </Draggable>
         </div>
@@ -72,15 +95,24 @@ const styles = {
     maxHeight: 650,
   },
   text: {
-    paddingLeft: 12,
-    paddingRight: 12,
+    paddingLeft: 10,
+    paddingRight: 10,
     color: "black",
     backgroundColor: "white",
     position: "absolute",
-    left: 10,
-    top: 10,
-    fontSize: 30,
-    textAlign: "center"
+    textAlign: "center",
+    top: 7,
+    left: 7,
+    fontSize: 30
+  },
+  handle: {
+    position:"absolute",
+    backgroundColor: "black",
+    top: 0,
+    left: 0,
+    width: 14,
+    height: 14,
+    borderRadius: 3,
   },
   aspectRatioBox: {
     height: 0,

@@ -3,6 +3,7 @@ import Button from "../Button"
 import Slide from "../Slide"
 import SlideEditor from "../SlideEditor"
 import { generateVideo } from "../../util"
+import { textPos } from "../../config"
 import "./SecondPage.css"
 
 const canvas_size = 1024
@@ -13,8 +14,8 @@ export default class SecondPage extends Component {
     super(props)
     
     const editSlides = this.props.slides.map(sl => {
-      sl.selected = false
-      sl.textPosition = { x: 0, y:0 }
+      sl.selected = sl.selected || false
+      sl.textPosition = textPos
       return sl
     })
 
@@ -37,6 +38,7 @@ export default class SecondPage extends Component {
     const canvas = this.refs.canvas
     const videoPlayer = this.refs.videoPlayer
     const context = canvas.getContext("2d")
+    // TODO set actual positions for each slide text v2(-7, -7)
     generateVideo(this.state.editSlides, context, canvas, (output) => {
       const url = URL.createObjectURL(output)
       videoPlayer.src = url
@@ -58,9 +60,15 @@ export default class SecondPage extends Component {
   getCurrentSlide = () => this.state.editSlides[this.state.chosenSlideIndex]
 
   updateCurrentSlideText(newText) {
-    console.log(newText)
     const editSlides = this.state.editSlides
     editSlides[this.state.chosenSlideIndex].text = newText
+    this.setState({ editSlides: editSlides })
+  }
+
+  updateCurrentSlideTextPosition(newPosition) {
+    console.log(newPosition)
+    const editSlides = this.state.editSlides
+    editSlides[this.state.chosenSlideIndex].textPosition = newPosition
     this.setState({ editSlides: editSlides })
   }
 
@@ -118,7 +126,8 @@ export default class SecondPage extends Component {
             <div style={styles.editorContainer} className="col s6">
               <SlideEditor slideObj={this.getCurrentSlide()}
                   text={this.getCurrentSlide().text}
-                  onTextChange={(newText) => this.updateCurrentSlideText(newText)} />
+                  onTextChange={(newText) => this.updateCurrentSlideText(newText)} 
+                  onTextDrag={(newPosition) => this.updateCurrentSlideTextPosition(newPosition)}/>
             </div>
 
           </div>

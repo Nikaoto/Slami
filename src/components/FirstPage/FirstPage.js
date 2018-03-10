@@ -128,7 +128,9 @@ class FirstPage extends Component {
             return m
           })
           .sort((a, b) => a.num - b.num)
-      
+          
+      finalMedia[0].selected = true
+
       this.props.onNextPage(finalMedia)
     }
   }
