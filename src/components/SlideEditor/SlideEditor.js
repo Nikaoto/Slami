@@ -70,7 +70,7 @@ export default class SlideEditor extends Component {
               style={styles.editorImage} 
               className="non-draggable editor-image"/>
           <Draggable handle=".handle" bounds=".editor-container" onDrag={this.onTextDrag}
-              position={this.state.textPosition}>
+              position={this.state.textPosition} className="no-cursor">
             <div style={{...styles.text, ...this.state.textStyle}}>
               <div className="handle" style={styles.handle}/>
               <input type="text"
@@ -113,6 +113,7 @@ const styles = {
     width: 14,
     height: 14,
     borderRadius: 3,
+    cursor: "move"
   },
   aspectRatioBox: {
     height: 0,
