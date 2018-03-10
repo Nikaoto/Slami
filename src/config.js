@@ -1,5 +1,5 @@
 const devMode = true
-const localUrl = "http://localhost:2800/images"
+const localUrl = "http://localhost:2000/images"
 const prodUrl = "https://scr-api.ge"
 const devUrl = "https://slami-bing-api.herokuapp.com/images"
 
@@ -8,8 +8,8 @@ module.exports = {
   localUrl: localUrl,
   devUrl: devUrl,
   prodUrl: prodUrl,
-  scrapeApi: "http://localhost:2800/images",//devMode ? devUrl : prodUrl,
-  proxyApi: "http://localhost:2800/proxy",
+  scrapeApi: "http://localhost:2000/images",//devMode ? devUrl : prodUrl,
+  proxyApi: "http://localhost:2000/proxy",
   paragraph_delimiter_key: "Enter",
   paragraph_delimiter_char: "\u21B5",
   delete_key: "Backspace",
