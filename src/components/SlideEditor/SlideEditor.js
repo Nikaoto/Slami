@@ -70,7 +70,7 @@ export default class SlideEditor extends Component {
               style={styles.editorImage} 
               className="non-draggable editor-image"/>
           <Draggable handle=".handle" bounds=".editor-container" onDrag={this.onTextDrag}
-              position={this.state.textPosition} className="no-cursor">
+              position={this.state.textPosition}>
             <div style={{...styles.text, ...this.state.textStyle}}>
               <div className="handle" style={styles.handle}/>
               <input type="text"
