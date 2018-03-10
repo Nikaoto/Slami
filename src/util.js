@@ -24,14 +24,14 @@ export function getImportantWords(paragraph) {
 
 // Networking
 
-export function sendScrapeRequest(query) {
+export function sendScrapeRequest(query, max = 2) {
   if (query.length <= 0) {
     console.log("query is empty")
     return
   }
 
   return new Promise((resolve, reject) => {
-    fetch(`${scrapeApi}?query=${query}`)
+    fetch(`${scrapeApi}?query=${query}&max=${max}`)
     .then(res => res.json())
     .then(res => resolve(res))
     .catch(err => reject(err))
@@ -39,18 +39,6 @@ export function sendScrapeRequest(query) {
 }
 
 export const proxy = (url) => `${proxyApi}?url=${url}`
-
-function corsAllowed(url) {
-  return new Promise(resolve => {
-    try {
-      fetch(url)
-      .then(res => resolve(true))
-      .catch(err => resolve(false))
-    } catch(err) {
-      resolve(false)
-    }
-  })
-}
 
 
 // Canvas stuff

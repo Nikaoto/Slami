@@ -60,7 +60,7 @@ export default class SlideEditor extends Component {
   }
 
   render() {
-    const { url, title, text } = this.props.slideObj
+    const { url, title } = this.props.slideObj
 
     return(
       <div style={styles.editor} className="editor-container">

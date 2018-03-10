@@ -18,10 +18,6 @@ class FirstPage extends Component {
     }
   }
 
-  addBulkMedia(media) {
-    media.forEach(({ mediaurl, title, link }) => this.addMediaItem(mediaurl, title, link))
-  }
-
   addMediaItem(url, thumbnailUrl, title, source) {
     let currentMedia = this.state.media
 
@@ -33,8 +29,6 @@ class FirstPage extends Component {
       source: source,
       num: null, 
     })
-
-    console.log("currentMedia:", currentMedia)
 
     this.setState({ media: currentMedia })
   }
@@ -57,8 +51,9 @@ class FirstPage extends Component {
     const paragraphs = this.getParagraphs()
     getImportantWords(paragraphs[paragraphs.length - 1]).forEach(q => {
       sendScrapeRequest(q)
-      .then(({ url, thumbnailUrl, title, source }) => this.addMediaItem(url, thumbnailUrl, title, source))
-      .catch(err => console.log(err))
+      .then(res => res.forEach(
+        ({url, thumbnailUrl, title, source}) => this.addMediaItem(url, thumbnailUrl, title, source)
+      )).catch(err => console.log(err))
     })
     this.setState({ paragraphs: paragraphs })
   }
