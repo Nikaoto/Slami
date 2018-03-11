@@ -44,8 +44,6 @@ class EditorCard extends Component {
       if(this.props.onDelete) {
         this.props.onDelete()
       }
-
-      return
     }
   }
 
