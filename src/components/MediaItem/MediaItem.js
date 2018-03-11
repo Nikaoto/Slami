@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import Img from "react-image"
 import "./MediaItem.css"
 
 export default class MediaItem extends Component {
@@ -25,15 +26,14 @@ export default class MediaItem extends Component {
 
     return(
       <div style={styles.container}>
-        <div className="slide-num" 
-        style={this.state.selected ? styles.numSelected : styles.numDefault}>
+        <div className="slide-num" style={this.state.selected ? styles.numSelected : styles.numDefault}>
           {num}
         </div>
-        <img className="hover-shadow slideLeftFadeIn"
-          alt={title}
-          src={url}
-          style={this.state.selected ? styles.selected : styles.default }
-          onClick={() => this.onClick()} 
+        <Img className="hover-shadow slideLeftFadeIn" 
+            src={url} 
+            alt={title}
+            style={this.state.selected ? styles.selected : styles.default } 
+            onClick={() => this.onClick()}
         />
       </div>
     )

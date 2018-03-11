@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="32e31148-2d4a-4e9f-9dbf-12b2e052c68c" name="Default" comment="">
+    <list default="true" id="32e31148-2d4a-4e9f-9dbf-12b2e052c68c" name="Default" comment="add workspace.xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/src/components/MediaItem/MediaItem.css" afterPath="$PROJECT_DIR$/src/components/MediaItem/MediaItem.css" />
       <change beforePath="$PROJECT_DIR$/src/components/MediaItem/MediaItem.js" afterPath="$PROJECT_DIR$/src/components/MediaItem/MediaItem.js" />
@@ -33,6 +33,16 @@
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="JsbtTreeLayoutManager">
+    <layout place="tools.popupnpm">
+      <scroll-view-position x="0" y="0" />
+      <selected-paths>
+        <path>
+          <id value="$PROJECT_DIR$/package.json" />
+        </path>
+      </selected-paths>
+    </layout>
   </component>
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/node_modules" />
@@ -203,7 +213,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1520785949112</updated>
-      <workItem from="1520785950366" duration="285000" />
+      <workItem from="1520785950366" duration="336000" />
     </task>
     <task id="LOCAL-00001" summary="add workspace.xml">
       <created>1520786234893</created>
@@ -212,11 +222,18 @@
       <option name="project" value="LOCAL" />
       <updated>1520786234893</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add workspace.xml">
+      <created>1520786248668</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1520786248668</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="285000" />
+    <option name="totallyTimeSpent" value="336000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
