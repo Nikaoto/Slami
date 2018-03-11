@@ -17,9 +17,9 @@ export default class SlideEditor extends Component {
     this.onTextDrag = this.onTextDrag.bind(this)
   }
 
-  componentWillReceiveProps(nextProps) {
-    const passedText = nextProps.slideObj.text
-    const textPosition = nextProps.slideObj.textPosition
+  componentWillReceiveProps({ slideObj }) {
+    const passedText = slideObj.text
+    const textPosition = slideObj.textPosition
     this.setState({ 
       text: passedText,
       textPosition: textPosition,
@@ -56,7 +56,7 @@ export default class SlideEditor extends Component {
   }
 
   calculateTextWidth(text, fontSize = styles.text.fontSize) {
-    return (text.length + 1) * fontSize * 0.55
+    return (text.length + 1) * fontSize * 0.6
   }
 
   render() {
@@ -95,15 +95,17 @@ const styles = {
     maxHeight: 650,
   },
   text: {
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 8,
+    paddingRight: 8,
     color: "black",
     backgroundColor: "white",
     position: "absolute",
     textAlign: "center",
     top: 7,
     left: 7,
-    fontSize: 30
+    fontSize: 28,
+    borderRadius: 10,
+    boxShadow: "0px 0px 6px rgba(0, 0, 0, 0.2)"
   },
   handle: {
     position:"absolute",
@@ -113,6 +115,9 @@ const styles = {
     width: 14,
     height: 14,
     borderRadius: 3,
+    borderWidth: 1,
+    borderColor: "white",
+    borderStyle: "solid",
     cursor: "move"
   },
   aspectRatioBox: {

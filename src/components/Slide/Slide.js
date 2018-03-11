@@ -1,5 +1,7 @@
 import React, { Component } from "react"
+import Img from "react-image"
 import "./Slide.css"
+import Spinner from "../Spinner/Spinner"
 
 export default class Slide extends Component {
   constructor(props) {
@@ -20,10 +22,11 @@ export default class Slide extends Component {
 
     return(
       <div style={styles.container} onClick={this.onClick}>
-        <img style={ selected ? styles.selectedImage : styles.defaultImage } 
-            className={"hover-shadow"}
-            src={slide.thumbnailUrl} 
-            alt={slide.title} />
+        <Img className={"hover-shadow"}
+            style={ selected ? styles.selectedImage : styles.defaultImage }
+            src={slide.url}
+            alt={slide.title}
+            loader={<Spinner/>}/>
       </div>
     )
   }
