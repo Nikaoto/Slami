@@ -145,7 +145,7 @@ class FirstPage extends Component {
           />
         </div>
 
-        <div className="col s6" style={styles.resourcer}>
+        <div className="col s6" style={styles.suggester}>
 
           <div className="row">
 
@@ -175,7 +175,7 @@ class FirstPage extends Component {
 
           {/* Media List */}
           <div className="row">
-            <div id="resource-list" style={styles.mediaList} className="col s12">
+            <div style={styles.mediaList} className="col s12">
               {this.renderMedia()}
             </div>
           </div>
@@ -189,18 +189,18 @@ class FirstPage extends Component {
 const styles = {
   editor: {
   },
-  resourcer: {
-    textAlign: "center",
+  suggester: {
+    textAlign: "center"
   },
   nextPageButton: {
     float: "right",
-    marginTop: 20,
+    marginTop: 20
   },
   mediaList: {
     marginTop: 10,
     display: "flex",
     flexFlow: "row wrap",
-    justifyContent: "flex-start",
+    justifyContent: "flex-start"
   }
 }
 

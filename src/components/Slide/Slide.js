@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import Img from "react-image"
-import "./Slide.css"
 import Spinner from "../Spinner/Spinner"
 
 export default class Slide extends Component {

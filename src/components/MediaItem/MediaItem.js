@@ -33,8 +33,7 @@ export default class MediaItem extends Component {
             src={url} 
             alt={title}
             style={this.state.selected ? styles.selected : styles.default } 
-            onClick={() => this.onClick()}
-        />
+            onClick={() => this.onClick()} />
       </div>
     )
   }

@@ -45,10 +45,10 @@ export const proxy = (url) => `${proxyApi}?url=${url}`
 
 export function generateVideo(slides, context, canvas, onFinish) {
   processSlides(slides, context)
-  .then(video => video.compile(false, output => {
+    .then(video => video.compile(false, output => {
     console.log("compile")
     onFinish(output)
-  })).catch(err => console.log(err))
+    })).catch(err => console.log(err))
 }
 
 function processSlides(slides, context) {
