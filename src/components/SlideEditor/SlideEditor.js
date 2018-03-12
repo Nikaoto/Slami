@@ -71,7 +71,7 @@ export default class SlideEditor extends Component {
               className="non-draggable editor-image"/>
           <Draggable handle=".handle" bounds=".editor-container" onDrag={this.onTextDrag}
               position={this.state.textPosition}>
-            <div style={{...styles.text, ...this.state.textStyle}}>
+            <div style={{...styles.textContainer, ...this.state.textStyle}}>
               <div className="handle" style={styles.handle}/>
               <input type="text"
                   value={this.state.text}
@@ -94,6 +94,11 @@ const styles = {
     maxWidth: 650,
     maxHeight: 650,
   },
+  textContainer: {
+    position: "absolute",
+    top: 7,
+    left: 7,
+  },
   text: {
     paddingLeft: 8,
     paddingRight: 8,
@@ -105,7 +110,7 @@ const styles = {
     left: 7,
     fontSize: 28,
     borderRadius: 10,
-    boxShadow: "0px 0px 6px rgba(0, 0, 0, 0.2)"
+    boxShadow: "0px 0px 6px 2px rgba(0, 0, 0, 0.3)"
   },
   handle: {
     position:"absolute",

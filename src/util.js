@@ -1,5 +1,6 @@
 import { custom_media_source, important_word_length, scrapeApi, proxyApi } from "./config"
 
+// TODO: revamp this
 export function getImportantWords(paragraph) {
   let words = paragraph.trim().split(" ").map(x => x.trim())
   if (words.length === 0) {
