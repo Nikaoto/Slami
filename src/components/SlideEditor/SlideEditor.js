@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import Img from "react-image"
+import ReactResizeDetector from "react-resize-detector"
 import Draggable from "react-draggable"
 import Spinner from "../Spinner"
 
@@ -20,13 +21,32 @@ export default class SlideEditor extends Component {
   componentWillReceiveProps({ slideObj }) {
     const passedText = slideObj.text
     const textPosition = slideObj.textPosition
-    this.setState({ 
+    this.setState({
       text: passedText,
       textPosition: textPosition,
       textStyle: { 
         width: this.calculateTextWidth(passedText)
       }
     })
+  }
+
+  onResize() {
+    if (this.refs.editorContainer) {
+      const newSize = {
+        height: this.editorContainer.clientHeight,
+        width: this.editorContainer.clientWidth
+      }
+
+      this.setState({ editorSize: newSize })
+
+      if (this.props.onResize) {
+        this.props.onResize(newSize)
+      }
+    }
+  }
+
+  componentDidMount() {
+    this.editorContainer = this.refs.editorContainer
   }
 
   onTextChange(newText) {
@@ -81,9 +101,10 @@ export default class SlideEditor extends Component {
     const { url, title } = this.props.slideObj
 
     return(
-      <div style={styles.editor} className="editor-container">
+      <div style={styles.editor} ref="editorContainer" className="editor-container">
+        <ReactResizeDetector handleWidth handleHeight onResize={() => this.onResize()} />
         <div style={styles.aspectRatioBox}>
-          <Img src={url} alt={title} 
+          <Img src={url} alt={title}
               loader={<Spinner/>}
               style={styles.editorImage} 
               className="non-draggable editor-image"/>
