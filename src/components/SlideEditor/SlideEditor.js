@@ -56,7 +56,25 @@ export default class SlideEditor extends Component {
   }
 
   calculateTextWidth(text, fontSize = styles.text.fontSize) {
-    return (text.length + 1) * fontSize * 0.6
+    const newWidth = (text.length + 1) * fontSize * 0.6
+    const maxWidth = styles.editor.maxWidth * 0.95
+
+    if (newWidth > maxWidth) {
+      return maxWidth
+    }
+
+    return newWidth
+  }
+
+  getTextContainerStyle() {
+    const horizontalMargin = 30
+    const verticalMargin = 10
+
+    return {
+      ...styles.textContainer,
+      height: styles.text.fontSize + styles.text.top + styles.textContainer.top + verticalMargin,
+      width: this.state.textStyle.width + horizontalMargin
+    }
   }
 
   render() {
@@ -71,7 +89,7 @@ export default class SlideEditor extends Component {
               className="non-draggable editor-image"/>
           <Draggable handle=".handle" bounds=".editor-container" onDrag={this.onTextDrag}
               position={this.state.textPosition}>
-            <div style={{...styles.textContainer, ...this.state.textStyle}}>
+            <div style={this.getTextContainerStyle()}>
               <div className="handle" style={styles.handle}/>
               <input type="text"
                   value={this.state.text}
