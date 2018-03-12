@@ -17,5 +17,5 @@ module.exports = {
   delete_key: "Backspace",
   important_word_length: 4,
   custom_media_source: "self",
-  textPos: { x: 7, y: 7 }, // default position of slide text
+  default_text_position: { x: 7, y: 7 }, // default position of slide text
 }

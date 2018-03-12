@@ -3,7 +3,7 @@ import Button from "../Button"
 import Slide from "../Slide"
 import SlideEditor from "../SlideEditor"
 import { generateVideo, renderCanvas } from "../../util"
-import { textPos } from "../../config"
+import { default_text_position } from "../../config"
 import "./SecondPage.css"
 
 const canvas_size = 1024
@@ -15,7 +15,7 @@ export default class SecondPage extends Component {
     
     const editSlides = this.props.slides.map(sl => {
       sl.selected = sl.selected || false
-      sl.textPosition = textPos
+      sl.textPosition = default_text_position
       return sl
     })
 
@@ -84,7 +84,8 @@ export default class SecondPage extends Component {
     const canvas = this.refs.canvas
     canvas.width = canvas_size
     canvas.height = canvas_size
-    renderCanvas(canvas, this.state.editSlides[this.state.chosenSlideIndex], this.state.editorSize)
+
+    //renderCanvas(canvas, this.state.editSlides[this.state.chosenSlideIndex], this.state.editorSize)
   }
 
   render() {

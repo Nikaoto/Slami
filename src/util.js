@@ -1,4 +1,4 @@
-import { custom_media_source, important_word_length, scrapeApi, proxyApi } from "./config"
+import { custom_media_source, important_word_length, scrapeApi, proxyApi, default_text_position } from "./config"
 
 // TODO: revamp this
 export function getImportantWords(paragraph) {
@@ -96,9 +96,25 @@ function processSlide(slide, context, video) {
   })
 }
 
-function drawText(context, text, position) {
-  context.font = "60px Arial"
-  context.fillText(text, position.x, position.y, context.canvas.width)
+function drawText(context, text, position, fontSize = 50, padding = { horizontal: 15, vertical: 5 }) {
+  context.textBaseline = "top"
+  context.font = `${fontSize}px Arial`
+  context.fillStyle = "white"
+
+  // TODO use [https://npmjs.com/package/text-height] module to get text height
+  const isMtavruli = false
+  const heightMod = !isMtavruli ? 1.1 : 1.35
+
+  // TODO round conrers: https://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-on-html-canvas
+  context.fillRect(
+    position.x - padding.horizontal,
+    position.y - padding.vertical,
+    context.measureText(text).width + padding.horizontal * 2,
+    fontSize * heightMod + padding.vertical * 2
+  )
+  context.fillStyle = "black"
+  context.fillText(text, position.x, position.y)
+
 }
 
 function clearCanvas(context) {
@@ -108,11 +124,25 @@ function clearCanvas(context) {
 // Temporary method for testing canvas look
 export function renderCanvas(canvas, slide, editorSize) {
   const context = canvas.getContext("2d")
-  console.log("slide:", slide)
-  console.log("editorSize:", editorSize)
 
-  const { text, textPosition, url, source } = slide
+  const { text, url, source } = slide
 
+  // Adjust for default offset
+  const textPosition = {
+    x: slide.textPosition.x + default_text_position.x,
+    y: slide.textPosition.y + default_text_position.y
+  }
+
+  // Adjust for editor scale
+  const actualTextPosition = {
+    x: canvas.width * textPosition.x / editorSize.width,
+    y: canvas.height * textPosition.y / editorSize.height
+  }
+
+  console.log("textPosition:", textPosition)
+  console.log("actualTextPosition:", actualTextPosition)
+
+  // Load Image
   const img = new Image()
   img.crossOrigin = "Anonymous"
   img.onload = () => {
@@ -121,7 +151,7 @@ export function renderCanvas(canvas, slide, editorSize) {
     context.drawImage(img, 0, 0, context.canvas.width, context.canvas.height)
 
     if (text && text.length && text.length > 0) {
-      drawText(context, text, textPosition)
+      drawText(context, text, actualTextPosition)
     }
   }
 

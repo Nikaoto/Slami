@@ -12,7 +12,11 @@ export default class SlideEditor extends Component {
     this.state = { 
       text: passedText,
       textPosition: this.props.slideObj.textPosition,
-      textStyle: { width: this.calculateTextWidth(passedText) }
+      textStyle: { width: this.calculateTextWidth(passedText) },
+      editorSize: {
+        width: styles.editor.maxWidth,
+        height: styles.editor.maxHeight
+      }
     }
 
     this.onTextDrag = this.onTextDrag.bind(this)
@@ -33,8 +37,8 @@ export default class SlideEditor extends Component {
   onResize() {
     if (this.refs.editorContainer) {
       const newSize = {
-        height: this.editorContainer.clientHeight,
-        width: this.editorContainer.clientWidth
+        height: this.refs.editorContainer.clientHeight,
+        width: this.refs.editorContainer.clientWidth
       }
 
       this.setState({ editorSize: newSize })
@@ -46,7 +50,7 @@ export default class SlideEditor extends Component {
   }
 
   componentDidMount() {
-    this.editorContainer = this.refs.editorContainer
+    this.onResize()
   }
 
   onTextChange(newText) {
