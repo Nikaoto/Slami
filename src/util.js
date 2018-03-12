@@ -47,8 +47,8 @@ export const proxy = (url) => `${proxyApi}?url=${url}`
 export function generateVideo(slides, context, canvas, onFinish) {
   processSlides(slides, context)
     .then(video => video.compile(false, output => {
-    console.log("compile")
-    onFinish(output)
+      console.log("compile")
+      onFinish(output)
     })).catch(err => console.log(err))
 }
 
@@ -76,7 +76,11 @@ function processSlide(slide, context, video) {
       console.log("onload")
 
       context.drawImage(img, 0, 0, context.canvas.width, context.canvas.height)
-      drawText(context, slide.text)
+
+      if (slide.text && slide.text.length && slide.text.length > 0) {
+        drawText(context, slide.text)
+      }
+
       video.add(context)
 
       clearCanvas(context)
@@ -92,11 +96,38 @@ function processSlide(slide, context, video) {
   })
 }
 
-function drawText(context, text) {
-  context.font = "30px Arial"
-  context.fillText(text, 10, 50)
+function drawText(context, text, position) {
+  context.font = "60px Arial"
+  context.fillText(text, position.x, position.y, context.canvas.width)
 }
 
 function clearCanvas(context) {
   context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+}
+
+// Temporary method for testing canvas look
+export function renderCanvas(canvas, slide, editorSize) {
+  const context = canvas.getContext("2d")
+  console.log("slide:", slide)
+  console.log("editorSize:", editorSize)
+
+  const { text, textPosition, url, source } = slide
+
+  const img = new Image()
+  img.crossOrigin = "Anonymous"
+  img.onload = () => {
+    console.log("onload")
+
+    context.drawImage(img, 0, 0, context.canvas.width, context.canvas.height)
+
+    if (text && text.length && text.length > 0) {
+      drawText(context, text, textPosition)
+    }
+  }
+
+  if (!source || source !== custom_media_source) {
+    img.src = proxy(url)
+  } else {
+    img.src = url //TODO: check if I have to use FileReader for local images
+  }
 }

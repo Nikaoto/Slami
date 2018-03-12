@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import Button from "../Button"
 import Slide from "../Slide"
 import SlideEditor from "../SlideEditor"
-import { generateVideo } from "../../util"
+import { generateVideo, renderCanvas } from "../../util"
 import { textPos } from "../../config"
 import "./SecondPage.css"
 
@@ -35,6 +35,7 @@ export default class SecondPage extends Component {
 
   onGenerateClick() {
     console.log("onGenerateClick")
+
     const canvas = this.refs.canvas
     const videoPlayer = this.refs.videoPlayer
     const context = canvas.getContext("2d")
@@ -66,7 +67,8 @@ export default class SecondPage extends Component {
   }
 
   updateCurrentSlideTextPosition(newPosition) {
-    console.log(newPosition)
+    //console.log(newPosition)
+
     const editSlides = this.state.editSlides
     editSlides[this.state.chosenSlideIndex].textPosition = newPosition
     this.setState({ editSlides: editSlides })
@@ -82,6 +84,7 @@ export default class SecondPage extends Component {
     const canvas = this.refs.canvas
     canvas.width = canvas_size
     canvas.height = canvas_size
+    renderCanvas(canvas, this.state.editSlides[this.state.chosenSlideIndex], this.state.editorSize)
   }
 
   render() {
@@ -109,25 +112,34 @@ export default class SecondPage extends Component {
               {/* Generate Button */}
               <div className="row">
                 <div className="col s3">
-                  <Button text={"დააგენერირე"} iconLeft={"settings"} iconRight={"settings"} 
+                  <Button text={"დააგენერირე"} iconLeft={"settings"} iconRight={"settings"}
                       onClick={() => this.onGenerateClick()}/>
+                </div>
+                <div className="col s3">
+                  <Button text={"Render Canvas"} onClick={
+                    // TODO: remove this later
+                    () => renderCanvas(this.refs.canvas, this.state.editSlides[this.state.chosenSlideIndex],
+                      this.state.editorSize)
+                  } />
                 </div>
               </div>
 
               {/* Canvas and Video */}
               <canvas ref="canvas" style={styles.canvas} />
-              <video ref="videoPlayer" controls autoPlay loop style={styles.videoPlayer} 
+              <video ref="videoPlayer" controls autoPlay loop style={styles.videoPlayer}
                   width={video_preview_size} height={video_preview_size} />
 
             </div>
 
-            
+
             {/* Editor (+ Right Side) */}
             <div style={styles.editorContainer} className="col s6">
-              <SlideEditor slideObj={this.getCurrentSlide()}
+              <SlideEditor
+                  slideObj={this.getCurrentSlide()}
                   text={this.getCurrentSlide().text}
-                  onTextChange={(newText) => this.updateCurrentSlideText(newText)} 
-                  onTextDrag={(newPosition) => this.updateCurrentSlideTextPosition(newPosition)}/>
+                  onTextChange={(newText) => this.updateCurrentSlideText(newText)}
+                  onTextDrag={(newPosition) => this.updateCurrentSlideTextPosition(newPosition)}
+                  onResize={(newSize) => this.setState({ editorSize: newSize })}/>
             </div>
 
           </div>
@@ -144,15 +156,15 @@ const styles = {
     backgroundColor: "white",
     padding: 20,
     flexFlow: "row wrap",
-    justifyContent: "flex-start",
+    justifyContent: "flex-start"
   },
   editorContainer: {
     display: "flex",
     justifyContent: "center",
-    height: "100%",
+    height: "100%"
   },
   canvas: {
-    display: "none"
+    boxShadow: "0px 0px 6px 10px"
   },
   videoPlayer: {
     margin: 10,
