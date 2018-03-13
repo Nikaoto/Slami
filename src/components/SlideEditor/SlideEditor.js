@@ -70,35 +70,21 @@ export default class SlideEditor extends Component {
       y: data.y
     }
 
-    this.setState({
-      textPosition: newPosition
-    })
+    this.setState({ textPosition: newPosition })
 
     if (this.props.onTextDrag) {
       this.props.onTextDrag(newPosition)
     }
   }
 
-  calculateTextWidth(text, fontSize = 26) {
-    const newWidth = (text.length + 1) * fontSize * 0.6
-    const maxWidth = styles.editor.maxWidth * 0.95
-
-    if (newWidth > maxWidth) {
-      return maxWidth
-    }
-
-    return newWidth
-  }
-
-  getTextContainerStyle() {
-    const horizontalMargin = 30
-    const verticalMargin = 10
-
-    return {
-      ...styles.textContainer,
-      //height: styles.text.fontSize + styles.text.top + styles.textContainer.top + verticalMargin,
-      //width: this.state.textStyle.width + horizontalMargin
-    }
+  onTextResize(newSize) {
+    this.setState({
+      textContainerStyle: {
+        ...styles.textContainer,
+        height: newSize.height + styles.textContainer.top,
+        width: newSize.width + styles.textContainer.left
+      }
+    })
   }
 
   render() {
@@ -110,15 +96,16 @@ export default class SlideEditor extends Component {
         <div style={styles.aspectRatioBox}>
           <Img src={url} alt={title}
               loader={<Spinner/>}
-              style={styles.editorImage} 
+              style={styles.editorImage}
               className="non-draggable editor-image"/>
           <Draggable handle=".handle" bounds=".editor-container" onDrag={this.onTextDrag}
               position={this.state.textPosition}>
-            <div style={this.getTextContainerStyle()}>
+            <div style={this.state.textContainerStyle}>
               <div className="handle" style={styles.handle}/>
-              <TextInput text={this.state.text} onTextChange={(newText) => this.onTextChange(newText)}/>
-              {/*style={{...styles.text, ...this.state.textStyle}} /> */}
-
+              <TextInput
+                  text={this.state.text}
+                  onTextChange={(newText) => this.onTextChange(newText)}
+                  onResize={(newSize) => this.onTextResize(newSize)} />
             </div>
           </Draggable>
         </div>
