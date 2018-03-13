@@ -38,8 +38,14 @@ export default class TextInput extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState({ text: newProps.text })
-    autoSizeInput(this.refs["textInput"])
+    if (this.state.removeListener) {
+      this.state.removeListener()
+    }
+
+    this.setState({
+      text: newProps.text,
+      removeListener: autoSizeInput(this.refs["textInput"])
+    })
   }
 
   render() {
@@ -64,8 +70,8 @@ const styles = {
     position: "absolute",
     top: 7,
     left: 7,
-    paddingLeft: 5,
-    paddingRight: 5,
+    paddingLeft: 7,
+    paddingRight: 7,
     fontSize: 26,
     borderRadius: 10,
     minWidth: 15,
