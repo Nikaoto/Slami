@@ -77,15 +77,12 @@ export default class SlideEditor extends Component {
     }
   }
 
-  onTextResize(newSize) {
-    this.setState({
-      textContainerStyle: {
-        ...styles.textContainer,
-        height: newSize.height + styles.textContainer.top,
-        width: newSize.width + styles.textContainer.left
-      }
-    })
-  }
+  getDraggableBounds = () => ({
+    top: -styles.textContainer.top,
+    left: -styles.textContainer.left,
+    bottom: this.state.editorSize.height - styles.textContainer.top * 2,
+    right: this.state.editorSize.width - styles.textContainer.left * 2
+  })
 
   render() {
     const { url, title } = this.props.slideObj
@@ -98,14 +95,13 @@ export default class SlideEditor extends Component {
               loader={<Spinner/>}
               style={styles.editorImage}
               className="non-draggable editor-image"/>
-          <Draggable handle=".handle" bounds=".editor-container" onDrag={this.onTextDrag}
+          <Draggable handle=".handle" bounds={this.getDraggableBounds()} onDrag={this.onTextDrag}
               position={this.state.textPosition}>
-            <div style={this.state.textContainerStyle}>
+            <div style={styles.textContainer}>
               <div className="handle" style={styles.handle}/>
               <TextInput
                   text={this.state.text}
-                  onTextChange={(newText) => this.onTextChange(newText)}
-                  onResize={(newSize) => this.onTextResize(newSize)} />
+                  onTextChange={(newText) => this.onTextChange(newText)} />
             </div>
           </Draggable>
         </div>
