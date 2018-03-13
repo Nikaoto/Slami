@@ -54,6 +54,16 @@ export default class TextInput extends Component {
     })
   }
 
+  refreshSize() {
+    this.onResize()
+    console.log("refresh")
+    setTimeout(() => this.onResize(), 1000)
+  }
+
+  componentDidMount() {
+    this.refreshSize()
+  }
+
   render() {
     return(
       <input
@@ -76,6 +86,7 @@ const styles = {
     paddingLeft: 7,
     paddingRight: 7,
     fontSize: 26,
+    height: 26,
     minWidth: 15,
     boxShadow: "0px 0px 6px 2px rgba(0, 0, 0, 0.3)"
   }

@@ -97,6 +97,7 @@ function processSlide(slide, context, video) {
   })
 }
 
+// TODO needs minor adjustments with corner positions
 function drawText(context, text, position, fontSize = 45, padding = { horizontal: 15, vertical: 10 }) {
   context.textBaseline = "hanging"
   context.font = `${fontSize}px Arial`
@@ -105,18 +106,19 @@ function drawText(context, text, position, fontSize = 45, padding = { horizontal
   const { height } = calcHeight(text, { size: fontSize })
   const width = context.measureText(text).width
 
-  // TODO round conrers: https://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-on-html-canvas
+  // TODO round corners? [https://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-on-html-canvas]
   context.fillRect(
-    position.x - padding.horizontal,
-    position.y - padding.vertical,
+    position.x,
+    position.y,
     width + padding.horizontal * 2,
     height + padding.vertical * 2
   )
   context.fillStyle = "black"
-  context.fillText(text, position.x, position.y)
+  context.fillText(text, position.x + padding.horizontal, position.y + padding.vertical)
 
 }
 
+// TODO do globalAlpha for fading
 function clearCanvas(context) {
   context.clearRect(0, 0, context.canvas.width, context.canvas.height)
 }
@@ -135,8 +137,8 @@ export function renderCanvas(canvas, slide, editorSize) {
 
   // Adjust for editor scale
   const actualTextPosition = {
-    x: canvas.width * textPosition.x / editorSize.width,
-    y: canvas.height * textPosition.y / editorSize.height
+    x: Math.ceil(canvas.width * textPosition.x / editorSize.width),
+    y: Math.ceil(canvas.height * textPosition.y / editorSize.height)
   }
 
   console.log("textPosition:", textPosition)

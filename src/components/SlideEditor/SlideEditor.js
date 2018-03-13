@@ -15,7 +15,8 @@ export default class SlideEditor extends Component {
       editorSize: {
         width: styles.editor.maxWidth,
         height: styles.editor.maxHeight
-      }
+      },
+      textSize: { width: 0, height: 0 }
     }
 
     this.onTextDrag = this.onTextDrag.bind(this)
@@ -77,13 +78,6 @@ export default class SlideEditor extends Component {
     }
   }
 
-  getDraggableBounds = () => ({
-    top: -styles.textContainer.top,
-    left: -styles.textContainer.left,
-    bottom: this.state.editorSize.height - styles.textContainer.top * 2,
-    right: this.state.editorSize.width - styles.textContainer.left * 2
-  })
-
   render() {
     const { url, title } = this.props.slideObj
 
@@ -95,14 +89,18 @@ export default class SlideEditor extends Component {
               loader={<Spinner/>}
               style={styles.editorImage}
               className="non-draggable editor-image"/>
-          <Draggable handle=".handle" bounds={this.getDraggableBounds()} onDrag={this.onTextDrag}
-              position={this.state.textPosition}>
+          <Draggable handle=".handle" onDrag={this.onTextDrag}
+                     position={this.state.textPosition}>
             <div style={styles.textContainer}>
               <div className="handle" style={styles.handle}/>
+              <div className="handle" style={{...styles.handle, top: this.state.textSize.height, left: this.state.textSize.width }}/>
+              <div className="handle" style={{...styles.handle, top: this.state.textSize.height, left: 0 }}/>
+              <div className="handle" style={{...styles.handle, top: 0, left: this.state.textSize.width }}/>
               <TextInput
-                  maxWidth={this.state.editorSize.width}
-                  text={this.state.text}
-                  onTextChange={(newText) => this.onTextChange(newText)} />
+                maxWidth={this.state.editorSize.width}
+                text={this.state.text}
+                onTextChange={(newText) => this.onTextChange(newText)}
+                onResize={(newSize) => this.setState({ textSize: newSize })}/>
             </div>
           </Draggable>
         </div>
@@ -123,7 +121,7 @@ const styles = {
   textContainer: {
     position: "absolute",
     top: 7,
-    left: 7,
+    left: 7
   },
   handle: {
     position:"absolute",
