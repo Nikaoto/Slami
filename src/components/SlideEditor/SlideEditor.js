@@ -100,6 +100,7 @@ export default class SlideEditor extends Component {
             <div style={styles.textContainer}>
               <div className="handle" style={styles.handle}/>
               <TextInput
+                  maxWidth={this.state.editorSize.width}
                   text={this.state.text}
                   onTextChange={(newText) => this.onTextChange(newText)} />
             </div>

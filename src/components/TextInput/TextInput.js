@@ -5,20 +5,26 @@ import autoSizeInput from "autosize-input"
 export default class TextInput extends Component {
   constructor(props) {
     super(props)
-    this.state = { text: this.props.text }
+    this.state = {
+      text: this.props.text,
+      maxWidth: this.props.maxWidth,
+      size: { width: 5 }
+    }
 
     this.onChange = this.onChange.bind(this)
   }
 
   onChange(e) {
-    const newText = e.target.value
-    this.setState({ text: newText })
-
-    if (this.props.onTextChange) {
-      this.props.onTextChange(newText)
-    }
-
     this.onResize()
+    const newText = e.target.value
+
+    if (this.state.size.width < this.state.maxWidth || newText.length < this.state.text.length) {
+      this.setState({ text: newText })
+
+      if (this.props.onTextChange) {
+        this.props.onTextChange(newText)
+      }
+    }
   }
 
   onResize() {
@@ -44,7 +50,8 @@ export default class TextInput extends Component {
 
     this.setState({
       text: newProps.text,
-      removeListener: autoSizeInput(this.refs["textInput"])
+      removeListener: autoSizeInput(this.refs["textInput"]),
+      maxWidth: newProps.maxWidth
     })
   }
 
@@ -57,7 +64,6 @@ export default class TextInput extends Component {
           value={this.state.text}
           onChange={this.onChange}
           style={styles.text} />
-        <ReactResizeDetector handleWidth handleHeight onResize={() => this.onResize()}/>
       </div>
     )
   }
