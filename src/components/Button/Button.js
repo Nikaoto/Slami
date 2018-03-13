@@ -37,7 +37,6 @@ export default class Button extends Component {
         buttonStyle: styles.buttonWithNoText,
         textStyle: styles.noText
       })
-      console.log("BREJK")
       return
     }
 

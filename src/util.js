@@ -96,7 +96,7 @@ function processSlide(slide, context, video) {
   })
 }
 
-function drawText(context, text, position, fontSize = 50, padding = { horizontal: 15, vertical: 5 }) {
+function drawText(context, text, position, fontSize = 45, padding = { horizontal: 15, vertical: 5 }) {
   context.textBaseline = "top"
   context.font = `${fontSize}px Arial`
   context.fillStyle = "white"
