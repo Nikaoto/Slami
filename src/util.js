@@ -1,4 +1,5 @@
 import { custom_media_source, important_word_length, scrapeApi, proxyApi, default_text_position } from "./config"
+import calcHeight from "text-height"
 
 // TODO: revamp this
 export function getImportantWords(paragraph) {
@@ -96,21 +97,20 @@ function processSlide(slide, context, video) {
   })
 }
 
-function drawText(context, text, position, fontSize = 45, padding = { horizontal: 15, vertical: 5 }) {
-  context.textBaseline = "top"
+function drawText(context, text, position, fontSize = 45, padding = { horizontal: 15, vertical: 10 }) {
+  context.textBaseline = "hanging"
   context.font = `${fontSize}px Arial`
   context.fillStyle = "white"
 
-  // TODO use [https://npmjs.com/package/text-height] module to get text height
-  const isMtavruli = false
-  const heightMod = !isMtavruli ? 1.1 : 1.35
+  const { height } = calcHeight(text, { size: fontSize })
+  const width = context.measureText(text).width
 
   // TODO round conrers: https://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-on-html-canvas
   context.fillRect(
     position.x - padding.horizontal,
     position.y - padding.vertical,
-    context.measureText(text).width + padding.horizontal * 2,
-    fontSize * heightMod + padding.vertical * 2
+    width + padding.horizontal * 2,
+    height + padding.vertical * 2
   )
   context.fillStyle = "black"
   context.fillText(text, position.x, position.y)

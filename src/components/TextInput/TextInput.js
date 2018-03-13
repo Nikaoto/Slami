@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import ReactResizeDetector from "react-resize-detector"
 import autoSizeInput from "autosize-input"
 
 export default class TextInput extends Component {
@@ -57,14 +56,12 @@ export default class TextInput extends Component {
 
   render() {
     return(
-      <div>
-        <input
-          type={"text"}
-          ref={"textInput"}
-          value={this.state.text}
-          onChange={this.onChange}
-          style={styles.text} />
-      </div>
+      <input
+        type={"text"}
+        ref={"textInput"}
+        value={this.state.text}
+        onChange={this.onChange}
+        style={styles.text} />
     )
   }
 }
@@ -79,7 +76,6 @@ const styles = {
     paddingLeft: 7,
     paddingRight: 7,
     fontSize: 26,
-    borderRadius: 10,
     minWidth: 15,
     boxShadow: "0px 0px 6px 2px rgba(0, 0, 0, 0.3)"
   }
