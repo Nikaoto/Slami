@@ -137,7 +137,6 @@ export default class SecondPage extends Component {
             <div style={styles.editorContainer} className="col s6">
               <SlideEditor
                   slideObj={this.getCurrentSlide()}
-                  text={this.getCurrentSlide().text}
                   onTextChange={(newText) => this.updateCurrentSlideText(newText)}
                   onTextDrag={(newPosition) => this.updateCurrentSlideTextPosition(newPosition)}
                   onResize={(newSize) => this.setState({ editorSize: newSize })}/>
