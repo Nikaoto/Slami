@@ -2,12 +2,9 @@ import React, { Component } from "react"
 import Button from "../Button"
 import Slide from "../Slide"
 import SlideEditor from "../SlideEditor"
-import { generateVideo, renderCanvas } from "../../util"
-import { default_text_position } from "../../config"
+import { generateVideo } from "../../util"
+import { default_text_position, canvas_size, video_preview_size } from "../../config"
 import "./SecondPage.css"
-
-const canvas_size = 1024
-const video_preview_size = 300
 
 export default class SecondPage extends Component {
   constructor(props) {
@@ -39,8 +36,8 @@ export default class SecondPage extends Component {
     const canvas = this.refs.canvas
     const videoPlayer = this.refs.videoPlayer
     const context = canvas.getContext("2d")
-    // TODO set actual positions for each slide text v2(-7, -7)
-    generateVideo(this.state.editSlides, context, canvas, (output) => {
+
+    generateVideo(this.state.editSlides, context, this.state.editorSize, (output) => {
       const url = URL.createObjectURL(output)
       videoPlayer.src = url
     })
@@ -84,8 +81,6 @@ export default class SecondPage extends Component {
     const canvas = this.refs.canvas
     canvas.width = canvas_size
     canvas.height = canvas_size
-
-    //renderCanvas(canvas, this.state.editSlides[this.state.chosenSlideIndex], this.state.editorSize)
   }
 
   render() {
@@ -116,13 +111,12 @@ export default class SecondPage extends Component {
                   <Button text={"დააგენერირე"} iconLeft={"settings"} iconRight={"settings"}
                       onClick={() => this.onGenerateClick()}/>
                 </div>
+                {/*
                 <div className="col s3">
-                  <Button text={"Render Canvas"} onClick={
-                    // TODO: remove this later
-                    () => renderCanvas(this.refs.canvas, this.state.editSlides[this.state.chosenSlideIndex],
-                      this.state.editorSize)
+                  <Button text={"Render Canvas"} onClick={() =>
+                    renderCanvas(this.refs.canvas, this.state.editSlides[this.state.chosenSlideIndex], this.state.editorSize)
                   } />
-                </div>
+                </div>*/}
               </div>
 
               {/* Canvas and Video */}
@@ -164,7 +158,8 @@ const styles = {
     height: "100%"
   },
   canvas: {
-    boxShadow: "0px 0px 6px 10px"
+    display: "none",
+    boxShadow: "0px 0px 6px 2px"
   },
   videoPlayer: {
     margin: 10,

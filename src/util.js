@@ -45,41 +45,59 @@ export const proxy = (url) => `${proxyApi}?url=${url}`
 
 // Canvas stuff
 
-export function generateVideo(slides, context, canvas, onFinish) {
-  processSlides(slides, context)
+export function generateVideo(slides, context, editorSize, onFinish) {
+  processSlides(slides, context, editorSize)
     .then(video => video.compile(false, output => {
       console.log("compile")
       onFinish(output)
     })).catch(err => console.log(err))
 }
 
-function processSlides(slides, context) {
+function processSlides(slides, context, editorSize) {
   return new Promise(async resolve => {
+
     // Geo font
     //const Kartuli = new FontFace('Kartuli', 'url(fonts/NotoSansGeorgian-Regular.ttf)');
+
     const fps = 1
     const Whammy = require("./whammy")
     const video = new Whammy.Video(fps)
-    
+
     for (const slide of slides) {
-      await processSlide(slide, context, video)
+      await processSlide(slide, context, video, editorSize)
     }
 
     resolve(video)
   })
 }
 
-function processSlide(slide, context, video) {
+function processSlide(slide, context, video, editorSize) {
   return new Promise(resolve => {
+    const { text, url, source } = slide
+    const canvas = context.canvas
+
+    // Adjust for default offset
+    const textPosition = {
+      x: slide.textPosition.x + default_text_position.x,
+      y: slide.textPosition.y + default_text_position.y
+    }
+
+    // Adjust for editor scale
+    const actualTextPosition = {
+      x: Math.ceil(canvas.width * textPosition.x / editorSize.width),
+      y: Math.ceil(canvas.height * textPosition.y / editorSize.height)
+    }
+
+    // Load image
     const img = new Image()
     img.crossOrigin = "Anonymous"
     img.onload = () => {
       console.log("onload")
 
-      context.drawImage(img, 0, 0, context.canvas.width, context.canvas.height)
+      context.drawImage(img, 0, 0, canvas.width, canvas.height)
 
-      if (slide.text && slide.text.length && slide.text.length > 0) {
-        drawText(context, slide.text)
+      if (text && text.length && text.length > 0) {
+        drawText(context, text, actualTextPosition)
       }
 
       video.add(context)
@@ -89,18 +107,17 @@ function processSlide(slide, context, video) {
       resolve()
     }
 
-    if (!slide.source || slide.source !== custom_media_source) {
-      img.src = proxy(slide.url)
+    if (!source || source !== custom_media_source) {
+      img.src = proxy(url)
     } else {
-      img.src = slide.url //TODO: check if I have to use FileReader for local images
+      img.src = url //TODO: check if I have to use FileReader for local images
     }
   })
 }
 
-// TODO needs minor adjustments with corner positions
 function drawText(context, text, position, fontSize = 45, padding = { horizontal: 12, vertical: 12 }) {
   context.textBaseline = "hanging"
-  context.font = `${fontSize}px Arial`
+  context.font = `${fontSize}px Arial` // TODO change to BPG Arial
   context.fillStyle = "white"
 
   const yOffset = Math.ceil(fontSize * 0.2)
