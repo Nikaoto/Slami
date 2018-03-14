@@ -21,7 +21,7 @@ class EditorCard extends Component {
     }
   }
 
-  udpateContentText(newText) {
+  updateContentText(newText) {
     this.setState({ contentText: newText })
 
     if (this.props.updateContent) {
@@ -31,7 +31,7 @@ class EditorCard extends Component {
 
   onKeyPress(e) {
     if (e.key === config.paragraph_delimiter_key) {
-      this.udpateContentText(this.state.contentText + config.paragraph_delimiter_char)
+      this.updateContentText(this.state.contentText + config.paragraph_delimiter_char)
 
       if(this.props.onNewParagraph) {
         this.props.onNewParagraph()
@@ -78,7 +78,7 @@ class EditorCard extends Component {
 
                 <textarea className="materialize-textarea"
                     value={this.state.contentText}
-                    onChange={(e) => this.udpateContentText(e.target.value)}
+                    onChange={(e) => this.updateContentText(e.target.value)}
                     onKeyDown={this.onKeyPress}
                     style={styles.cardText} />
 
