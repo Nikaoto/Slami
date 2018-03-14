@@ -136,12 +136,12 @@ class FirstPage extends Component {
 
         <div className="col s6" style={styles.editor}>
           <EditorCard 
-          titleText={this.state.titleText} 
-          updateTitle={(newText) => this.updateTitleText(newText)} 
-          contentText={this.state.contentText} 
-          updateContent={(newText) => this.updateContentText(newText)}
-          onNewParagraph={() => this.onNewParagraph()}
-          onDelete={() => this.onDelete()}
+            titleText={this.state.titleText}
+            updateTitle={(newText) => this.updateTitleText(newText)}
+            contentText={this.state.contentText}
+            updateContent={(newText) => this.updateContentText(newText)}
+            onNewParagraph={() => this.onNewParagraph()}
+            onDelete={() => this.onDelete()}
           />
         </div>
 

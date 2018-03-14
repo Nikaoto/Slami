@@ -98,23 +98,24 @@ function processSlide(slide, context, video) {
 }
 
 // TODO needs minor adjustments with corner positions
-function drawText(context, text, position, fontSize = 45, padding = { horizontal: 15, vertical: 10 }) {
+function drawText(context, text, position, fontSize = 45, padding = { horizontal: 12, vertical: 12 }) {
   context.textBaseline = "hanging"
   context.font = `${fontSize}px Arial`
   context.fillStyle = "white"
 
+  const yOffset = Math.ceil(fontSize * 0.2)
   const { height } = calcHeight(text, { size: fontSize })
   const width = context.measureText(text).width
 
   // TODO round corners? [https://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-on-html-canvas]
   context.fillRect(
     position.x,
-    position.y,
+    position.y + yOffset,
     width + padding.horizontal * 2,
     height + padding.vertical * 2
   )
   context.fillStyle = "black"
-  context.fillText(text, position.x + padding.horizontal, position.y + padding.vertical)
+  context.fillText(text, position.x + padding.horizontal, position.y + padding.vertical + yOffset)
 
 }
 

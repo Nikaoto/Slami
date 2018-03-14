@@ -85,7 +85,7 @@ const styles = {
     paddingLeft: 7,
     paddingRight: 7,
     fontSize: 26,
-    height: 26,
+    height: 40,
     minWidth: 15,
     boxShadow: "0px 0px 6px 2px rgba(0, 0, 0, 0.3)"
   }

@@ -130,7 +130,7 @@ const styles = {
     left: 0,
     width: 14,
     height: 14,
-    borderRadius: 3,
+    borderRadius: 2,
     borderWidth: 1,
     borderColor: "white",
     borderStyle: "solid",
