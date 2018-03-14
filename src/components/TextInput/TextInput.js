@@ -56,8 +56,7 @@ export default class TextInput extends Component {
 
   refreshSize() {
     this.onResize()
-    console.log("refresh")
-    setTimeout(() => this.onResize(), 1000)
+    setTimeout(() => this.refreshSize(), 100)
   }
 
   componentDidMount() {
