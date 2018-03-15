@@ -13,7 +13,7 @@ import Spinner from "../Spinner/Spinner"
 export default class SecondPage extends Component {
   constructor(props) {
     super(props)
-    
+    console.log(this.props.slides)
     const editSlides = this.props.slides
       .map(sl => {
         sl.selected = sl.selected || false

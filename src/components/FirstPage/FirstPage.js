@@ -167,8 +167,11 @@ class FirstPage extends Component {
 
             {/* Next Page Button */}
             <div className="col s4">
-              <Button onClick={() => this.nextPage()} iconRight={"arrow_forward"} text={"შემდეგი"}
-                  style={styles.nextPageButton}/>
+              <Button
+                onClick={() => this.nextPage()}
+                text={"შემდეგი"}
+                iconRight={"arrow_forward"}
+                style={styles.nextPageButton}/>
             </div>
             
           </div>

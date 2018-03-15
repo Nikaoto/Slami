@@ -5,11 +5,14 @@ const default_class_name = "waves-effect waves-light btn"
 export default class Button extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
       buttonStyle: {},
       textStyle: {},
-      className: default_class_name
+      className: default_class_name,
+      disabled: ""
     }
+
     this.onClick = this.onClick.bind(this)
   }
 
