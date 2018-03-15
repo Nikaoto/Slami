@@ -115,14 +115,14 @@ class FirstPage extends Component {
   }
 
   nextPage() {
-    if (this.props.onNextPage) {
+    if (this.props.onNextPage && this.state.media[0]) {
       const finalMedia = this.state.media
-          .filter(m => m.num !== null && m.num > 0)
-          .map(m => { 
-            m.text = this.state.paragraphs[m.num - 1]
-            return m
-          })
-          .sort((a, b) => a.num - b.num)
+        .filter(m => m.num !== null && m.num > 0)
+        .map(m => {
+          m.text = this.state.paragraphs[m.num - 1]
+          return m
+        })
+        .sort((a, b) => a.num - b.num)
           
       finalMedia[0].selected = true
 
