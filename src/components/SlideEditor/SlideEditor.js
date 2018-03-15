@@ -49,7 +49,6 @@ export default class SlideEditor extends Component {
   }
 
   renderTextBox(index, { textPosition, text, textSize }) {
-    console.log(textPosition)
     return (
       <Draggable key={index} handle=".handle" onDrag={(e, data) => this.onTextDrag(data, index)} position={textPosition}>
         <div style={styles.textContainer}>

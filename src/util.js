@@ -71,22 +71,16 @@ function processSlides(slides, context, editorSize) {
   })
 }
 
+// Adjusts texts position for default offset and editor scale
+const getActualTextPosition = (position, canvasSize, editorSize) =>  ({
+  x: Math.ceil(canvasSize.width * (position.x + default_text_position.x) / editorSize.width),
+  y: Math.ceil(canvasSize.height * (position.y + default_text_position.y) / editorSize.height)
+})
+
 function processSlide(slide, context, video, editorSize) {
   return new Promise(resolve => {
-    const { text, url, source } = slide
+    const { textBoxes, url, source } = slide
     const canvas = context.canvas
-
-    // Adjust for default offset
-    const textPosition = {
-      x: slide.textPosition.x + default_text_position.x,
-      y: slide.textPosition.y + default_text_position.y
-    }
-
-    // Adjust for editor scale
-    const actualTextPosition = {
-      x: Math.ceil(canvas.width * textPosition.x / editorSize.width),
-      y: Math.ceil(canvas.height * textPosition.y / editorSize.height)
-    }
 
     // Load image
     const img = new Image()
@@ -96,8 +90,13 @@ function processSlide(slide, context, video, editorSize) {
 
       context.drawImage(img, 0, 0, canvas.width, canvas.height)
 
-      if (text && text.length && text.length > 0) {
-        drawText(context, text, actualTextPosition)
+      if (textBoxes[0] && textBoxes[0].text && textBoxes[0].text.length > 0) {
+        textBoxes.forEach(tb => {
+          if (tb.text && tb.text.length > 0) {
+            const actualTextPosition = getActualTextPosition(tb.textPosition, canvas, editorSize)
+            drawText(context, tb.text, actualTextPosition)
+          }
+        })
       }
 
       video.add(context)

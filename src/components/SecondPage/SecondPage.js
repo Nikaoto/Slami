@@ -83,7 +83,6 @@ export default class SecondPage extends Component {
   updateCurrentSlideTextPosition(newPosition, index) {
     const editSlides = this.state.editSlides
     editSlides[this.state.chosenSlideIndex].textBoxes[index].textPosition = newPosition
-    console.log(editSlides)
     this.setState({ editSlides: editSlides })
   }
 
