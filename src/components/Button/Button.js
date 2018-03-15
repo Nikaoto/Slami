@@ -34,7 +34,11 @@ export default class Button extends Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
+  componentDidMount() {
+    this.applyProps(this.props)
+  }
+
+  applyProps(newProps) {
     if (newProps.customClassName) {
       this.setState({ className: newProps.customClassName })
     }
@@ -75,6 +79,10 @@ export default class Button extends Component {
         textStyle: styles.textWithIconRight
       })
     }
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.applyProps(newProps)
   }
 
   render() {

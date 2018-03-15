@@ -166,12 +166,11 @@ class FirstPage extends Component {
             </div>
 
             {/* Next Page Button */}
-            <div className="col s4">
+            <div className="col s1" style={styles.nextPageButton}>
               <Button
                 onClick={() => this.nextPage()}
                 text={"შემდეგი"}
-                iconRight={"arrow_forward"}
-                style={styles.nextPageButton}/>
+                iconRight={"arrow_forward"}/>
             </div>
             
           </div>
@@ -196,7 +195,6 @@ const styles = {
     textAlign: "center"
   },
   nextPageButton: {
-    float: "right",
     marginTop: 20
   },
   mediaList: {
