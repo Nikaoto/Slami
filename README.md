@@ -1,6 +1,8 @@
 # Slami
+Slami helps media content creators generate short captioned videos to use along with their content (articles, social media posts, blog posts…)
+
+**Current stable version accessible here:**
 https://slami.herokuapp.com/
-TODO: add formal description
 
 # Client expects scrape data with such structure:
 ```
