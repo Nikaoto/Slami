@@ -19,10 +19,12 @@ export default class SecondPage extends Component {
 
     this.state = {
       chosenSlideIndex: 0,
-      editSlides: editSlides
+      editSlides: editSlides,
+      downloadUrl: ""
     }
 
     this.onBackButtonClick = this.onBackButtonClick.bind(this)
+    this.onDownloadClick = this.onDownloadClick.bind(this)
   }
 
   onBackButtonClick() {
@@ -40,9 +42,13 @@ export default class SecondPage extends Component {
     const context = canvas.getContext("2d")
 
     generateVideo(this.state.editSlides, context, this.state.editorSize, (output) => {
-      this.setState({ isGenerating: false })
       const url = URL.createObjectURL(output)
+      this.setState({
+        isGenerating: false,
+        downloadUrl: url
+      })
       videoPlayer.src = url
+
     })
   }
 
@@ -80,6 +86,16 @@ export default class SecondPage extends Component {
     )
   }
 
+  onDownloadClick() {
+    let file_path = this.state.downloadUrl;
+    let a = document.createElement('A');
+    a.href = file_path;
+    a.download = file_path.substr(file_path.lastIndexOf('/') + 1);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
   componentDidMount() {
     const canvas = this.refs.canvas
     canvas.width = canvas_size
@@ -111,16 +127,24 @@ export default class SecondPage extends Component {
 
               {/* Generate Button */}
               <div className="row">
-                <div className="col s3">
+                <div className="col s1">
                   <Button text={"დააგენერირე"} iconLeft={"settings"} iconRight={"settings"}
                       onClick={() => this.onGenerateClick()}/>
                 </div>
 
-
-                <div className="col s1 offset-s2">
+                <div className="col s1 offset-s4">
                   <Spinner
                     style={spinnerStyle}
-                    innerStyle={{ top: "15%", left: "15%"}}
+                    innerStyle={{ top: "10%", left: "10%"}}
+                  />
+                </div>
+
+                <div className="col s1">
+                  <Button
+                    text={"გადმოწერე"}
+                    disabled={this.state.downloadUrl.length <= 1}
+                    iconRight={"file_download"}
+                    onClick={this.onDownloadClick}
                   />
                 </div>
 
