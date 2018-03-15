@@ -18,6 +18,7 @@ module.exports = {
   important_word_length: 4,
   custom_media_source: "self",
   default_text_position: { x: 7, y: 7 }, // default position of slide text
+  default_text_size: { width: 0, height: 0 },
   canvas_size: 1024,
   video_preview_size: 360
 }
