@@ -9,14 +9,16 @@ export default class SlideEditor extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { 
-      text: this.props.slideObj.text,
-      textPosition: this.props.slideObj.textPosition,
+    this.state = {
+      textBoxes : [{
+        text: this.props.slideObj.text,
+        textPosition: this.props.slideObj.textPosition,
+        textSize: { width: 0, height: 0 }
+      }],
       editorSize: {
         width: styles.editor.maxWidth,
         height: styles.editor.maxHeight
-      },
-      textSize: { width: 0, height: 0 }
+      }
     }
 
     this.onTextDrag = this.onTextDrag.bind(this)
@@ -53,6 +55,30 @@ export default class SlideEditor extends Component {
     }
   }
 
+  // TODO add Handle compo
+  renderDraggableText({ textPosition, text, textSize }) {
+    return (
+      <Draggable handle=".handle" onDrag={this.onTextDrag}
+                 position={textPosition}>
+        <div style={styles.textContainer}>
+          <div className="handle" style={styles.handle}/>
+          <div className="handle" style={{...styles.handle, top: textSize.height, left: textSize.width }}/>
+          <div className="handle" style={{...styles.handle, top: textSize.height, left: 0 }}/>
+          <div className="handle" style={{...styles.handle, top: 0, left: textSize.width }}/>
+          <TextInput
+            maxWidth={this.state.editorSize.width}
+            text={text}
+            onTextChange={(newText) => this.onTextChange(newText)}
+            onResize={(newSize) => this.setState({ textSize: newSize })}/>
+        </div>
+      </Draggable>
+    )
+  }
+
+  renderAllDraggableText() {
+    this.state.textBoxes.map(tb => this.renderDraggableText(tb))
+  }
+
   componentDidMount() {
     this.onResize()
   }
@@ -85,24 +111,14 @@ export default class SlideEditor extends Component {
       <div style={styles.editor} ref="editorContainer" className="editor-container">
         <ReactResizeDetector handleWidth handleHeight onResize={() => this.onResize()} />
         <div style={styles.aspectRatioBox}>
-          <Img src={url} alt={title}
-              loader={<Spinner/>}
-              style={styles.editorImage}
-              className="non-draggable editor-image"/>
-          <Draggable handle=".handle" onDrag={this.onTextDrag}
-                     position={this.state.textPosition}>
-            <div style={styles.textContainer}>
-              <div className="handle" style={styles.handle}/>
-              <div className="handle" style={{...styles.handle, top: this.state.textSize.height, left: this.state.textSize.width }}/>
-              <div className="handle" style={{...styles.handle, top: this.state.textSize.height, left: 0 }}/>
-              <div className="handle" style={{...styles.handle, top: 0, left: this.state.textSize.width }}/>
-              <TextInput
-                maxWidth={this.state.editorSize.width}
-                text={this.state.text}
-                onTextChange={(newText) => this.onTextChange(newText)}
-                onResize={(newSize) => this.setState({ textSize: newSize })}/>
-            </div>
-          </Draggable>
+          <Img
+            src={url}
+            alt={title}
+            loader={<Spinner/>}
+            style={styles.editorImage}
+            className="non-draggable editor-image"
+          />
+          {this.renderAllDraggableText()}
         </div>
       </div>
     )
