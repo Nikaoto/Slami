@@ -37,10 +37,8 @@ export default class Button extends Component {
     }
 
     if (newProps.disabled === true) {
-      console.log("disabled")
       this.setState({ disabled: " disabled " })
     } else {
-      console.log("enabled")
       this.setState({ disabled: "" })
     }
 
