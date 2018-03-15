@@ -3,15 +3,19 @@ import FirstPage from "../FirstPage"
 import SecondPage from "../SecondPage"
 import TempData from "./temp-data"
 import "./App.css"
+import {devMode} from "../../config"
 
 const HEADER_TITLE = "სლამი • Slami"
 
 class App extends Component {
   constructor(props) {
     super(props)
-    // TODO remove TempData after finishing SecondPage testing
-    this.state = { currentPage: 1, slides: TempData, pageAnimation: "scene-element--fadeinright" }
-    //this.state = { currentPage: 0, slides: [], pageAnimation: "scene-element--fadeinright" }
+
+    if (devMode) {
+      this.state = { currentPage: 1, slides: TempData, pageAnimation: "scene-element--fadeinright" }
+    } else {
+      this.state = { currentPage: 0, slides: [], pageAnimation: "scene-element--fadeinright" }
+    }
   }
 
   renderCurrentPage() {
