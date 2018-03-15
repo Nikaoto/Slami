@@ -100,7 +100,7 @@ export default class SecondPage extends Component {
     if (e.key === paragraph_delimiter_key) {
       const editSlides = this.state.editSlides
       editSlides[this.state.chosenSlideIndex].textBoxes.push({
-        text: "Sample Text",
+        text: "ტექსტი",
         textPosition: default_text_position,
         textSize: default_text_size
       })
