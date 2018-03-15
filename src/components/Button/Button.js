@@ -5,7 +5,11 @@ const default_class_name = "waves-effect waves-light btn"
 export default class Button extends Component {
   constructor(props) {
     super(props)
-    this.state = { buttonStyle: {}, textStyle: {}, className: default_class_name }
+    this.state = {
+      buttonStyle: {},
+      textStyle: {},
+      className: default_class_name
+    }
     this.onClick = this.onClick.bind(this)
   }
 
@@ -27,12 +31,20 @@ export default class Button extends Component {
     }
   }
 
-  componentDidMount() {
-    if (this.props.customClassName) {
-      this.setState({ className: this.props.customClassName })
+  componentWillReceiveProps(newProps) {
+    if (newProps.customClassName) {
+      this.setState({ className: newProps.customClassName })
     }
 
-    if (!this.props.text) {
+    if (newProps.disabled === true) {
+      console.log("disabled")
+      this.setState({ disabled: " disabled " })
+    } else {
+      console.log("enabled")
+      this.setState({ disabled: "" })
+    }
+
+    if (!newProps.text) {
       this.setState({ 
         buttonStyle: styles.buttonWithNoText,
         textStyle: styles.noText
@@ -40,7 +52,7 @@ export default class Button extends Component {
       return
     }
 
-    if (this.props.iconLeft && this.props.iconRight) {
+    if (newProps.iconLeft && newProps.iconRight) {
       this.setState({ 
         buttonStyle: styles.buttonWithBothIcons, 
         textStyle: styles.textWithBothIcons
@@ -48,7 +60,7 @@ export default class Button extends Component {
       return
     }
 
-    if (this.props.iconLeft) {
+    if (newProps.iconLeft) {
       this.setState({ 
         buttonStyle: styles.buttonWithIconLeft, 
         textStyle: styles.textWithIconLeft
@@ -56,7 +68,7 @@ export default class Button extends Component {
       return
     }
 
-    if (this.props.iconRight) {
+    if (newProps.iconRight) {
       this.setState({ 
         buttonStyle: styles.buttonWithIconRight,
         textStyle: styles.textWithIconRight
@@ -65,11 +77,15 @@ export default class Button extends Component {
   }
 
   render() {
-    const buttonStyle = { ...this.state.buttonStyle, ...this.props.style }
+    const buttonStyle = {...this.state.buttonStyle, ...this.props.style }
+    const className = this.state.className + this.state.disabled
 
     return(
-      <button className={this.state.className} onClick={this.onClick}
-          style={buttonStyle}>
+      <button
+        className={className}
+        onClick={this.onClick}
+        style={buttonStyle}
+      >
         {this.renderLeftIcon()}
         <span style={this.state.textStyle}>{this.props.text}</span>
         {this.renderRightIcon()}
