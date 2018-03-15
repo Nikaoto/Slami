@@ -3,7 +3,10 @@ import Button from "../Button"
 import Slide from "../Slide"
 import SlideEditor from "../SlideEditor"
 import { generateVideo } from "../../util"
-import { default_text_position, default_text_size, canvas_size, video_preview_size } from "../../config"
+import {
+  default_text_position, default_text_size, canvas_size, video_preview_size,
+  paragraph_delimiter_key
+} from "../../config"
 import "./SecondPage.css"
 import Spinner from "../Spinner/Spinner"
 
@@ -32,6 +35,7 @@ export default class SecondPage extends Component {
     this.onDownloadClick = this.onDownloadClick.bind(this)
     this.updateCurrentSlideText = this.updateCurrentSlideText.bind(this)
     this.updateCurrentSlideTextPosition = this.updateCurrentSlideTextPosition.bind(this)
+    this.onKeyDown = this.onKeyDown.bind(this)
   }
 
   onBackButtonClick() {
@@ -90,6 +94,18 @@ export default class SecondPage extends Component {
     return this.state.editSlides.map(sl => 
       <Slide key={sl.key} slideObj={sl} onClick={() => this.onSlideClick(sl.key)}/>
     )
+  }
+
+  onKeyDown(e) {
+    if (e.key === paragraph_delimiter_key) {
+      const editSlides = this.state.editSlides
+      editSlides[this.state.chosenSlideIndex].textBoxes.push({
+        text: "Sample Text",
+        textPosition: default_text_position,
+        textSize: default_text_size
+      })
+      this.setState({ editSlides: editSlides })
+    }
   }
 
   onDownloadClick() {
@@ -171,7 +187,7 @@ export default class SecondPage extends Component {
 
 
             {/* Editor (+ Right Side) */}
-            <div style={styles.editorContainer} className="col s6">
+            <div style={styles.editorContainer} className="col s6" onKeyDown={this.onKeyDown}>
               <SlideEditor
                   slideObj={this.getCurrentSlide()}
                   onTextChange={this.updateCurrentSlideText}
