@@ -3,7 +3,7 @@ import Button from "../Button"
 import Slide from "../Slide"
 import SlideEditor from "../SlideEditor"
 import { generateVideo } from "../../util"
-import { default_text_position, canvas_size, video_preview_size } from "../../config"
+import { default_text_position, default_text_size, canvas_size, video_preview_size } from "../../config"
 import "./SecondPage.css"
 import Spinner from "../Spinner/Spinner"
 
@@ -11,11 +11,16 @@ export default class SecondPage extends Component {
   constructor(props) {
     super(props)
     
-    const editSlides = this.props.slides.map(sl => {
-      sl.selected = sl.selected || false
-      sl.textPosition = default_text_position
-      return sl
-    })
+    const editSlides = this.props.slides
+      .map(sl => {
+        sl.selected = sl.selected || false
+        sl.textBoxes = [{
+          text: sl.text,
+          textPosition: default_text_position,
+          textSize: default_text_size
+        }]
+        return sl
+      })
 
     this.state = {
       chosenSlideIndex: 0,
@@ -25,6 +30,8 @@ export default class SecondPage extends Component {
 
     this.onBackButtonClick = this.onBackButtonClick.bind(this)
     this.onDownloadClick = this.onDownloadClick.bind(this)
+    this.updateCurrentSlideText = this.updateCurrentSlideText.bind(this)
+    this.updateCurrentSlideTextPosition = this.updateCurrentSlideTextPosition.bind(this)
   }
 
   onBackButtonClick() {
@@ -41,6 +48,7 @@ export default class SecondPage extends Component {
     const videoPlayer = this.refs.videoPlayer
     const context = canvas.getContext("2d")
 
+    // TODO fix this after textBoxes func
     generateVideo(this.state.editSlides, context, this.state.editorSize, (output) => {
       const url = URL.createObjectURL(output)
       this.setState({
@@ -66,17 +74,16 @@ export default class SecondPage extends Component {
 
   getCurrentSlide = () => this.state.editSlides[this.state.chosenSlideIndex]
 
-  updateCurrentSlideText(newText) {
+  updateCurrentSlideText(newText, index) {
     const editSlides = this.state.editSlides
-    editSlides[this.state.chosenSlideIndex].text = newText
+    editSlides[this.state.chosenSlideIndex].textBoxes[index].text = newText
     this.setState({ editSlides: editSlides })
   }
 
-  updateCurrentSlideTextPosition(newPosition) {
-    //console.log(newPosition)
-
+  updateCurrentSlideTextPosition(newPosition, index) {
     const editSlides = this.state.editSlides
-    editSlides[this.state.chosenSlideIndex].textPosition = newPosition
+    editSlides[this.state.chosenSlideIndex].textBoxes[index].textPosition = newPosition
+    console.log(editSlides)
     this.setState({ editSlides: editSlides })
   }
 
@@ -168,8 +175,8 @@ export default class SecondPage extends Component {
             <div style={styles.editorContainer} className="col s6">
               <SlideEditor
                   slideObj={this.getCurrentSlide()}
-                  onTextChange={(newText) => this.updateCurrentSlideText(newText)}
-                  onTextDrag={(newPosition) => this.updateCurrentSlideTextPosition(newPosition)}
+                  onTextChange={this.updateCurrentSlideText}
+                  onTextDrag={this.updateCurrentSlideTextPosition}
                   onResize={(newSize) => this.setState({ editorSize: newSize })}/>
             </div>
 

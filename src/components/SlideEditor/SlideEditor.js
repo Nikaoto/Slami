@@ -20,17 +20,10 @@ export default class SlideEditor extends Component {
         height: styles.editor.maxHeight
       }
     }
-
-    this.onTextDrag = this.onTextDrag.bind(this)
   }
 
   componentWillReceiveProps({ slideObj }) {
-    const passedText = slideObj.text
-    const textPosition = slideObj.textPosition
-    this.setState({
-      text: passedText,
-      textPosition: textPosition
-    })
+    this.setState({ textBoxes: slideObj.textBoxes })
 
     this.refresh()
   }
@@ -55,11 +48,10 @@ export default class SlideEditor extends Component {
     }
   }
 
-  // TODO add Handle compo
-  renderDraggableText({ textPosition, text, textSize }) {
+  renderTextBox(index, { textPosition, text, textSize }) {
+    console.log(textPosition)
     return (
-      <Draggable handle=".handle" onDrag={this.onTextDrag}
-                 position={textPosition}>
+      <Draggable key={index} handle=".handle" onDrag={(e, data) => this.onTextDrag(data, index)} position={textPosition}>
         <div style={styles.textContainer}>
           <div className="handle" style={styles.handle}/>
           <div className="handle" style={{...styles.handle, top: textSize.height, left: textSize.width }}/>
@@ -68,39 +60,48 @@ export default class SlideEditor extends Component {
           <TextInput
             maxWidth={this.state.editorSize.width}
             text={text}
-            onTextChange={(newText) => this.onTextChange(newText)}
-            onResize={(newSize) => this.setState({ textSize: newSize })}/>
+            onTextChange={(newText) => this.onTextChange(newText, index)}
+            onResize={(newSize) => {
+              const textBoxes = this.state.textBoxes
+              textBoxes[index].textSize = newSize
+              this.setState({ textBoxes: textBoxes })
+            }}/>
         </div>
       </Draggable>
     )
   }
 
-  renderAllDraggableText() {
-    this.state.textBoxes.map(tb => this.renderDraggableText(tb))
+  renderAllTextBoxes() {
+    return this.state.textBoxes.map((tb, i) => this.renderTextBox(i, tb))
   }
 
   componentDidMount() {
     this.onResize()
   }
 
-  onTextChange(newText) {
-    this.setState({ text: newText })
+  onTextChange(newText, index) {
+    const textBoxes = this.state.textBoxes
+    textBoxes[index].text = newText
+    this.setState({ textBoxes: textBoxes })
 
     if (this.props.onTextChange) {
-      this.props.onTextChange(newText)
+      this.props.onTextChange(newText, index)
     }
   }
 
-  onTextDrag(e, data) {
+  onTextDrag(data, index) {
     const newPosition = { 
       x: data.x,
       y: data.y
     }
 
-    this.setState({ textPosition: newPosition })
+    const textBoxes = this.state.textBoxes
+    textBoxes[index].textPosition = newPosition
+
+    this.setState({ textBoxes: textBoxes })
 
     if (this.props.onTextDrag) {
-      this.props.onTextDrag(newPosition)
+      this.props.onTextDrag(newPosition, index)
     }
   }
 
@@ -118,7 +119,7 @@ export default class SlideEditor extends Component {
             style={styles.editorImage}
             className="non-draggable editor-image"
           />
-          {this.renderAllDraggableText()}
+          {this.renderAllTextBoxes()}
         </div>
       </div>
     )
