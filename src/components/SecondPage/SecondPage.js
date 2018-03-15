@@ -5,6 +5,7 @@ import SlideEditor from "../SlideEditor"
 import { generateVideo } from "../../util"
 import { default_text_position, canvas_size, video_preview_size } from "../../config"
 import "./SecondPage.css"
+import Spinner from "../Spinner/Spinner"
 
 export default class SecondPage extends Component {
   constructor(props) {
@@ -32,12 +33,14 @@ export default class SecondPage extends Component {
 
   onGenerateClick() {
     console.log("onGenerateClick")
+    this.setState({ isGenerating: true })
 
     const canvas = this.refs.canvas
     const videoPlayer = this.refs.videoPlayer
     const context = canvas.getContext("2d")
 
     generateVideo(this.state.editSlides, context, this.state.editorSize, (output) => {
+      this.setState({ isGenerating: false })
       const url = URL.createObjectURL(output)
       videoPlayer.src = url
     })
@@ -84,6 +87,7 @@ export default class SecondPage extends Component {
   }
 
   render() {
+    const spinnerStyle = {...styles.spinner, display: this.state.isGenerating ? "block" : "none" }
     return(
       <div className={"row scene-element " + this.props.animation}>
 
@@ -111,9 +115,18 @@ export default class SecondPage extends Component {
                   <Button text={"დააგენერირე"} iconLeft={"settings"} iconRight={"settings"}
                       onClick={() => this.onGenerateClick()}/>
                 </div>
+
+
+                <div className="col s1 offset-s2">
+                  <Spinner
+                    style={spinnerStyle}
+                    innerStyle={{ top: "15%", left: "15%"}}
+                  />
+                </div>
+
                 {/*
-                <div className="col s3">
                   <Button text={"Render Canvas"} onClick={() =>
+                <div className="col s3">
                     renderCanvas(this.refs.canvas, this.state.editSlides[this.state.chosenSlideIndex], this.state.editorSize)
                   } />
                 </div>*/}
@@ -160,6 +173,14 @@ const styles = {
   canvas: {
     display: "none",
     boxShadow: "0px 0px 6px 2px"
+  },
+  spinner: {
+    position: "relative",
+    backgroundColor: "none",
+    width: 30,
+    height: 30,
+    top: 0,
+    left: 0
   },
   videoPlayer: {
     margin: 10,
