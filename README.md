@@ -1,4 +1,6 @@
 # Slami
+https://slami.herokuapp.com/
+TODO: add formal description
 
 # Client expects scrape data with such structure:
 ```
