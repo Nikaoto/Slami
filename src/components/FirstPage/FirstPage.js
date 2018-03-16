@@ -8,6 +8,12 @@ import {alerts, custom_media_source, paragraph_delimiter_char} from "../../confi
 class FirstPage extends Component {
   constructor(props) {
     super(props)
+
+    if (props.savedState) {
+      this.state = props.savedState
+      return
+    }
+
     this.state = {
       paragraphs: [],
       media: [],
@@ -95,7 +101,7 @@ class FirstPage extends Component {
 
   renderMedia() {
     return this.state.media.map(m => 
-      <MediaItem key={m.key} url={m.thumbnailUrl} title={m.title} num={m.num} 
+      <MediaItem key={m.key} url={m.thumbnailUrl} title={m.title} num={m.num}
         onClick={(selected) => this.onMediaItemClick(m.key, selected)}/>
     )
   }
@@ -116,6 +122,7 @@ class FirstPage extends Component {
 
   nextPage() {
     if (this.props.onNextPage && this.state.media[0]) {
+      // Sort final media
       const finalMedia = this.state.media
         .filter(m => m.num !== null && m.num > 0)
         .map(m => {
@@ -124,15 +131,16 @@ class FirstPage extends Component {
         })
         .sort((a, b) => a.num - b.num)
 
+      // Check if slides chosen
       if (!finalMedia[0]) {
         alert(alerts.no_slides_chosen)
-
         return
       }
 
       finalMedia[0].selected = true
 
-      this.props.onNextPage(finalMedia)
+      // Proceed to next page
+      this.props.onNextPage(finalMedia, this.state)
     }
   }
 

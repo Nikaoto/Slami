@@ -12,25 +12,38 @@ class App extends Component {
     super(props)
 
     if (devMode) {
-      this.state = { currentPage: 1, slides: TempData, pageAnimation: "scene-element--fadeinright" }
+      this.state = {
+        currentPage: 1,
+        slides: TempData,
+        pageAnimation: "scene-element--fadeinright"
+      }
     } else {
-      this.state = { currentPage: 0, slides: [], pageAnimation: "scene-element--fadeinright" }
+      this.state = {
+        currentPage: 0,
+        slides: [],
+        savedState: {},
+        pageAnimation: "scene-element--fadeinright"
+      }
     }
+
+    this.onFinishFirstPage = this.onFinishFirstPage.bind(this)
+    this.onBackToFirstPage = this.onBackToFirstPage.bind(this)
   }
 
   renderCurrentPage() {
     switch(this.state.currentPage) {
-      case 0: return <FirstPage animation={this.state.pageAnimation} 
-          onNextPage={(media) => this.onFinishFirstPage(media)} />
+      case 0: return <FirstPage animation={this.state.pageAnimation} savedState={this.state.firstPageState}
+          onNextPage={this.onFinishFirstPage} />
       case 1: return <SecondPage animation={this.state.pageAnimation} slides={this.state.slides} 
-          onBack={() => this.onBackToFirstPage()} />
+          onBack={this.onBackToFirstPage} />
       default: break
     }
   }
 
-  onFinishFirstPage(media) {
+  onFinishFirstPage(media, state) {
     if (media.length > 0) {
-      this.setState({ 
+      this.setState({
+        firstPageState: state,
         currentPage: 1, 
         slides: media,
         pageAnimation: "scene-element--fadeinright"
@@ -39,8 +52,7 @@ class App extends Component {
   }
 
   onBackToFirstPage() {
-    console.log("APP: back to first page")
-    this.setState({ 
+    this.setState({
       currentPage: 0,
       pageAnimation: "scene-element--fadeinleft"
     })
