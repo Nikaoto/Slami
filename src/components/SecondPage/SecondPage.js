@@ -5,7 +5,7 @@ import SlideEditor from "../SlideEditor"
 import { generateVideo } from "../../util"
 import {
   default_text_position, default_text_size, canvas_size, video_preview_size,
-  paragraph_delimiter_key
+  paragraph_delimiter_key, delete_keys
 } from "../../config"
 import "./SecondPage.css"
 import Spinner from "../Spinner/Spinner"
@@ -13,7 +13,6 @@ import Spinner from "../Spinner/Spinner"
 export default class SecondPage extends Component {
   constructor(props) {
     super(props)
-    console.log(this.props.slides)
     const editSlides = this.props.slides
       .map(sl => {
         sl.selected = sl.selected || false
@@ -105,6 +104,28 @@ export default class SecondPage extends Component {
         textSize: default_text_size
       })
       this.setState({ editSlides: editSlides })
+
+      return
+    }
+
+    if (delete_keys.includes(e.key)) {
+      const textBoxes = this.getCurrentSlide().textBoxes
+
+      // Remove empty textboxes
+      textBoxes.map((tb, i) => {
+          if (tb.text === "") {
+            return i
+          }
+        })
+        .filter(index => index !== undefined)
+        .forEach(index => textBoxes.splice(index, 1))
+
+      // Update state
+      const editSlides = this.state.editSlides
+      editSlides[this.state.chosenSlideIndex].textBoxes = textBoxes
+      this.setState({ editSlides: editSlides })
+
+      return
     }
   }
 
@@ -127,7 +148,12 @@ export default class SecondPage extends Component {
   render() {
     const spinnerStyle = {...styles.spinner, display: this.state.isGenerating ? "block" : "none" }
     return(
-      <div className={"row scene-element " + this.props.animation}>
+      <div
+        className={"row scene-element " + this.props.animation}
+        onKeyDown={this.onKeyDown}
+        tabIndex={0}
+        style={{outline: "none"}}
+      >
 
         {/* Back Button */}
         <div style={{ marginBottom: 40 }} className="col s1">
@@ -187,7 +213,7 @@ export default class SecondPage extends Component {
 
 
             {/* Editor (+ Right Side) */}
-            <div style={styles.editorContainer} className="col s6" onKeyDown={this.onKeyDown} tabIndex={0}>
+            <div style={styles.editorContainer} className="col s6">
               <SlideEditor
                   slideObj={this.getCurrentSlide()}
                   onTextChange={this.updateCurrentSlideText}
