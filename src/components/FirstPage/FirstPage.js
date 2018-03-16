@@ -3,7 +3,7 @@ import EditorCard from "../EditorCard"
 import MediaItem from "../MediaItem"
 import Button from "../Button"
 import { getImportantWords, sendScrapeRequest } from "../../util"
-import { custom_media_source, paragraph_delimiter_char } from "../../config"
+import {alerts, custom_media_source, paragraph_delimiter_char} from "../../config"
 
 class FirstPage extends Component {
   constructor(props) {
@@ -124,11 +124,15 @@ class FirstPage extends Component {
         })
         .sort((a, b) => a.num - b.num)
 
-      if (finalMedia[0]) {
-        finalMedia[0].selected = true
+      if (!finalMedia[0]) {
+        alert(alerts.no_slides_chosen)
 
-        this.props.onNextPage(finalMedia)
+        return
       }
+
+      finalMedia[0].selected = true
+
+      this.props.onNextPage(finalMedia)
     }
   }
 

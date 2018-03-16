@@ -21,5 +21,8 @@ module.exports = {
   default_text_position: { x: 7, y: 7 }, // default position of slide text
   default_text_size: { width: 0, height: 0 },
   canvas_size: 1024,
-  video_preview_size: 360
+  video_preview_size: 360,
+  alerts: {
+    no_slides_chosen: "გთხოვთ ამოირჩიოთ ერთი სლაიდი მაინც"
+  }
 }
