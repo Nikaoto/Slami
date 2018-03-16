@@ -187,7 +187,7 @@ export default class SecondPage extends Component {
 
 
             {/* Editor (+ Right Side) */}
-            <div style={styles.editorContainer} className="col s6" onKeyDown={this.onKeyDown}>
+            <div style={styles.editorContainer} className="col s6" onKeyDown={this.onKeyDown} tabIndex={0}>
               <SlideEditor
                   slideObj={this.getCurrentSlide()}
                   onTextChange={this.updateCurrentSlideText}
