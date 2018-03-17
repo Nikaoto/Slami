@@ -59,9 +59,8 @@ function processSlides(slides, context, editorSize) {
     // Geo font
     //const Kartuli = new FontFace('Kartuli', 'url(fonts/NotoSansGeorgian-Regular.ttf)');
 
-    const fps = 1
     const Whammy = require("./whammy")
-    const video = new Whammy.Video(fps)
+    const video = new Whammy.Video()
 
     for (const slide of slides) {
       await processSlide(slide, context, video, editorSize)
@@ -80,6 +79,8 @@ const getActualTextPosition = (position, canvasSize, editorSize) =>  ({
 function processSlide(slide, context, video, editorSize) {
   return new Promise(resolve => {
     const { textBoxes, url, source } = slide
+    const duration = parseFloat(slide.duration)*1000.0
+    console.log("duration:", slide.duration)
     const canvas = context.canvas
 
     // Load image
@@ -99,7 +100,7 @@ function processSlide(slide, context, video, editorSize) {
         })
       }
 
-      video.add(context)
+      video.add(context, duration)
 
       clearCanvas(context)
 
@@ -109,7 +110,7 @@ function processSlide(slide, context, video, editorSize) {
     if (!source || source !== custom_media_source) {
       img.src = proxy(url)
     } else {
-      img.src = url //TODO: check if I have to use FileReader for local images
+      img.src = url
     }
   })
 }
@@ -123,7 +124,6 @@ function drawText(context, text, position, fontSize = 45, padding = { horizontal
   const { height } = calcHeight(text, { size: fontSize })
   const width = context.measureText(text).width
 
-  // TODO round corners? [https://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-on-html-canvas]
   context.fillRect(
     position.x,
     position.y + yOffset,
@@ -177,6 +177,6 @@ export function renderCanvas(canvas, slide, editorSize) {
   if (!source || source !== custom_media_source) {
     img.src = proxy(url)
   } else {
-    img.src = url //TODO: check if I have to use FileReader for local images
+    img.src = url
   }
 }

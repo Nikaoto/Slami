@@ -5,7 +5,7 @@ import SlideEditor from "../SlideEditor"
 import { generateVideo } from "../../util"
 import {
   default_text_position, default_text_size, canvas_size, video_preview_size,
-  paragraph_delimiter_key, delete_keys
+  paragraph_delimiter_key, delete_keys, default_slide_duration_seconds
 } from "../../config"
 import "./SecondPage.css"
 import Spinner from "../Spinner/Spinner"
@@ -15,6 +15,7 @@ export default class SecondPage extends Component {
     super(props)
     const editSlides = this.props.slides
       .map(sl => {
+        sl.duration = default_slide_duration_seconds
         sl.selected = sl.selected || false
         sl.textBoxes = [{
           text: sl.text,
@@ -51,7 +52,6 @@ export default class SecondPage extends Component {
     const videoPlayer = this.refs.videoPlayer
     const context = canvas.getContext("2d")
 
-    // TODO fix this after textBoxes func
     generateVideo(this.state.editSlides, context, this.state.editorSize, (output) => {
       const url = URL.createObjectURL(output)
       this.setState({
@@ -75,6 +75,13 @@ export default class SecondPage extends Component {
     })
   }
 
+  onSlideDurationChange(newDuration, slideIndex) {
+    const editSlides = this.state.editSlides
+    editSlides[slideIndex].duration = newDuration
+
+    this.setState({ editSlides: editSlides })
+  }
+
   getCurrentSlide = () => this.state.editSlides[this.state.chosenSlideIndex]
 
   updateCurrentSlideText(newText, index) {
@@ -90,8 +97,15 @@ export default class SecondPage extends Component {
   }
 
   renderSlides() {
-    return this.state.editSlides.map(sl => 
-      <Slide key={sl.key} slideObj={sl} onClick={() => this.onSlideClick(sl.key)}/>
+    return this.state.editSlides.map((sl, i) =>
+    <div key={sl.key}>
+      <Slide
+        slideObj={sl}
+        onClick={() => this.onSlideClick(sl.key)}
+        onDurationChange={(newDuration) => this.onSlideDurationChange(newDuration, i)}
+      />
+      <div />
+    </div>
     )
   }
 
@@ -233,6 +247,7 @@ const styles = {
   grid: {
     display: "flex",
     backgroundColor: "white",
+    borderRadius: 10,
     padding: 20,
     flexFlow: "row wrap",
     justifyContent: "flex-start"

@@ -1,4 +1,4 @@
-const devMode = false
+const devMode = true
 const imagesEndpoint = "/images"
 const proxyEndpoint = "/proxy"
 
@@ -22,6 +22,8 @@ module.exports = {
   default_text_size: { width: 0, height: 0 },
   canvas_size: 1024,
   video_preview_size: 360,
+  default_slide_duration_seconds: 1.0,
+  duration_label: "წამი",
   alerts: {
     no_slides_chosen: "გთხოვთ ამოირჩიოთ ერთი სლაიდი მაინც"
   }

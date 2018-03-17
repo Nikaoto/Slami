@@ -128,8 +128,8 @@ export default class SlideEditor extends Component {
 
 const styles = {
   editor: {
-    alignSelf: "stretch",
     flex: 1,
+    alignSelf: "stretch",
     minWidth: 240,
     minHeight: 240,
     maxWidth: 600,
