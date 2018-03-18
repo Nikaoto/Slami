@@ -52,7 +52,7 @@ export default class SecondPage extends Component {
     const videoPlayer = this.refs.videoPlayer
     const context = canvas.getContext("2d")
 
-    generateVideo(this.state.editSlides, context, this.state.editorSize, (output) => {
+    generateVideo(this.state.editSlides, this.state.font, context, this.state.editorSize, (output) => {
       const url = URL.createObjectURL(output)
       this.setState({
         isGenerating: false,

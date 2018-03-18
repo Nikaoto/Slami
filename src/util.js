@@ -1,4 +1,7 @@
-import { custom_media_source, important_word_length, scrapeApi, proxyApi, default_text_position } from "./config"
+import {
+  custom_media_source, important_word_length, scrapeApi, proxyApi, default_text_position,
+  default_font
+} from "./config"
 import calcHeight from "text-height"
 
 // TODO: revamp this
@@ -45,25 +48,21 @@ export const proxy = (url) => `${proxyApi}?url=${url}`
 
 // Canvas stuff
 
-export function generateVideo(slides, context, editorSize, onFinish) {
-  processSlides(slides, context, editorSize)
+export function generateVideo(slides, font, context, editorSize, onFinish) {
+  processSlides(slides, font, context, editorSize)
     .then(video => video.compile(false, output => {
       console.log("compile")
       onFinish(output)
     })).catch(err => console.log(err))
 }
 
-function processSlides(slides, context, editorSize) {
+function processSlides(slides, font, context, editorSize) {
   return new Promise(async resolve => {
-
-    // Geo font
-    //const Kartuli = new FontFace('Kartuli', 'url(fonts/NotoSansGeorgian-Regular.ttf)');
-
     const Whammy = require("./whammy")
     const video = new Whammy.Video()
 
     for (const slide of slides) {
-      await processSlide(slide, context, video, editorSize)
+      await processSlide(slide, font, context, video, editorSize)
     }
 
     resolve(video)
@@ -76,7 +75,7 @@ const getActualTextPosition = (position, canvasSize, editorSize) =>  ({
   y: Math.ceil(canvasSize.height * (position.y + default_text_position.y) / editorSize.height)
 })
 
-function processSlide(slide, context, video, editorSize) {
+function processSlide(slide, font, context, video, editorSize) {
   return new Promise(resolve => {
     const { textBoxes, url, source } = slide
     const duration = parseFloat(slide.duration)*1000.0
@@ -95,7 +94,7 @@ function processSlide(slide, context, video, editorSize) {
         textBoxes.forEach(tb => {
           if (tb.text && tb.text.length > 0) {
             const actualTextPosition = getActualTextPosition(tb.textPosition, canvas, editorSize)
-            drawText(context, tb.text, actualTextPosition)
+            drawText(context, tb.text, actualTextPosition, font)
           }
         })
       }
@@ -115,9 +114,10 @@ function processSlide(slide, context, video, editorSize) {
   })
 }
 
-function drawText(context, text, position, fontSize = 45, padding = { horizontal: 12, vertical: 12 }) {
+function drawText(context, text, position, font = default_font, fontSize = 45,
+                  padding = { horizontal: 12, vertical: 12 }) {
   context.textBaseline = "hanging"
-  context.font = `${fontSize}px Arial` // TODO change to BPG Arial
+  context.font = `${fontSize}px ${font}`
   context.fillStyle = "white"
 
   const yOffset = Math.ceil(fontSize * 0.2)

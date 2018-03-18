@@ -28,5 +28,6 @@ module.exports = {
   alerts: {
     no_slides_chosen: "გთხოვთ ამოირჩიოთ ერთი სლაიდი მაინც"
   },
-  fonts: ["Arial", "BPG Arial", "NotoSansGeo"]
+  fonts: ["Arial", "BPG Arial", "NotoSansGeo"],
+  default_font: "Arial"
 }
