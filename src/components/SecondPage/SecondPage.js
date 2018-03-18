@@ -5,7 +5,7 @@ import SlideEditor from "../SlideEditor"
 import { generateVideo } from "../../util"
 import {
   default_text_position, default_text_size, canvas_size, video_preview_size,
-  paragraph_delimiter_key, delete_keys, default_slide_duration_seconds
+  paragraph_delimiter_key, delete_keys, default_slide_duration_seconds, fonts, choose_font_label
 } from "../../config"
 import Spinner from "../Spinner/Spinner"
 
@@ -25,6 +25,7 @@ export default class SecondPage extends Component {
       })
 
     this.state = {
+      font: "Arial",
       chosenSlideIndex: 0,
       editSlides: editSlides,
       downloadUrl: ""
@@ -217,10 +218,21 @@ export default class SecondPage extends Component {
                 </div>*/}
               </div>
 
-              {/* Canvas and Video */}
+              {/* Canvas */}
               <canvas ref="canvas" style={styles.canvas} />
+
+              {/* Font Picker */}
+              <select
+                value={this.state.font}
+                onChange={(e) => this.setState({ font: e.target.value })}>
+
+                {fonts.map((f, i) => <option key={i} value={f}>{f}</option>)}
+
+              </select>
+
+              {/* Video */}
               <video ref="videoPlayer" controls autoPlay loop style={styles.videoPlayer}
-                  width={video_preview_size} height={video_preview_size} />
+                width={video_preview_size} height={video_preview_size} />
 
             </div>
 
@@ -229,6 +241,7 @@ export default class SecondPage extends Component {
             <div style={styles.editorContainer} className="col s6">
               <SlideEditor
                   slideObj={this.getCurrentSlide()}
+                  font={this.state.font}
                   onTextChange={this.updateCurrentSlideText}
                   onTextDrag={this.updateCurrentSlideTextPosition}
                   onResize={(newSize) => this.setState({ editorSize: newSize })}/>

@@ -70,7 +70,7 @@ export default class TextInput extends Component {
         ref={"textInput"}
         value={this.state.text}
         onChange={this.onChange}
-        style={styles.text} />
+        style={{...styles.text, ...this.props.style}} />
     )
   }
 }

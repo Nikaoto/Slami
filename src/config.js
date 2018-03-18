@@ -24,7 +24,9 @@ module.exports = {
   video_preview_size: 360,
   default_slide_duration_seconds: 1.0,
   duration_label: "წამი",
+  choose_font_label: "ამოირჩიეთ ფონტი",
   alerts: {
     no_slides_chosen: "გთხოვთ ამოირჩიოთ ერთი სლაიდი მაინც"
-  }
+  },
+  fonts: ["Arial", "BPG Arial", "NotoSansGeo"]
 }

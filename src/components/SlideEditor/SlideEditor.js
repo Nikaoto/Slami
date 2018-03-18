@@ -57,9 +57,11 @@ export default class SlideEditor extends Component {
           <div className="handle" style={{...styles.handle, top: textSize.height, left: textSize.width }}/>
           <div className="handle" style={{...styles.handle, top: textSize.height, left: 0 }}/>
           <div className="handle" style={{...styles.handle, top: 0, left: textSize.width }}/>
+          {/* TODO: add textInputStyle based on selected font in SecondPage */}
           <TextInput
             maxWidth={this.state.editorSize.width}
             text={text}
+            style={this.state.textInputStyle}
             onTextChange={(newText) => this.onTextChange(newText, index)}
             onResize={(newSize) => {
               const textBoxes = this.state.textBoxes
