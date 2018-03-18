@@ -45,6 +45,13 @@ export function sendScrapeRequest(query, max = 2) {
 
 export const proxy = (url) => `${proxyApi}?url=${url}`
 
+export const getSlideImageUrl = ({ url, source }) => {
+  if (!source || source !== custom_media_source) {
+    return proxy(url)
+  }
+  return url
+}
+
 
 // Canvas stuff
 
@@ -56,6 +63,7 @@ export function generateVideo(slides, font, context, editorSize, onFinish) {
     })).catch(err => console.log(err))
 }
 
+// TODO think of better way to load everything (maybe load every image in parallel and then process all at once?)
 function processSlides(slides, font, context, editorSize) {
   return new Promise(async resolve => {
     const Whammy = require("./whammy")
@@ -80,7 +88,6 @@ function processSlide(slide, nextSlide, font, context, video, editorSize) {
     const { textBoxes, url, source } = slide
     const duration = parseFloat(slide.duration)*1000.0
     console.log("duration:", slide.duration)
-    const canvas = context.canvas
 
     // Load image
     const img = new Image()
@@ -92,20 +99,64 @@ function processSlide(slide, nextSlide, font, context, video, editorSize) {
 
       video.add(context, duration)
 
-/*
-      addFade(slide, nextSlide, context, video)
-        .then(() => resolve())
-*/
+
+      //addFade(slide, nextSlide, context, video).then(() => resolve())
 
       clearCanvas(context)
       resolve()
     }
 
-    if (!source || source !== custom_media_source) {
-      img.src = proxy(url)
-    } else {
-      img.src = url
+    img.src = getSlideImageUrl(slide)
+  })
+}
+
+function addFade(fromSlide, toSlide, context, video) {
+  return new Promise(resolve => {
+    const totalDuration = 1000
+    const frameCount = 30
+    const frameDuration = totalDuration/frameCount
+
+    if (!toSlide) {
+      console.log("!toSlide")
+      // TODO fade out to black
+      resolve()
+      return
     }
+
+    const fromImage = new Image()
+    const toImage = new Image()
+
+    const onLoadBoth = () => {
+      let toggle = false
+      for (let opacity = 0; opacity <= 1; opacity += 1 / frameCount) {
+        context.globalAlpha = opacity
+
+        context.drawImage(toggle ? fromImage : toImage, 0, 0, context.canvas.width, context.canvas.height)
+
+        toggle = !toggle
+        video.add(context, frameDuration)
+        clearCanvas(context)
+        resolve()
+      }
+    }
+
+    // Load both in parallel. This happens before onLoadBoth
+    fromImage.crossOrigin = "Anonymous"
+    toImage.crossOrigin = "Anonymous"
+    let firstLoaded = false
+    const onLoad = () => {
+      if (!firstLoaded) {
+        firstLoaded = true
+      } else {
+        onLoadBoth()
+      }
+    }
+    toImage.onload = onLoad
+    fromImage.onload = onLoad
+
+    fromImage.src = fromSlide.url
+    toImage.src = toSlide.url
+
   })
 }
 
@@ -143,43 +194,9 @@ function drawText(context, text, position, font = default_font, fontSize = 45,
 
 }
 
-
 function clearCanvas(context) {
   context.globalAlpha = 1
   context.clearRect(0, 0, context.canvas.width, context.canvas.height)
-}
-
-function addFade(previousSlide, nextSlide, context, video) {
-  return new Promise(resolve => {
-    const totalDuration = 1000
-    const frameCount = 30
-    const frameDuration = totalDuration/frameCount
-
-    if (!previousSlide) {
-      console.log("!previousSlide")
-      resolve()
-      return
-    }
-
-    if (!nextSlide) {
-      console.log("!nextSlide")
-      // TODO fade out to black
-      resolve()
-      return
-    }
-
-    let toggle = false
-    for (let opacity = 0 ; opacity <= 1; opacity += 1/frameCount){
-      context.globalAlpha = opacity
-
-      context.drawImage(toggle ? previousSlide.url : nextSlide.url, 0, 0, context.canvas.width, context.canvas.height)
-
-      toggle = !toggle
-      video.add(context, frameDuration)
-      clearCanvas(context)
-      resolve()
-    }
-  })
 }
 
 // Temporary method for testing canvas look
