@@ -61,8 +61,8 @@ function processSlides(slides, font, context, editorSize) {
     const Whammy = require("./whammy")
     const video = new Whammy.Video()
 
-    for (const slide of slides) {
-      await processSlide(slide, font, context, video, editorSize)
+    for (let i = 0; i < slides.length; i++) {
+      await processSlide(slides[i], slides[i+1], font, context, video, editorSize)
     }
 
     resolve(video)
@@ -75,7 +75,7 @@ const getActualTextPosition = (position, canvasSize, editorSize) =>  ({
   y: Math.ceil(canvasSize.height * (position.y + default_text_position.y) / editorSize.height)
 })
 
-function processSlide(slide, font, context, video, editorSize) {
+function processSlide(slide, nextSlide, font, context, video, editorSize) {
   return new Promise(resolve => {
     const { textBoxes, url, source } = slide
     const duration = parseFloat(slide.duration)*1000.0
@@ -88,21 +88,16 @@ function processSlide(slide, font, context, video, editorSize) {
     img.onload = () => {
       console.log("onload")
 
-      context.drawImage(img, 0, 0, canvas.width, canvas.height)
-
-      if (textBoxes[0] && textBoxes[0].text && textBoxes[0].text.length > 0) {
-        textBoxes.forEach(tb => {
-          if (tb.text && tb.text.length > 0) {
-            const actualTextPosition = getActualTextPosition(tb.textPosition, canvas, editorSize)
-            drawText(context, tb.text, actualTextPosition, font)
-          }
-        })
-      }
+      drawSlide(context, img, textBoxes, font, editorSize)
 
       video.add(context, duration)
 
-      clearCanvas(context)
+/*
+      addFade(slide, nextSlide, context, video)
+        .then(() => resolve())
+*/
 
+      clearCanvas(context)
       resolve()
     }
 
@@ -112,6 +107,19 @@ function processSlide(slide, font, context, video, editorSize) {
       img.src = url
     }
   })
+}
+
+function drawSlide(context, image, textBoxes, font, editorSize) {
+  context.drawImage(image, 0, 0, context.canvas.width, context.canvas.height)
+
+  if (textBoxes[0] && textBoxes[0].text && textBoxes[0].text.length > 0) {
+    textBoxes.forEach(tb => {
+      if (tb.text && tb.text.length > 0) {
+        const actualTextPosition = getActualTextPosition(tb.textPosition, context.canvas, editorSize)
+        drawText(context, tb.text, actualTextPosition, font)
+      }
+    })
+  }
 }
 
 function drawText(context, text, position, font = default_font, fontSize = 45,
@@ -135,9 +143,43 @@ function drawText(context, text, position, font = default_font, fontSize = 45,
 
 }
 
-// TODO do globalAlpha for fading
+
 function clearCanvas(context) {
+  context.globalAlpha = 1
   context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+}
+
+function addFade(previousSlide, nextSlide, context, video) {
+  return new Promise(resolve => {
+    const totalDuration = 1000
+    const frameCount = 30
+    const frameDuration = totalDuration/frameCount
+
+    if (!previousSlide) {
+      console.log("!previousSlide")
+      resolve()
+      return
+    }
+
+    if (!nextSlide) {
+      console.log("!nextSlide")
+      // TODO fade out to black
+      resolve()
+      return
+    }
+
+    let toggle = false
+    for (let opacity = 0 ; opacity <= 1; opacity += 1/frameCount){
+      context.globalAlpha = opacity
+
+      context.drawImage(toggle ? previousSlide.url : nextSlide.url, 0, 0, context.canvas.width, context.canvas.height)
+
+      toggle = !toggle
+      video.add(context, frameDuration)
+      clearCanvas(context)
+      resolve()
+    }
+  })
 }
 
 // Temporary method for testing canvas look
