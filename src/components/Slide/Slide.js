@@ -63,7 +63,7 @@ export default class Slide extends Component {
 
         {/* Slide Image */}
         <div style={styles.container} onClick={this.onClick}>
-          <Img className={"hover-shadow"}
+          <Img className={"no-drag hover-shadow"}
               style={ selected ? styles.selectedImage : styles.defaultImage }
               src={slide.url}
               alt={slide.title}/>

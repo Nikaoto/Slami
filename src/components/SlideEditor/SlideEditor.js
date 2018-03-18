@@ -117,7 +117,7 @@ export default class SlideEditor extends Component {
             alt={title}
             loader={<Spinner/>}
             style={styles.editorImage}
-            className="non-draggable editor-image"
+            className="no-drag editor-image"
           />
           {this.renderAllTextBoxes()}
         </div>

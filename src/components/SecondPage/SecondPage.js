@@ -7,7 +7,6 @@ import {
   default_text_position, default_text_size, canvas_size, video_preview_size,
   paragraph_delimiter_key, delete_keys, default_slide_duration_seconds
 } from "../../config"
-import "./SecondPage.css"
 import Spinner from "../Spinner/Spinner"
 
 export default class SecondPage extends Component {
