@@ -18,12 +18,16 @@ export default class SlideEditor extends Component {
       editorSize: {
         width: styles.editor.maxWidth,
         height: styles.editor.maxHeight
-      }
+      },
+      textInputStyle: this.props.textInputStyle
     }
   }
 
-  componentWillReceiveProps({ slideObj }) {
-    this.setState({ textBoxes: slideObj.textBoxes })
+  componentWillReceiveProps({ slideObj, textInputStyle }) {
+    this.setState({
+      textBoxes: slideObj.textBoxes,
+      textInputStyle: textInputStyle
+    })
 
     this.refresh()
   }
@@ -51,7 +55,7 @@ export default class SlideEditor extends Component {
   renderTextBox(index, { textPosition, text, textSize }) {
     if (text === undefined) return;
     return (
-      <Draggable key={index} handle=".handle" onDrag={(e, data) => this.onTextDrag(data, index)} position={textPosition}>
+      <Draggable key={index} handle=".handle" onDrag={(e, data) => this.onTextDrag(data, index)} posiyartion={textPosition}>
         <div style={styles.textContainer}>
           <div className="handle" style={styles.handle}/>
           <div className="handle" style={{...styles.handle, top: textSize.height, left: textSize.width }}/>

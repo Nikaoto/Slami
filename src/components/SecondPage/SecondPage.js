@@ -218,21 +218,25 @@ export default class SecondPage extends Component {
                 </div>*/}
               </div>
 
-              {/* Canvas */}
-              <canvas ref="canvas" style={styles.canvas} />
+              {/* Bottom-left side */}
+              <div style={{ display: "flex" }}>
 
-              {/* Font Picker */}
-              <select
-                value={this.state.font}
-                onChange={(e) => this.setState({ font: e.target.value })}>
+                {/* Canvas */}
+                <canvas ref="canvas" style={styles.canvas} />
 
-                {fonts.map((f, i) => <option key={i} value={f}>{f}</option>)}
+                {/* Video */}
+                <video ref="videoPlayer" controls autoPlay loop style={styles.videoPlayer}
+                  width={video_preview_size} height={video_preview_size} />
 
-              </select>
+                {/* Font Picker */}
+                <a className="dropdown-button btn" data-activates="font-dropdown" style={styles.fontDropdownButton}>
+                  {choose_font_label}
+                </a>
+                <ul id={"font-dropdown"} className={"dropdown-content"} style={styles.fontDropdownContent}>
+                  {fonts.map((f, i) => <li key={i}><a onClick={() => this.setState({ font: f })}>{f}</a></li> )}
+                </ul>
 
-              {/* Video */}
-              <video ref="videoPlayer" controls autoPlay loop style={styles.videoPlayer}
-                width={video_preview_size} height={video_preview_size} />
+              </div>
 
             </div>
 
@@ -241,7 +245,7 @@ export default class SecondPage extends Component {
             <div style={styles.editorContainer} className="col s6">
               <SlideEditor
                   slideObj={this.getCurrentSlide()}
-                  font={this.state.font}
+                  textInputStyle={{ fontFamily: this.state.font }}
                   onTextChange={this.updateCurrentSlideText}
                   onTextDrag={this.updateCurrentSlideTextPosition}
                   onResize={(newSize) => this.setState({ editorSize: newSize })}/>
@@ -284,5 +288,11 @@ const styles = {
   videoPlayer: {
     margin: 10,
     boxShadow: "0px 3px 13px 3px rgba(0,0,0,0.2)"
+  },
+  fontDropdownButton: {
+    margin: 10
+  },
+  fontDropdownContent: {
+    margin: 10
   }
 }
