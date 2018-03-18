@@ -29,5 +29,8 @@ module.exports = {
     no_slides_chosen: "გთხოვთ ამოირჩიოთ ერთი სლაიდი მაინც"
   },
   fonts: ["Arial", "BPG Arial", "NotoSansGeo"],
-  default_font: "Arial"
+  default_font: "Arial",
+  transitions:{
+    fade: "fade"
+  }
 }

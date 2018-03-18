@@ -1,6 +1,6 @@
 import {
   custom_media_source, important_word_length, scrapeApi, proxyApi, default_text_position,
-  default_font
+  default_font, transitions
 } from "./config"
 import calcHeight from "text-height"
 
@@ -63,7 +63,6 @@ export function generateVideo(slides, font, context, editorSize, onFinish) {
     })).catch(err => console.log(err))
 }
 
-// TODO think of better way to load everything (maybe load every image in parallel and then process all at once?)
 function processSlides(slides, font, context, editorSize) {
   return new Promise(async resolve => {
     const Whammy = require("./whammy")
@@ -85,7 +84,6 @@ const getActualTextPosition = (position, canvasSize, editorSize) =>  ({
 
 function processSlide(slide, nextSlide, font, context, video, editorSize) {
   return new Promise(resolve => {
-    const { textBoxes, url, source } = slide
     const duration = parseFloat(slide.duration)*1000.0
     console.log("duration:", slide.duration)
 
@@ -95,47 +93,64 @@ function processSlide(slide, nextSlide, font, context, video, editorSize) {
     img.onload = () => {
       console.log("onload")
 
-      drawSlide(context, img, textBoxes, font, editorSize)
+
+      drawSlide(context, img, slide.textBoxes, font, editorSize)
 
       video.add(context, duration)
 
+      if (!nextSlide) {
+        // Whammy last frame bug workaround
+        drawEmptySlide(context)
+        video.add(context, 1)
+        resolve()
+      } else {
 
-      //addFade(slide, nextSlide, context, video).then(() => resolve())
+        switch(slide.transition) {
 
-      clearCanvas(context)
-      resolve()
+          case transitions.fade: {
+            addFade(slide, nextSlide, font, context, editorSize, video).then(() => {
+              resolve()
+            })
+            break;
+          }
+
+          default: {
+            clearCanvas(context)
+            resolve()
+            break;
+          }
+        }
+      }
     }
 
     img.src = getSlideImageUrl(slide)
   })
 }
 
-function addFade(fromSlide, toSlide, context, video) {
+function addFade(fromSlide, toSlide, font, context, editorSize, video) {
   return new Promise(resolve => {
-    const totalDuration = 1000
-    const frameCount = 30
-    const frameDuration = totalDuration/frameCount
-
     if (!toSlide) {
       console.log("!toSlide")
-      // TODO fade out to black
+
       resolve()
-      return
     }
+
+    const totalDuration = 500
+    const frameRate = 30
+    const frameDuration = Math.ceil(totalDuration/frameRate)
 
     const fromImage = new Image()
     const toImage = new Image()
 
     const onLoadBoth = () => {
-      let toggle = false
-      for (let opacity = 0; opacity <= 1; opacity += 1 / frameCount) {
+      for (let opacity = 0; opacity <= 1; opacity += 1 / frameRate) {
         context.globalAlpha = opacity
 
-        context.drawImage(toggle ? fromImage : toImage, 0, 0, context.canvas.width, context.canvas.height)
+        drawSlide(context, fromImage, fromSlide.textBoxes, font, editorSize)
+        drawSlide(context, toImage, toSlide.textBoxes, font, editorSize)
 
-        toggle = !toggle
         video.add(context, frameDuration)
-        clearCanvas(context)
+
         resolve()
       }
     }
@@ -154,8 +169,8 @@ function addFade(fromSlide, toSlide, context, video) {
     toImage.onload = onLoad
     fromImage.onload = onLoad
 
-    fromImage.src = fromSlide.url
-    toImage.src = toSlide.url
+    fromImage.src = getSlideImageUrl(fromSlide)
+    toImage.src = getSlideImageUrl(toSlide)
 
   })
 }
@@ -192,6 +207,12 @@ function drawText(context, text, position, font = default_font, fontSize = 45,
   context.fillStyle = "black"
   context.fillText(text, position.x + padding.horizontal, position.y + padding.vertical + yOffset)
 
+}
+
+function drawEmptySlide(context, color = "#000000") {
+  clearCanvas(context)
+  context.fillStyle = color
+  context.fillRect(0, 0, context.canvas.width, context.canvas.height)
 }
 
 function clearCanvas(context) {
