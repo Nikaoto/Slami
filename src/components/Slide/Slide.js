@@ -11,7 +11,6 @@ export default class Slide extends Component {
     this.state = {
       duration: props.duration || default_slide_duration_seconds,
       transition: props.transition || default_slide_transition,
-      dropdownId: "transition-dropdown-" + this.props.k,
       dropped: false
     }
 
@@ -87,18 +86,28 @@ export default class Slide extends Component {
         </div>
 
         {/* Transition Controls */}
-        <div style={styles.dropdownContainer} onMouseLeave={() => this.setState({ dropped: false })}>
+        <div style={styles.dropdownContainer}>
           <Button
             text={this.state.transition}
             iconRight={"chevron_right"}
             onClick={() => this.setState({ dropped: !this.state.dropped })}
           />
           <ul className={"collection"}
-            style={{...styles.dropdownContent, display: this.state.dropped ? "inline" : "none" }}>
+            style={{...styles.dropdownContent}}>
             {
-              Object.keys(transitions).map((k, i) =>
-                <li className="collection-item" key={i}><a onClick={() => this.onTransitionChange(transitions[k])}> {transitions[k]} </a></li>
-              )
+              Object.keys(transitions).map((k, i) => {
+                let cn = "collection-item"
+                if (this.state.transition === transitions[k]) cn += " active"
+                return (
+                  <a
+                    key={i}
+                    className={cn}
+                    onClick={() => this.onTransitionChange(transitions[k])}
+                    style={styles.dropdownItem}>
+                    {transitions[k]}
+                  </a>
+                )
+              })
             }
           </ul>
         </div>
@@ -161,5 +170,12 @@ const styles = {
   dropdownContent: {
     position: "absolute",
     zIndex: 10
+  },
+  dropdownItem: {
+    cursor: "pointer",
+    paddingTop: 5,
+    paddingBottom: 5,
+    opacity: 0,
+    transition: "visibility 0s, opacity 0.5s linear"
   }
 }
