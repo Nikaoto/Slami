@@ -5,7 +5,8 @@ import SlideEditor from "../SlideEditor"
 import { generateVideo } from "../../util"
 import {
   default_text_position, default_text_size, canvas_size, video_preview_size,
-  paragraph_delimiter_key, delete_keys, default_slide_duration_seconds, fonts, choose_font_label
+  paragraph_delimiter_key, delete_keys, default_slide_duration_seconds, fonts, choose_font_label,
+  default_slide_transition
 } from "../../config"
 import Spinner from "../Spinner/Spinner"
 
@@ -15,6 +16,7 @@ export default class SecondPage extends Component {
     const editSlides = this.props.slides
       .map(sl => {
         sl.duration = default_slide_duration_seconds
+        sl.transition = default_slide_transition
         sl.selected = sl.selected || false
         sl.textBoxes = [{
           text: sl.text,
@@ -82,6 +84,13 @@ export default class SecondPage extends Component {
     this.setState({ editSlides: editSlides })
   }
 
+  onSlideTransitionChange(newTransition, slideIndex) {
+    const editSlides = this.state.editSlides
+    editSlides[slideIndex].transition = newTransition
+
+    this.setState({ editSlides: editSlides })
+  }
+
   getCurrentSlide = () => this.state.editSlides[this.state.chosenSlideIndex]
 
   updateCurrentSlideText(newText, index) {
@@ -98,14 +107,14 @@ export default class SecondPage extends Component {
 
   renderSlides() {
     return this.state.editSlides.map((sl, i) =>
-    <div key={sl.key}>
       <Slide
+        key={sl.key}
+        k={sl.key}
         slideObj={sl}
         onClick={() => this.onSlideClick(sl.key)}
         onDurationChange={(newDuration) => this.onSlideDurationChange(newDuration, i)}
+        onTransitionChange={(newTransition) => this.onSlideTransitionChange(newTransition, i)}
       />
-      <div />
-    </div>
     )
   }
 

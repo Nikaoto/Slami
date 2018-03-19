@@ -1,13 +1,17 @@
 import React, { Component } from "react"
 import Img from "react-image"
-import { default_slide_duration_seconds, duration_label } from "../../config"
+import {
+  default_slide_duration_seconds, default_slide_transition, duration_label, transitions
+} from "../../config"
 
 export default class Slide extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      duration: props.duration || default_slide_duration_seconds
+      duration: props.duration || default_slide_duration_seconds,
+      transition: props.transition || default_slide_transition,
+      dropdownId: "transition-dropdown-" + this.props.k
     }
 
     this.onClick = this.onClick.bind(this)
@@ -25,6 +29,14 @@ export default class Slide extends Component {
 
     if (this.props.onDurationChange) {
       this.props.onDurationChange(newDuration)
+    }
+  }
+
+  onTransitionChange(newTransition) {
+    this.setState({ transition: newTransition })
+
+    if (this.props.onTransitionChange) {
+      this.props.onTransitionChange(newTransition)
     }
   }
 
@@ -47,6 +59,7 @@ export default class Slide extends Component {
   render() {
     const slide = this.props.slideObj
     const selected = slide.selected
+    const dropdownId = this.state.dropdownId
 
     return(
       <div>
@@ -70,7 +83,18 @@ export default class Slide extends Component {
         </div>
 
         {/* Transition Controls */}
-        <div>
+        <div style={styles.dropdownContainer}>
+          <a className={"dropdown-button btn"} data-activates={dropdownId} style={styles.dropdownButton}>
+            <span style={{ alignSelf: "center", marginRight: 15 }}>{this.state.transition}</span>
+            <i className="material-icons">chevron_right</i>
+          </a>
+          <ul id={dropdownId} className={"dropdown-content"} style={styles.dropdownContent}>
+            {
+              Object.keys(transitions).map((k, i) =>
+                <li key={i}><a onClick={() => this.onTransitionChange(transitions[k])}> {transitions[k]} </a></li>
+              )
+            }
+          </ul>
         </div>
       </div>
     )
@@ -120,5 +144,18 @@ const styles = {
   durationInput: {
     textAlign: "center",
     marginBottom: 4
+  },
+  dropdownContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center"
+  },
+  dropdownButton: {
+    display: "flex",
+    paddingLeft: 20,
+    paddingRight: 15
+  },
+  dropdownContent: {
+
   }
 }

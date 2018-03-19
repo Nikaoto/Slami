@@ -85,6 +85,7 @@ const getActualTextPosition = (position, canvasSize, editorSize) =>  ({
 function processSlide(slide, nextSlide, font, context, video, editorSize) {
   return new Promise(resolve => {
     const duration = parseFloat(slide.duration)*1000.0
+    console.log(slide.transition)
     console.log("duration:", slide.duration)
 
     // Load image
@@ -108,6 +109,7 @@ function processSlide(slide, nextSlide, font, context, video, editorSize) {
         switch(slide.transition) {
 
           case transitions.fade: {
+            console.log("fade")
             addFade(slide, nextSlide, font, context, editorSize, video).then(() => {
               resolve()
             })

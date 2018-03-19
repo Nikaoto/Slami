@@ -31,6 +31,8 @@ module.exports = {
   fonts: ["Arial", "BPG Arial", "NotoSansGeo"],
   default_font: "Arial",
   transitions:{
-    fade: "fade"
-  }
+    fade: "Fade",
+    cut: "Cut"
+  },
+  default_slide_transition: "Cut"
 }
