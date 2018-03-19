@@ -71,8 +71,24 @@ class App extends Component {
           {this.renderCurrentPage()}
         </div>
 
-        <footer className="footer">
-          <div style={{height: 120, backgroundColor: "orange"}}/>
+        <footer className="page-footer orange" style={{ marginTop: 120 }}>
+          <div className="container">
+            <div className="row">
+              <div className="col s6">
+                <h5 className="white-text">Slami</h5>
+                <ul>
+                  <li><a className="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                  <li><a className="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="footer-copyright">
+            <div className="container">
+              © 2018 Slami
+              <a className="grey-text text-lighten-4 right" href="#!">ADD PRIVACY POLICY</a>
+            </div>
+          </div>
         </footer>
       </div>
     );
@@ -88,7 +104,7 @@ const styles = {
   },
   pageStyle: {
     minHeight: 600,
-    marginBottom: 50,
+    marginBottom: 20,
   },
 }
 
