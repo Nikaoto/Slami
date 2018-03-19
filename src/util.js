@@ -179,8 +179,6 @@ function addFade(fromSlide, toSlide, font, context, editorSize, video) {
 
 function drawSlide(context, image, textBoxes, font, editorSize) {
 
-  /* The following code fits images to the canvas without problems
-  TODO apply the same effect to SlideEditor (probably need canvas there as well)
   // Scale image to fit
   const w = context.canvas.width
   const h = context.canvas.height
@@ -199,11 +197,11 @@ function drawSlide(context, image, textBoxes, font, editorSize) {
     newWidth = image.width * newHeight / image.height
   }
 
-  // Draw image with scaled sizes
+  // Draw image with scaled sizes to fit nicely
   context.drawImage(image, (w - newWidth)/2, (h - newHeight)/2, newWidth, newHeight)
-  */
 
-  context.drawImage(image, 0, 0, context.canvas.width, context.canvas.height)
+  // Draw image with ugly stretching
+  //context.drawImage(image, 0, 0, context.canvas.width, context.canvas.height)
 
   if (textBoxes[0] && textBoxes[0].text && textBoxes[0].text.length > 0) {
     textBoxes.forEach(tb => {
@@ -221,7 +219,7 @@ function drawText(context, text, position, font = default_font, fontSize = 45,
   context.font = `${fontSize}px ${font}`
   context.fillStyle = "white"
 
-  const yOffset = Math.ceil(fontSize * 0.2)
+  const yOffset = Math.ceil(fontSize * 0.16)
   const { height } = calcHeight(text, { size: fontSize })
   const width = context.measureText(text).width
 
