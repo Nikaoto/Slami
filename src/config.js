@@ -1,4 +1,4 @@
-const devMode = false
+const devMode = true
 const imagesEndpoint = "/images"
 const proxyEndpoint = "/proxy"
 
