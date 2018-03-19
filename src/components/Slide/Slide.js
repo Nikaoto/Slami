@@ -1,10 +1,8 @@
 import React, { Component } from "react"
 import Img from "react-image"
 import {
-  choose_font_label,
-  default_slide_duration_seconds, default_slide_transition, duration_label, fonts, transitions
+  default_slide_duration_seconds, default_slide_transition, duration_label, transitions
 } from "../../config"
-import Button from "../Button/Button"
 import { Dropdown, NavItem, Row, Button as MButton, Icon } from "react-materialize"
 
 export default class Slide extends Component {
@@ -64,7 +62,6 @@ export default class Slide extends Component {
   render() {
     const slide = this.props.slideObj
     const selected = slide.selected
-    const dropdownId = this.state.dropdownId
 
     return(
       <div>
