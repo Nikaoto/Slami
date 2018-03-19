@@ -55,13 +55,12 @@ export default class SlideEditor extends Component {
   renderTextBox(index, { textPosition, text, textSize }) {
     if (text === undefined) return;
     return (
-      <Draggable key={index} handle=".handle" onDrag={(e, data) => this.onTextDrag(data, index)} posiyartion={textPosition}>
+      <Draggable key={index} handle=".handle" onDrag={(e, data) => this.onTextDrag(data, index)} position={textPosition}>
         <div style={styles.textContainer}>
           <div className="handle" style={styles.handle}/>
           <div className="handle" style={{...styles.handle, top: textSize.height, left: textSize.width }}/>
           <div className="handle" style={{...styles.handle, top: textSize.height, left: 0 }}/>
           <div className="handle" style={{...styles.handle, top: 0, left: textSize.width }}/>
-          {/* TODO: add textInputStyle based on selected font in SecondPage */}
           <TextInput
             maxWidth={this.state.editorSize.width}
             text={text}
