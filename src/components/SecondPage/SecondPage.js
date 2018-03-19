@@ -9,6 +9,7 @@ import {
   default_slide_transition
 } from "../../config"
 import Spinner from "../Spinner/Spinner"
+import { Dropdown, NavItem, Row, Button as MButton } from "react-materialize"
 
 export default class SecondPage extends Component {
   constructor(props) {
@@ -238,12 +239,13 @@ export default class SecondPage extends Component {
                   width={video_preview_size} height={video_preview_size} />
 
                 {/* Font Picker */}
-                <a className="dropdown-button btn" data-activates="font-dropdown" style={styles.fontDropdownButton}>
-                  {choose_font_label}
-                </a>
-                <ul id={"font-dropdown"} className={"dropdown-content"} style={styles.fontDropdownContent}>
-                  {fonts.map((f, i) => <li key={i}><a onClick={() => this.setState({ font: f })}>{f}</a></li> )}
-                </ul>
+                <Dropdown
+                  style={styles.fontDropdownContent}
+                  trigger={
+                    <MButton style={styles.fontDropdownButton}> {choose_font_label} </MButton>
+                  }>
+                  {fonts.map((f, i) => <NavItem href={null} key={i} onClick={() => this.setState({ font: f })}> {f} </NavItem>)}
+                </Dropdown>
 
               </div>
 

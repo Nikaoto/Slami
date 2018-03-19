@@ -1,9 +1,11 @@
 import React, { Component } from "react"
 import Img from "react-image"
 import {
-  default_slide_duration_seconds, default_slide_transition, duration_label, transitions
+  choose_font_label,
+  default_slide_duration_seconds, default_slide_transition, duration_label, fonts, transitions
 } from "../../config"
 import Button from "../Button/Button"
+import { Dropdown, NavItem, Row, Button as MButton, Icon } from "react-materialize"
 
 export default class Slide extends Component {
   constructor(props) {
@@ -86,31 +88,21 @@ export default class Slide extends Component {
         </div>
 
         {/* Transition Controls */}
-        <div style={styles.dropdownContainer}>
-          <Button
-            text={this.state.transition}
-            iconRight={"chevron_right"}
-            onClick={() => this.setState({ dropped: !this.state.dropped })}
-          />
-          <ul className={"collection"}
-            style={{...styles.dropdownContent}}>
+        <Row>
+          <Dropdown trigger={ <MButton>{this.state.transition} <Icon right>chevron_right</Icon> </MButton> }>
             {
-              Object.keys(transitions).map((k, i) => {
-                let cn = "collection-item"
-                if (this.state.transition === transitions[k]) cn += " active"
-                return (
-                  <a
-                    key={i}
-                    className={cn}
-                    onClick={() => this.onTransitionChange(transitions[k])}
-                    style={styles.dropdownItem}>
-                    {transitions[k]}
-                  </a>
-                )
-              })
+              Object.keys(transitions).map((k, i) =>
+                <NavItem
+                  key={i}
+                  href={null}
+                  onClick={() => this.onTransitionChange(transitions[k])}
+                  style={styles.dropdownItem}>
+                  {transitions[k]}
+                </NavItem>
+              )
             }
-          </ul>
-        </div>
+          </Dropdown>
+        </Row>
       </div>
     )
   }
@@ -172,10 +164,6 @@ const styles = {
     zIndex: 10
   },
   dropdownItem: {
-    cursor: "pointer",
-    paddingTop: 5,
-    paddingBottom: 5,
-    opacity: 0,
-    transition: "visibility 0s, opacity 0.5s linear"
+
   }
 }
