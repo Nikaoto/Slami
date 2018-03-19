@@ -3,15 +3,16 @@ import Img from "react-image"
 import {
   default_slide_duration_seconds, default_slide_transition, duration_label, transitions
 } from "../../config"
+import Button from "../Button/Button"
 
 export default class Slide extends Component {
   constructor(props) {
     super(props)
-
     this.state = {
       duration: props.duration || default_slide_duration_seconds,
       transition: props.transition || default_slide_transition,
-      dropdownId: "transition-dropdown-" + this.props.k
+      dropdownId: "transition-dropdown-" + this.props.k,
+      dropped: false
     }
 
     this.onClick = this.onClick.bind(this)
@@ -33,7 +34,10 @@ export default class Slide extends Component {
   }
 
   onTransitionChange(newTransition) {
-    this.setState({ transition: newTransition })
+    this.setState({
+      transition: newTransition,
+      dropped: false
+    })
 
     if (this.props.onTransitionChange) {
       this.props.onTransitionChange(newTransition)
@@ -83,15 +87,17 @@ export default class Slide extends Component {
         </div>
 
         {/* Transition Controls */}
-        <div style={styles.dropdownContainer}>
-          <a className={"dropdown-button btn"} data-activates={dropdownId} style={styles.dropdownButton}>
-            <span style={{ alignSelf: "center", marginRight: 15 }}>{this.state.transition}</span>
-            <i className="material-icons">chevron_right</i>
-          </a>
-          <ul id={dropdownId} className={"dropdown-content"} style={styles.dropdownContent}>
+        <div style={styles.dropdownContainer} onMouseLeave={() => this.setState({ dropped: false })}>
+          <Button
+            text={this.state.transition}
+            iconRight={"chevron_right"}
+            onClick={() => this.setState({ dropped: !this.state.dropped })}
+          />
+          <ul className={"collection"}
+            style={{...styles.dropdownContent, display: this.state.dropped ? "inline" : "none" }}>
             {
               Object.keys(transitions).map((k, i) =>
-                <li key={i}><a onClick={() => this.onTransitionChange(transitions[k])}> {transitions[k]} </a></li>
+                <li className="collection-item" key={i}><a onClick={() => this.onTransitionChange(transitions[k])}> {transitions[k]} </a></li>
               )
             }
           </ul>
@@ -151,11 +157,9 @@ const styles = {
     justifyContent: "center"
   },
   dropdownButton: {
-    display: "flex",
-    paddingLeft: 20,
-    paddingRight: 15
   },
   dropdownContent: {
-
+    position: "absolute",
+    zIndex: 10
   }
 }
