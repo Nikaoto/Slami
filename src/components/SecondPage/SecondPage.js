@@ -15,12 +15,12 @@ export default class SecondPage extends Component {
   constructor(props) {
     super(props)
     const editSlides = this.props.slides
-      .map(sl => {
+      .map((sl, i) => {
         sl.duration = default_slide_duration_seconds
         sl.transition = default_slide_transition
-        sl.selected = sl.selected || false
+        sl.selected = i === 0
         sl.textBoxes = [{
-          text: sl.text,
+          text: sl.text || "",
           textPosition: default_text_position,
           textSize: default_text_size
         }]
