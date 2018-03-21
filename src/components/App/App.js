@@ -3,7 +3,7 @@ import FirstPage from "../FirstPage"
 import SecondPage from "../SecondPage"
 import TempData from "./temp-data"
 import "./App.css"
-import {devMode} from "../../config"
+import { about_us_label, contact_label, copyright_label, devMode, faq_label, privacy_policy_label } from "../../config"
 
 const HEADER_TITLE = "სლამი • Slami"
 
@@ -75,18 +75,19 @@ class App extends Component {
           <div className="container">
             <div className="row">
               <div className="col s6">
-                <h5 className="white-text">Slami</h5>
+                <h5 className="white-text">სლამი</h5>
                 <ul>
-                  <li><a className="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                  <li><a className="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                  <li><a className="grey-text text-lighten-3" href="#!">{about_us_label}</a></li>
+                  <li><a className="grey-text text-lighten-3" href="#!">{faq_label}</a></li>
+                  <li><a className="grey-text text-lighten-3" href="#!">{contact_label}</a></li>
                 </ul>
               </div>
             </div>
           </div>
           <div className="footer-copyright">
             <div className="container">
-              © 2018 Slami
-              <a className="grey-text text-lighten-4 right" href="#!">ADD PRIVACY POLICY</a>
+              {copyright_label}
+              <a className="grey-text text-lighten-4 right" href="#!">{privacy_policy_label}</a>
             </div>
           </div>
         </footer>

@@ -25,6 +25,11 @@ module.exports = {
   default_slide_duration_seconds: 1.0,
   duration_label: "წამი",
   choose_font_label: "ამოირჩიე ფონტი",
+  about_us_label: "ჩვენს შესახებ",
+  contact_label: "კონტაქტი",
+  copyright_label: "© 2018 Slami",
+  privacy_policy_label: "კონფიდენციალურობის პოლიტიკა",
+  faq_label: "ხშირად დასმული შეკითხვები",
   alerts: {
     no_slides_chosen: "გთხოვთ ამოირჩიოთ ერთი სლაიდი მაინც"
   },
