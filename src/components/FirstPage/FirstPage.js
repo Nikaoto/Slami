@@ -65,7 +65,7 @@ class FirstPage extends Component {
   }
 
   onDelete() {
-    console.log("onDelete")
+    //console.log("onDelete")
   }
 
   onMediaItemClick(itemId, selected) {

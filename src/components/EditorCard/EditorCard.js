@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import config from "../../config"
+import {paragraph_delimiter_char, paragraph_delimiter_key, delete_keys} from "../../config"
 
 class EditorCard extends Component {
   
@@ -13,14 +13,6 @@ class EditorCard extends Component {
     this.onKeyPress = this.onKeyPress.bind(this)
   }
 
-  updateTitleText(newText) {
-    this.setState({ titleText: newText })
-
-    if (this.props.updateTitle) {
-      this.props.updateTitle(newText)
-    }
-  }
-
   updateContentText(newText) {
     this.setState({ contentText: newText })
 
@@ -30,8 +22,8 @@ class EditorCard extends Component {
   }
 
   onKeyPress(e) {
-    if (e.key === config.paragraph_delimiter_key) {
-      this.updateContentText(this.state.contentText + config.paragraph_delimiter_char)
+    if (e.key === paragraph_delimiter_key) {
+      this.updateContentText(this.state.contentText + paragraph_delimiter_char)
 
       if(this.props.onNewParagraph) {
         this.props.onNewParagraph()
@@ -40,52 +32,40 @@ class EditorCard extends Component {
       return
     }
 
-    if (e.key === config.delete_key) {
+    if (delete_keys.includes(e.key)) {
       if(this.props.onDelete) {
         this.props.onDelete()
       }
     }
   }
 
+  getParagraphs() {
+    return this.state.contentText.trim()
+      .split(paragraph_delimiter_char)
+      .map(p => p.trim())
+  }
+
   render() {
     return (
       <div className="card z-depth-5">
-        <div className="card-content black-text">
+        <div className="row">
+          <form className="col s12" style={{ marginBottom: 10 }}>
+            <div className="input-field col s12 outline" style={styles.textContainer}>
 
-          <span className="row">
-            <div className="input-field col s12">
-
-              <input id="card_title"
-              type="text"
-              value={this.state.titleText}
-              onChange={(e) => this.updateTitleText(e.target.value)}
-              style={styles.cardTitle}
-              />
-              <label htmlFor="card_title">სათაური</label>
+              <ul className="materialize-textarea">
+                {
+                  this.getParagraphs().map((p, i) =>
+                  <li style={styles.paragraphNumber}> {i + "."} </li>)
+                }
+              </ul>
+              <textarea className="materialize-textarea"
+                  value={this.state.contentText}
+                  onChange={(e) => this.updateContentText(e.target.value)}
+                  onKeyDown={this.onKeyPress}
+                  style={styles.cardText} />
 
             </div>
-
-          </span>
-        </div>
-
-        <div className="divider" style={{ marginTop: 0 }} />
-
-        <div className="section">
-
-          <div className="row">
-            <form className="col s12">
-              <div className="input-field col s12 outline">
-
-                <textarea className="materialize-textarea"
-                    value={this.state.contentText}
-                    onChange={(e) => this.updateContentText(e.target.value)}
-                    onKeyDown={this.onKeyPress}
-                    style={styles.cardText} />
-
-              </div>
-            </form>
-          </div>
-
+          </form>
         </div>
       </div>
     )
@@ -93,13 +73,24 @@ class EditorCard extends Component {
 }
 
 const styles = {
-  cardTitle: {
-    fontSize: 30,
-    marginBottom: 0,
+  textContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start"
+  },
+  numberContainer: {
+    marginLeft: 4,
+    paddingTop: 15
+  },
+  paragraphNumber: {
+    fontSize: 18,
+    marginRight: 10
   },
   cardText: {
     fontSize: 18,
     textAlign: "justify",
+    paddingBottom: 20,
+    paddingTop: 15,
   },
 }
 
