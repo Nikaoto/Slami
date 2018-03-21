@@ -55,7 +55,7 @@ class EditorCard extends Component {
               <ul className="materialize-textarea">
                 {
                   this.getParagraphs().map((p, i) =>
-                  <li style={styles.paragraphNumber}> {i + "."} </li>)
+                  <li key={i} style={styles.paragraphNumber}> {i + "."} </li>)
                 }
               </ul>
               <textarea className="materialize-textarea"
@@ -76,7 +76,8 @@ const styles = {
   textContainer: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "flex-start"
+    alignItems: "flex-start",
+    paddingBottom: 15
   },
   numberContainer: {
     marginLeft: 4,
@@ -84,13 +85,13 @@ const styles = {
   },
   paragraphNumber: {
     fontSize: 18,
-    marginRight: 10
+    marginRight: 15
   },
   cardText: {
     fontSize: 18,
     textAlign: "justify",
-    paddingBottom: 20,
     paddingTop: 15,
+    minHeight: 100
   },
 }
 

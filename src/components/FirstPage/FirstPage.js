@@ -39,10 +39,6 @@ class FirstPage extends Component {
     this.setState({ media: currentMedia })
   }
 
-  updateTitleText(newText) {
-    this.setState({ titleText: newText })
-  }
-
   updateContentText(newText) {
     this.setState({ contentText: newText })
   }
@@ -151,7 +147,6 @@ class FirstPage extends Component {
         <div className="col s6" style={styles.editor}>
           <EditorCard 
             titleText={this.state.titleText}
-            updateTitle={(newText) => this.updateTitleText(newText)}
             contentText={this.state.contentText}
             updateContent={(newText) => this.updateContentText(newText)}
             onNewParagraph={() => this.onNewParagraph()}
@@ -204,6 +199,7 @@ class FirstPage extends Component {
 
 const styles = {
   editor: {
+    marginTop: 7
   },
   suggester: {
     textAlign: "center"
