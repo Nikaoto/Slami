@@ -55,7 +55,7 @@ class EditorCard extends Component {
               <ul className="materialize-textarea">
                 {
                   this.getParagraphs().map((p, i) =>
-                  <li key={i} style={styles.paragraphNumber}> {i + "."} </li>)
+                  <li key={i} style={styles.paragraphNumber}> {i + 1 + "."} </li>)
                 }
               </ul>
               <textarea className="materialize-textarea"

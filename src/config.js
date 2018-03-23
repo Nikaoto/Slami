@@ -24,7 +24,7 @@ module.exports = {
   video_preview_size: 360,
   default_slide_duration_seconds: 1.0,
   duration_label: "წამი",
-  choose_font_label: "ამოირჩიე ფონტი",
+  choose_font_label: "ფონტი",
   about_us_label: "ჩვენს შესახებ",
   contact_label: "კონტაქტი",
   copyright_label: "© 2018 Slami",
