@@ -301,7 +301,9 @@ const styles = {
     boxShadow: "0px 3px 13px 3px rgba(0,0,0,0.2)"
   },
   fontDropdownButton: {
-    margin: 10
+    margin: 10,
+    paddingLeft: 45,
+    paddingRight: 45
   },
   fontDropdownContent: {
     margin: 10
