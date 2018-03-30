@@ -12,6 +12,10 @@
   animation-name: fadeInLeft;
 }
 
+.link {
+  cursor: pointer;
+}
+
 @keyframes fadeInRight {
   0% {
     opacity: 0;

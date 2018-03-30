@@ -4,6 +4,7 @@ import SecondPage from "../SecondPage"
 import TempData from "./temp-data"
 import "./App.css"
 import { about_us_label, contact_label, copyright_label, devMode, faq_label, privacy_policy_label } from "../../config"
+import AboutUs from "../AboutUs/AboutUs"
 
 const HEADER_TITLE = "სლამი • Slami"
 
@@ -28,15 +29,23 @@ class App extends Component {
 
     this.onFinishFirstPage = this.onFinishFirstPage.bind(this)
     this.onBackToFirstPage = this.onBackToFirstPage.bind(this)
+    this.onAboutUsClick = this.onAboutUsClick.bind(this)
+    this.onFaqClick = this.onFaqClick.bind(this)
+    this.onContactClick = this.onContactClick.bind(this)
   }
 
   renderCurrentPage() {
     switch(this.state.currentPage) {
       case 0: return <FirstPage animation={this.state.pageAnimation} savedState={this.state.firstPageState}
-          onNextPage={this.onFinishFirstPage} />
-      case 1: return <SecondPage animation={this.state.pageAnimation} slides={this.state.slides} 
-          onBack={this.onBackToFirstPage} />
-      default: break
+                                onNextPage={this.onFinishFirstPage} />
+
+      case 1: return <SecondPage animation={this.state.pageAnimation} slides={this.state.slides}
+                                 onBack={this.onBackToFirstPage} />
+
+      case 2: return <AboutUs animation={this.state.pageAnimation} />
+
+      default: return <FirstPage animation={this.state.pageAnimation} savedState={this.state.firstPageState}
+                                 onNextPage={this.onFinishFirstPage} />
     }
   }
 
@@ -58,6 +67,18 @@ class App extends Component {
     })
   }
 
+  onAboutUsClick(){
+    this.setState({ currentPage: 2 })
+  }
+
+  onFaqClick() {
+
+  }
+
+  onContactClick() {
+
+  }
+
   render() {
     return (
       <div className="blue-grey lighten-1">
@@ -77,9 +98,9 @@ class App extends Component {
               <div className="col s6">
                 <h5 className="white-text">სლამი</h5>
                 <ul>
-                  <li><a className="grey-text text-lighten-3" href="#!">{about_us_label}</a></li>
-                  <li><a className="grey-text text-lighten-3" href="#!">{faq_label}</a></li>
-                  <li><a className="grey-text text-lighten-3" href="#!">{contact_label}</a></li>
+                  <li className="link grey-text text-lighten-3" onClick={this.onAboutUsClick}>{about_us_label}</li>
+                  <li className="link grey-text text-lighten-3" onClick={this.onFaqClick}>{faq_label}</li>
+                  <li className="link grey-text text-lighten-3" onClick={this.onContactClick}>{contact_label}</li>
                 </ul>
               </div>
             </div>
