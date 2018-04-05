@@ -1,4 +1,5 @@
 const express = require("express")
+const path = require("path")
 const bodyParser = require("body-parser")
 const fetch = require("node-fetch")
 const cors = require("cors")
@@ -13,6 +14,10 @@ app.use(bodyParser.json())
 app.use(cors())
 
 app.use("/", express.static(`${__dirname}/client/build`))
+
+app.get("/", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "build", "index.html"))
+})
 
 /*app.get("/", (req, res) => {
   res.end("Hi :^)")
