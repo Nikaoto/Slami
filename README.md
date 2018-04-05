@@ -1,22 +1,46 @@
-# Slami
-Slami helps media content creators generate short captioned videos to use along with their content (articles, social media posts, blog posts…)
+# Scrapi
+Scraping API for [Slami](https://github.com/Nikaoto/slami-react) that traverses Bing Images and 
+returns relevant images.
 
-**Current stable version accessible here:**
-https://slami.herokuapp.com/
+# Endpoints
+Heroku endpoint: https://scr-api.herokuapp.com/
 
-# Client expects scrape data with such structure:
+Default local endpoint: http://localhost:2000/
+
+# Sending image scrape requests
+
+Route `/images` takes a GET request and a query object with `query` for the image search.
+
+**Sample fetch request:**
+```javascript
+fetch("https://slami-bing-api.herokuapp.com/images?query=dog")
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.log(err))
 ```
+
+The returned JSON should look like this:
+```json
 {
-  url, // Url to an image
-  thumbnailUrl, // Url to a smaller version of the image
-  title, // String describing the image
-  source // Website from which the image was obtained
+  "url": "http://www.quickanddirtytips.com/sites/default/files/images/2887/Dog_Chew.jpg",
+  "title": "The Dog Trainer : Pica: Eating Things That Aren’t Food ...",
+  "thumbnailUrl": "https://tse2.mm.bing.net/th?id=OIP.Lb9--l6XDyJV6RwC5fDEiwHaE7&pithumb.jpg",
+  "source": "http://www.quickanddirtytips.com/pets/dog-behavior/pica-eating-things-that-aren%E2%80%99t-food"
 }
 ```
 
-# Important dependencies
+# Sending proxy requests
 
- - `react-draggable` - dragging functionality on text inside SlideEditor
- - `react-image` - caching images and adding custom loading indicators
- - `react-resize-detector` - detecting editor resize to scale text in final video
- - `text-height` - calculating exact height of drawn text on canvas
+Route `/proxy` takes a GET request and a query obj with `url` as the image URL.
+
+Returns a stream of the image with given URL.
+
+**Example:**
+```html
+<img src="https://scr-api.herokuapp.com/proxy?url=https://http.cat/100.jpg" alt="cat" />
+```
+
+# Note
+The server has full CORS enabled
+
+The scrapper is made with [Cheerio](https://cheerio.js.org/) -> https://github.com/buchin/nodejs-bing

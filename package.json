@@ -1,22 +1,24 @@
 {
-  "name": "slami",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "autosize-input": "^1.0.1",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-draggable": "^3.0.5",
-    "react-image": "^1.3.1",
-    "react-materialize": "^2.1.2",
-    "react-resize-detector": "^2.2.0",
-    "react-scripts": "1.1.1",
-    "text-height": "^1.0.2"
-  },
+  "name": "slami-server",
+  "version": "1.0.0",
+  "description": "",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd client && yarn start",
+    "server": "nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+  },
+  "author": "Nikaoto",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "node-fetch": "^2.1.1",
+    "nodejs-bing": "^0.1.0",
+    "npm": "^5.7.1"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.0"
   }
 }
