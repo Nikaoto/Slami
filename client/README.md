@@ -1,18 +1,7 @@
-# Slami
-Slami helps media content creators generate short captioned videos to use along with their content (articles, social media posts, blog posts…)
+# Client
+This is the client side of **Slami** running with React.
 
-**Current stable version accessible here:**
-https://slami.herokuapp.com/
-
-# Client expects scrape data with such structure:
-```
-{
-  url, // Url to an image
-  thumbnailUrl, // Url to a smaller version of the image
-  title, // String describing the image
-  source // Website from which the image was obtained
-}
-```
+In production, the `/build` directory is served from a node server.
 
 # Important dependencies
 
