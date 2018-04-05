@@ -12,9 +12,11 @@ const app = express()
 app.use(bodyParser.json())
 app.use(cors())
 
-app.get("/", (req, res) => {
+app.use("/", express.static(`${__dirname}/client/build`))
+
+/*app.get("/", (req, res) => {
   res.end("Hi :^)")
-})
+})*/
 
 
 app.get("/images", ({ query }, response) => {
