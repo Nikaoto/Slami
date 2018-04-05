@@ -1,16 +1,18 @@
-const devMode = true
+const devMode = false
 const imagesEndpoint = "/images"
 const proxyEndpoint = "/proxy"
 
-const devApiUrl = "https://scr-api.herokuapp.com"
+const separateDevApiUrl = "https://scr-api.herokuapp.com" // Separate server that runs scrapers
+//const devApiUrl = "https://slami-demo.herokuapp.com"
+const devApiUrl = "http://localhost:2000" // node server
 const prodApiUrl = "https://slami.ge"
 
 module.exports = {
   devMode: devMode,
-  devUrl: devUrl,
-  prodUrl: prodUrl,
-  scrapeApi: devMode ? devUrl + imagesEndpoint : prodUrl + imagesEndpoint,
-  proxyApi: devMode ? devUrl + proxyEndpoint : prodUrl + proxyEndpoint,
+  devApiUrl: devApiUrl,
+  prodApiUrl: prodApiUrl,
+  scrapeApi: devMode ? devApiUrl + imagesEndpoint : prodApiUrl + imagesEndpoint,
+  proxyApi: devMode ? devApiUrl + proxyEndpoint : prodApiUrl + proxyEndpoint,
   paragraph_delimiter_key: "Enter",
   paragraph_delimiter_char: "\u21B5",
   delete_keys: ["Backspace", "Delete"],

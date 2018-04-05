@@ -9,7 +9,7 @@ import {
   default_slide_transition
 } from "../../config"
 import Spinner from "../Spinner/Spinner"
-import { Dropdown, NavItem, Row, Button as MButton } from "react-materialize"
+import { Dropdown, NavItem, Button as MButton } from "react-materialize"
 
 export default class SecondPage extends Component {
   constructor(props) {
@@ -148,8 +148,6 @@ export default class SecondPage extends Component {
       const editSlides = this.state.editSlides
       editSlides[this.state.chosenSlideIndex].textBoxes = textBoxes
       this.setState({ editSlides: editSlides })
-
-      return
     }
   }
 

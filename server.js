@@ -1,13 +1,12 @@
-const PORT = process.env.PORT || 2000
-
-const fetch = require("node-fetch")
-const bodyParser = require("body-parser")
-const cors = require("cors")
 const express = require("express")
+const bodyParser = require("body-parser")
+const fetch = require("node-fetch")
+const cors = require("cors")
+
+const PORT = process.env.PORT || 2000
 
 // Scrapper(s)
 const scrapeBing = require("./scrapers/bing")
-
 
 const app = express()
 app.use(bodyParser.json())
