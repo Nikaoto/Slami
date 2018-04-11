@@ -6,9 +6,6 @@ node_modules/
 # testing
 /coverage
 
-# production
-#build/
-
 # intellij
 *.iws
 **/.idea/workspace.xml
