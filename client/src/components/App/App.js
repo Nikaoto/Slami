@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import FirstPage from "../FirstPage"
 import SecondPage from "../SecondPage"
 import TempData from "./temp-data"
-import "./App.css"
-import { about_us_label, contact_label, copyright_label, devMode, faq_label, privacy_policy_label } from "../../config"
 import AboutUs from "../AboutUs/AboutUs"
+import { about_us_label, contact_label, copyright_label, devMode, faq_label, privacy_policy_label } from "../../config"
+import "./App.css"
 
 const HEADER_TITLE = "სლამი • Slami"
 

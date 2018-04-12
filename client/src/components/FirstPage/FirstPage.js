@@ -5,6 +5,7 @@ import Button from "../Button"
 import { getImportantWords, sendScrapeRequest } from "../../util"
 import {alerts, custom_media_source, paragraph_delimiter_char} from "../../config"
 import Modal from "../Modal/Modal"
+import Cookies from "universal-cookie"
 
 class FirstPage extends Component {
   constructor(props) {
@@ -24,6 +25,8 @@ class FirstPage extends Component {
       currentSlideNum: 0,
       modalVisible: true
     }
+
+    this.cookies = new Cookies()
   }
 
   addMediaItem(url, thumbnailUrl, title, source) {
@@ -144,6 +147,13 @@ class FirstPage extends Component {
 
   closeModal() {
     this.setState({ modalVisible: false })
+    this.cookies.set("introDone", "true")
+  }
+
+  componentDidMount() {
+    if (this.cookies.get("introDone") === "true") {
+      this.setState({ modalVisible: false })
+    }
   }
 
   render() {
@@ -160,6 +170,7 @@ class FirstPage extends Component {
         />
       )
     }
+
     return (
       <div className={"row scene-element " + this.props.animation}>
         <div className="col s6" style={styles.editor}>
