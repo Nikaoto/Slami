@@ -215,4 +215,4 @@ const styles = {
   }
 }
 
-export default FirstPage;
+export default FirstPage
