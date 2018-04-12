@@ -4,6 +4,7 @@ import MediaItem from "../MediaItem"
 import Button from "../Button"
 import { getImportantWords, sendScrapeRequest } from "../../util"
 import {alerts, custom_media_source, paragraph_delimiter_char} from "../../config"
+import Modal from "../Modal/Modal"
 
 class FirstPage extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class FirstPage extends Component {
       titleText: "",
       contentText: "",
       currentSlideNum: 0,
+      modalVisible: true
     }
   }
 
@@ -140,12 +142,28 @@ class FirstPage extends Component {
     }
   }
 
+  closeModal() {
+    this.setState({ modalVisible: false })
+  }
+
   render() {
+    if (this.state.modalVisible) {
+      return (
+        <Modal
+          header={<p style={{ fontSize: 22 }}>კეთილი იყოს თქვენი მობრძანება</p>}
+          body={<div>
+              <p>სლამი არის მარტივი ვიდეოების დასაგენერირებელი პლატფორმა.</p>
+              <p>თუ გსურთ გაიგოთ, როგორ მუშაობს სლამი, <a href="#">დააჭირეთ აქ.</a></p>
+            </div>}
+          footer={<Button style={{ margin: 10 }} onClick={() => this.closeModal()} text={"გასაგებია"}/>}
+          onClose={() => this.closeModal()}
+        />
+      )
+    }
     return (
       <div className={"row scene-element " + this.props.animation}>
-
         <div className="col s6" style={styles.editor}>
-          <EditorCard 
+          <EditorCard
             titleText={this.state.titleText}
             contentText={this.state.contentText}
             updateContent={(newText) => this.updateContentText(newText)}
@@ -181,7 +199,7 @@ class FirstPage extends Component {
                 text={"შემდეგი"}
                 iconRight={"arrow_forward"}/>
             </div>
-            
+
           </div>
 
           {/* Media List */}
