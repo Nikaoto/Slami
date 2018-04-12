@@ -1,6 +1,5 @@
 /* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
+.c-modal {
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   padding-top: 100px; /* Location of the box */
@@ -11,16 +10,18 @@
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
+  min-height: 100px;
+  min-width: 100px;
 }
 
 /* Modal Content */
-.modal-content {
+.c-modal-content {
   position: relative;
   background-color: #fefefe;
   margin: auto;
   padding: 0;
   border: 1px solid #888;
-  width: 80%;
+  width: 60%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   -webkit-animation-name: anim-drop-top;
   -webkit-animation-duration: 0.4s;
@@ -40,41 +41,36 @@
 }
 
 /* The Close Button */
-.close {
+.c-close {
   color: white;
   float: right;
   font-size: 35px;
   font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.c-close:hover,
+.c-close:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
 }
 
 
-.modal-header {
+.c-modal-header {
   padding: 2px 16px;
   background-color: #ff8f00;
   color: white;
 }
 
-.modal-body {
+.c-modal-body {
   padding: 2px 16px;
 }
 
-.modal-footer {
+.c-modal-footer {
   padding: 2px 16px;
   background-color: #ff8f00;
   color: white;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-}
-
-.modal-footer > button {
-  margin: 10px;
-  padding: 5px;
 }
