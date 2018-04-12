@@ -10,8 +10,6 @@
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
-  min-height: 100px;
-  min-width: 100px;
 }
 
 /* Modal Content */
@@ -22,6 +20,8 @@
   padding: 0;
   border: 1px solid #888;
   width: 60%;
+  overflow: hidden;
+  border-radius: 12px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   -webkit-animation-name: anim-drop-top;
   -webkit-animation-duration: 0.4s;
@@ -42,6 +42,7 @@
 
 /* The Close Button */
 .c-close {
+  margin-top: -8px;
   color: white;
   float: right;
   font-size: 35px;
@@ -55,9 +56,8 @@
   cursor: pointer;
 }
 
-
 .c-modal-header {
-  padding: 2px 16px;
+  padding: 2px 13px 2px 16px;
   background-color: #ff8f00;
   color: white;
 }
@@ -67,7 +67,7 @@
 }
 
 .c-modal-footer {
-  padding: 2px 16px;
+  padding: 2px 5px;
   background-color: #ff8f00;
   color: white;
   display: flex;
