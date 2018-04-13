@@ -1,22 +1,20 @@
 import React, { Component } from "react"
 
 export default class AboutUs extends Component {
-  /*
   constructor(props) {
     super(props)
   }
-  */
 
   render() {
     return (
       <div className={"container scene-element " + this.props.animation}>
-        <div className={"col s12 card-panel"} style={{ backgroundColor: "white" }}>
-
+        <div className={"col s10 card-panel"} style={{ backgroundColor: "white" }}>
+          
           {/* Header */}
-          <h4>{"ჩვენს შესახებ"}</h4>
+          <h5>{"ჩვენს შესახებ"}</h5>
 
           {/* Content */}
-          <p className={"flow-text"}>
+          <p style={{ fontSize: 18 }}>
             Slami არის ინოვაციური პროდუქტი, რომლის შექმნის იდეა 2017 წელს მედია ჰაკათონზე გაჩნდა.
             ეს არის პლათფორმა რომელიც საშუალებას გაძლევთ რამდენიმე წამში ფოტოებისა და ტექსტის შერწყმით
             დააგენერიროთ ვიდეო.
