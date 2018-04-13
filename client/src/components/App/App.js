@@ -5,6 +5,8 @@ import TempData from "./temp-data"
 import AboutUs from "../AboutUs/AboutUs"
 import { about_us_label, contact_label, copyright_label, devMode, faq_label, privacy_policy_label } from "../../config"
 import "./App.css"
+import FaqPage from "../InfoPage/Faq"
+import ContactPage from "../InfoPage/Contact"
 
 const HEADER_TITLE = "სლამი • Slami"
 
@@ -36,6 +38,10 @@ class App extends Component {
 
       case 2: return <AboutUs animation={this.state.pageAnimation} />
 
+      case 3: return <FaqPage animation={this.state.pageAnimation} />
+
+      case 4: return <ContactPage animation={this.state.pageAnimation} />
+
       default: return <FirstPage animation={this.state.pageAnimation} savedState={this.state.firstPageState}
                                  onNextPage={this.onFinishFirstPage} />
     }
@@ -64,11 +70,11 @@ class App extends Component {
   }
 
   onFaqClick() {
-
+    this.setState({ currentPage: 3 })
   }
 
   onContactClick() {
-
+    this.setState({ currentPage: 4 })
   }
 
   render() {
@@ -88,7 +94,9 @@ class App extends Component {
           <div className="container">
             <div className="row">
               <div className="col s6">
+                <a href={"/"}>
                 <h5 className="white-text">სლამი</h5>
+                </a>
                 <ul>
                   <li className="link grey-text text-lighten-3" onClick={this.onAboutUsClick}>{about_us_label}</li>
                   <li className="link grey-text text-lighten-3" onClick={this.onFaqClick}>{faq_label}</li>
