@@ -29,7 +29,7 @@ module.exports = {
   contact_label: "კონტაქტი",
   copyright_label: "© 2018 Slami",
   privacy_policy_label: "კონფიდენციალურობის პოლიტიკა",
-  faq_label: "ხშირად დასმული შეკითხვები",
+  faq_label: "ხშირად დასმული კითხვები",
   alerts: {
     no_slides_chosen: "გთხოვთ ამოირჩიოთ ერთი სლაიდი მაინც"
   },
