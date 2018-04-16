@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import FirstPage from "../FirstPage"
 import SecondPage from "../SecondPage"
-import TempData from "./temp-data"
 import AboutUs from "../AboutUs/AboutUs"
-import { img, about_us_label, contact_label, copyright_label, devMode, faq_label, privacy_policy_label } from "../../config"
+import {
+  about_us_label, contact_label, copyright_label, faq_label, img, privacy_policy_label,
+  sponsors
+} from "../../config"
 import "./App.css"
 import FaqPage from "../InfoPage/Faq"
 import ContactPage from "../InfoPage/Contact"
@@ -75,32 +77,54 @@ class App extends Component {
     this.setState({ currentPage: 4 })
   }
 
+  renderSponsors = () => sponsors.map(({ website_href, logo_src, alt_text }) =>
+    <li>
+      <a href={website_href}>
+        <img style={styles.sponsorLogo} src={logo_src} alt={alt_text}/>
+      </a>
+    </li>)
+
   render() {
     return (
       <div className="blue-grey lighten-1">
+
+        {/* Header */}
         <header style={styles.logoContainer} >
           <a href="/">
-            <img src={img.site_logo} style={styles.siteLogo}/>
+            <img src={img.site_logo} style={styles.siteLogo} alt={"Slami logo"}/>
           </a>
         </header>
 
+        {/* Body */}
         <div style={styles.pageStyle} className="page-container">
           {this.renderCurrentPage()}
         </div>
 
+        {/* Footer */}
         <footer className="page-footer orange" style={{ marginTop: 120 }}>
           <div className="container">
             <div className="row">
-              <div className="col s6">
+
+              {/* Footer Links */}
+              <div className="col s3">
                 <a href={"/"}>
-                <h5 className="white-text">სლამი</h5>
+                <h5 className={"white-text"}>სლამი</h5>
                 </a>
                 <ul>
-                  <li className="link grey-text text-lighten-3" onClick={this.onAboutUsClick}>{about_us_label}</li>
-                  <li className="link grey-text text-lighten-3" onClick={this.onFaqClick}>{faq_label}</li>
-                  <li className="link grey-text text-lighten-3" onClick={this.onContactClick}>{contact_label}</li>
+                  <li className={"link grey-text text-lighten-3"} onClick={this.onAboutUsClick}>{about_us_label}</li>
+                  <li className={"link grey-text text-lighten-3"} onClick={this.onFaqClick}>{faq_label}</li>
+                  <li className={"link grey-text text-lighten-3"} onClick={this.onContactClick}>{contact_label}</li>
                 </ul>
               </div>
+
+              {/* Sponsors */}
+              <div className={"col s6 offset-s2"}>
+                <h5 className={"white-text"}>სპონსორები</h5>
+                <ul style={styles.sponsorContainer}>
+                  {this.renderSponsors()}
+                </ul>
+              </div>
+
             </div>
           </div>
           <div className="footer-copyright">
@@ -130,6 +154,19 @@ const styles = {
     minHeight: 600,
     marginBottom: 20,
   },
+  sponsorContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignContent: "flex-start",
+    justifyContent: "flex-start"
+  },
+  sponsorLogo: {
+    maxWidth: 150,
+    maxHeight: 100,
+    borderRadius: 6,
+    marginBottom: 10,
+    marginRight: 10
+  }
 }
 
 export default App;
