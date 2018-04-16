@@ -32,8 +32,24 @@ module.exports = {
   faq_label: "ხშირად დასმული კითხვები",
   img: {
     site_logo: "img/slami-logo.png",
-    partner_1: "img/slami-logo.png"
   },
+  sponsors: [
+    {
+      website_href: "https://btu.ge/",
+      logo_src: "img/btu.png",
+      alt_text: "BTU logo"
+    },
+    {
+      website_href: "http://www.internews.ge/",
+      logo_src: "img/internews.png",
+      alt_text: "Internews Media logo"
+    },
+    {
+      website_href: "https://www.usaid.gov/",
+      logo_src: "img/usaid.png",
+      alt_text: "USAID logo"
+    },
+  ],
   alerts: {
     no_slides_chosen: "გთხოვთ ამოირჩიოთ ერთი სლაიდი მაინც"
   },
