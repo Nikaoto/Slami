@@ -1,8 +1,5 @@
 # Slami
-Slami helps media content creators generate short captioned videos to use along with their content (articles, social media posts, blog posts…)
-
-Scraping API for [Slami](https://github.com/Nikaoto/slami-react) that traverses Bing Images and 
-returns relevant images.
+**Slami** helps media content creators generate short captioned videos to use along with their content (articles, social media posts, blog posts…)
 
 # Installation
 Yarn and npm are required. //TODO test if this install script actually works
