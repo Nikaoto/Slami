@@ -3,12 +3,10 @@ import FirstPage from "../FirstPage"
 import SecondPage from "../SecondPage"
 import TempData from "./temp-data"
 import AboutUs from "../AboutUs/AboutUs"
-import { about_us_label, contact_label, copyright_label, devMode, faq_label, privacy_policy_label } from "../../config"
+import { img, about_us_label, contact_label, copyright_label, devMode, faq_label, privacy_policy_label } from "../../config"
 import "./App.css"
 import FaqPage from "../InfoPage/Faq"
 import ContactPage from "../InfoPage/Contact"
-
-const HEADER_TITLE = "სლამი • Slami"
 
 class App extends Component {
   constructor(props) {
@@ -80,9 +78,9 @@ class App extends Component {
   render() {
     return (
       <div className="blue-grey lighten-1">
-        <header style={styles.headerTitle} >
+        <header style={styles.logoContainer} >
           <a href="/">
-            <h2 className="amber-text text-darken-3">{HEADER_TITLE}</h2>
+            <img src={img.site_logo} style={styles.siteLogo}/>
           </a>
         </header>
 
@@ -118,11 +116,15 @@ class App extends Component {
 }
 
 const styles = {
-  headerTitle: {
+  logoContainer: {
     display: "flex",
     textAlign: "center",
-    justifyContent: "center",
-    marginBottom: 20,
+    justifyContent: "center"
+  },
+  siteLogo: {
+    marginLeft: -40,
+    maxWidth: 300,
+    maxHeight: 200
   },
   pageStyle: {
     minHeight: 600,

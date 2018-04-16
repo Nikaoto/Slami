@@ -30,6 +30,10 @@ module.exports = {
   copyright_label: "© 2018 Slami",
   privacy_policy_label: "კონფიდენციალურობის პოლიტიკა",
   faq_label: "ხშირად დასმული კითხვები",
+  img: {
+    site_logo: "img/slami-logo.png",
+    partner_1: "img/slami-logo.png"
+  },
   alerts: {
     no_slides_chosen: "გთხოვთ ამოირჩიოთ ერთი სლაიდი მაინც"
   },
