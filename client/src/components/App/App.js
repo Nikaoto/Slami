@@ -4,7 +4,7 @@ import SecondPage from "../SecondPage"
 import AboutUs from "../AboutUs/AboutUs"
 import {
   about_us_label, contact_label, copyright_label, faq_label, img, privacy_policy_label,
-  sponsors
+  partners
 } from "../../config"
 import "./App.css"
 import FaqPage from "../InfoPage/Faq"
@@ -77,10 +77,10 @@ class App extends Component {
     this.setState({ currentPage: 4 })
   }
 
-  renderSponsors = () => sponsors.map(({ website_href, logo_src, alt_text }) =>
+  renderPartners = () => partners.map(({ website_href, logo_src, alt_text }) =>
     <li>
       <a href={website_href}>
-        <img style={styles.sponsorLogo} src={logo_src} alt={alt_text}/>
+        <img style={styles.partnerLogo} src={logo_src} alt={alt_text}/>
       </a>
     </li>)
 
@@ -117,11 +117,11 @@ class App extends Component {
                 </ul>
               </div>
 
-              {/* Sponsors */}
+              {/* Partners */}
               <div className={"col s6 offset-s2"}>
-                <h5 className={"white-text"}>სპონსორები</h5>
-                <ul style={styles.sponsorContainer}>
-                  {this.renderSponsors()}
+                <h5 className={"white-text"}>პარტნიორები</h5>
+                <ul style={styles.partnerContainer}>
+                  {this.renderPartners()}
                 </ul>
               </div>
 
@@ -154,13 +154,13 @@ const styles = {
     minHeight: 600,
     marginBottom: 20,
   },
-  sponsorContainer: {
+  partnerContainer: {
     display: "flex",
     flexDirection: "row",
     alignContent: "flex-start",
     justifyContent: "flex-start"
   },
-  sponsorLogo: {
+  partnerLogo: {
     maxWidth: 150,
     maxHeight: 100,
     borderRadius: 6,

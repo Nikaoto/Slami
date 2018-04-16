@@ -33,7 +33,7 @@ module.exports = {
   img: {
     site_logo: "img/slami-logo.png",
   },
-  sponsors: [
+  partners: [
     {
       website_href: "https://btu.ge/",
       logo_src: "img/btu.png",
