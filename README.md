@@ -74,7 +74,7 @@ Route `/images` takes a GET request and a query object with `query` for the imag
 
 Sample fetch request:
 ```javascript
-fetch("https://slami-bing-api.herokuapp.com/images?query=dog")
+fetch("https://scr-api.com/images?query=dog")
   .then(res => res.json())
   .then(res => console.log(res))
   .catch(err => console.log(err))
@@ -100,7 +100,7 @@ Returns a stream of the image with given URL.
 
 Example:
 ```html
-<img src="https://scr-api.herokuapp.com/proxy?url=https://http.cat/100.jpg" alt="cat" />
+<img src="https://scr-api.com/proxy?url=https://http.cat/100.jpg" alt="cat" />
 ```
 
 
@@ -115,12 +115,6 @@ Example:
   source // Website from which the image was obtained
 }
 ```
-
-
-# Endpoints
-Heroku endpoint: https://slami-demo.herokuapp.com/
-
-Default local endpoint: http://localhost:2000/
 
 # Note
 The server has full CORS enabled
