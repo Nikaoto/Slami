@@ -54,11 +54,13 @@ that webpack mumbo-jumbo)
 const devMode = false
 const localMode = false
 ```
+
 2. Generate a static build of the client code:
 ```
 cd client
 yarn build
 ```
+If if fails to compile, remove `client/build` and `yarn build` again
 
 3. Push to production server.
 
