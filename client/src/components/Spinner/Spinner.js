@@ -9,7 +9,7 @@ export default class Spinner extends Component {
 
   render() {
     return(
-      <div style={{...styles.container, ...this.props.style}}>
+      <div className={this.props.className || ""} style={{...styles.container, ...this.props.style}}>
         <div style={{...styles.main, ...this.props.innerStyle}} className="item-loader-container">
           <div style={this.props.style} className="la-square-loader la-2x">
             <div/>
