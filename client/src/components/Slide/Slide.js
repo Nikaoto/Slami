@@ -56,7 +56,6 @@ export default class Slide extends Component {
       this.setState({ duration: default_slide_duration_seconds })
       return
     }
-
   }
 
   render() {

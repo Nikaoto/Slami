@@ -59,5 +59,5 @@ module.exports = {
     cut: "Cut",
     fade: "Fade"
   },
-  default_slide_transition: "Cut"
+  default_slide_transition: "Fade"
 }
