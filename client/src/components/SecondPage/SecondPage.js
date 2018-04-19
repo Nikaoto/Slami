@@ -53,6 +53,7 @@ export default class SecondPage extends Component {
 
     const canvas = this.refs.canvas
     const videoPlayer = this.refs.videoPlayer
+    videoPlayer.src = "" // Removes video
     const context = canvas.getContext("2d")
 
     generateVideo(this.state.editSlides, this.state.font, context, this.state.editorSize, (output) => {
@@ -169,6 +170,7 @@ export default class SecondPage extends Component {
 
   render() {
     const spinnerStyle = {...styles.spinner, display: this.state.isGenerating ? "block" : "none" }
+
     return(
       <div
         className={"row scene-element " + this.props.animation}
@@ -212,7 +214,7 @@ export default class SecondPage extends Component {
                 <div className="col s1">
                   <Button
                     text={"გადმოწერე"}
-                    disabled={this.state.downloadUrl.length <= 1}
+                    disabled={this.state.downloadUrl.length <= 1 || this.state.isGenerating}
                     iconRight={"file_download"}
                     onClick={this.onDownloadClick}
                   />
