@@ -147,12 +147,16 @@ class FirstPage extends Component {
 
   closeModal() {
     this.setState({ modalVisible: false })
-    this.cookies.set("introDone", "true")
+    if (this.cookies) {
+      this.cookies.set("introDone", "true")
+    }
   }
 
   componentDidMount() {
-    if (this.cookies.get("introDone") === "true") {
-      this.setState({ modalVisible: false })
+    if (this.cookies) {
+      if (this.cookies.get("introDone") === "true") {
+        this.setState({ modalVisible: false })
+      }
     }
   }
 
