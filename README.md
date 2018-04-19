@@ -63,7 +63,7 @@ yarn build
 If if fails to compile, you're probably running the development server, so stop that and `yarn build` again.
 If it still fails, remove `client/build` directory and retry.
 
-3. Push to production server.
+3. Push everything to production server. Make sure to include everything inside `client/build`
 
 # Requests
 Server has a scraping api and also serves the views statically in production.
