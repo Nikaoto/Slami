@@ -10,6 +10,7 @@ import {
 } from "../../config"
 import Spinner from "../Spinner/Spinner"
 import { Dropdown, NavItem, Button as MButton } from "react-materialize"
+import WindowSizeTracker from "../WindowSizeTracker/WindowSizeTracker"
 
 export default class SecondPage extends Component {
   constructor(props) {
@@ -31,7 +32,8 @@ export default class SecondPage extends Component {
       font: "Arial",
       chosenSlideIndex: 0,
       editSlides: editSlides,
-      downloadUrl: ""
+      downloadUrl: "",
+      window: { width: window.innerWidth, height: window.innerHeight }
     }
 
     this.onBackButtonClick = this.onBackButtonClick.bind(this)
@@ -162,6 +164,12 @@ export default class SecondPage extends Component {
     document.body.removeChild(a);
   }
 
+  // Used to lower "download" and "generate" buttons so slide editor doesn't overlap them for certain window widths
+  isBadInterval() {
+    return this.state.window.width < BAD_INTERVAL_MAX_WIDTH
+      && this.state.window.width > BAD_INTERVAL_MIN_WIDTH
+  }
+
   componentDidMount() {
     const canvas = this.refs.canvas
     canvas.width = canvas_size
@@ -176,7 +184,9 @@ export default class SecondPage extends Component {
         className={"row scene-element " + this.props.animation}
         onKeyDown={this.onKeyDown}
         tabIndex={0}
-        style={{outline: "none"}}>
+        style={{ outline: "none" }}>
+
+        <WindowSizeTracker onResize={(dimensions) => this.setState({ window: dimensions})} />
 
         {/* Back Button */}
         <div style={{ marginBottom: 40 }} className="col s1">
@@ -220,7 +230,7 @@ export default class SecondPage extends Component {
                   width={video_preview_size} height={video_preview_size} />
 
                 {/* Generate & Download buttons stacked vertically */}
-                <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", flexDirection: "column", marginTop: this.isBadInterval() ? 150 : 0 }}>
 
                   {/* Generate */}
                   <div style={{ display: "flex", flexDirection: "row", margin: 10 }}>
@@ -270,6 +280,10 @@ export default class SecondPage extends Component {
   }
 }
 
+// Interval, where "generate" and "download" buttons need to be aligned lower
+const BAD_INTERVAL_MAX_WIDTH = 1240
+const BAD_INTERVAL_MIN_WIDTH = 810
+
 const styles = {
   grid: {
     display: "flex",
@@ -299,7 +313,9 @@ const styles = {
   },
   videoPlayer: {
     margin: 10,
-    boxShadow: "0px 3px 13px 3px rgba(0,0,0,0.2)"
+    boxShadow: "0px 3px 13px 3px rgba(0,0,0,0.2)",
+    minWidth: video_preview_size,
+    minHeight: video_preview_size
   },
   fontDropdownButton: {
     margin: 3,
