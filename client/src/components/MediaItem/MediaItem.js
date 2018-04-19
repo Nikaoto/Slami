@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import Img from "react-image"
 import "./MediaItem.css"
+import Spinner from "../Spinner"
 
 export default class MediaItem extends Component {
   constructor(props) {
@@ -21,8 +22,19 @@ export default class MediaItem extends Component {
     this.setState({ selected: selected })
   }
 
+  renderSpinner(imgStyle) {
+    return (
+      <Spinner
+        className={"slideLeftFadeIn"}
+        style={{ ...imgStyle, position: "relative", padding: 10 }}
+        innerStyle={{ position: "relative", top: 0, left: 0 }}
+      />
+    )
+  }
+
   render() {
     const { url, title, num } = this.props
+    const imgStyle = this.state.selected ? styles.selected : styles.default
 
     return(
       <div style={styles.container}>
@@ -32,7 +44,8 @@ export default class MediaItem extends Component {
         <Img className="hover-shadow slideLeftFadeIn" 
             src={url} 
             alt={title}
-            style={this.state.selected ? styles.selected : styles.default } 
+            loader={this.renderSpinner(imgStyle)}
+            style={imgStyle}
             onClick={() => this.onClick()} />
       </div>
     )
