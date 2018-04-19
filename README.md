@@ -60,7 +60,8 @@ const localMode = false
 cd client
 yarn build
 ```
-If if fails to compile, remove `client/build` and `yarn build` again
+If if fails to compile, you're probably running the development server, so stop that and `yarn build` again.
+If it still fails, remove `client/build` directory and retry.
 
 3. Push to production server.
 
