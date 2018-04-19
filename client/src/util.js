@@ -29,7 +29,7 @@ export function getImportantWords(paragraph) {
 
 // Networking
 
-export function sendScrapeRequest(query, max = 2) {
+export function sendScrapeRequest(query, max = 4) {
   if (query.length <= 0) {
     console.log("query is empty")
     return
