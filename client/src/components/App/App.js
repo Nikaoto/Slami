@@ -77,8 +77,8 @@ class App extends Component {
     this.setState({ currentPage: 4 })
   }
 
-  renderPartners = () => partners.map(({ website_href, logo_src, alt_text }) =>
-    <li>
+  renderPartners = () => partners.map(({ website_href, logo_src, alt_text }, index) =>
+    <li key={index}>
       <a href={website_href}>
         <img style={styles.partnerLogo} src={logo_src} alt={alt_text}/>
       </a>
