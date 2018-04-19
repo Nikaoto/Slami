@@ -24,4 +24,8 @@ export default class WindowSizeTracker extends Component {
       window.removeEventListener("resize", this.updateWindowSize)
     }
   }
+
+  render() {
+    return null;
+  }
 }
