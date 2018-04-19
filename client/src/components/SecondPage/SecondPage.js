@@ -176,8 +176,7 @@ export default class SecondPage extends Component {
         className={"row scene-element " + this.props.animation}
         onKeyDown={this.onKeyDown}
         tabIndex={0}
-        style={{outline: "none"}}
-      >
+        style={{outline: "none"}}>
 
         {/* Back Button */}
         <div style={{ marginBottom: 40 }} className="col s1">
@@ -197,55 +196,56 @@ export default class SecondPage extends Component {
                 </div>
               </div>
 
-              {/* Generate Button */}
+              {/* Font Picker */}
               <div className="row">
                 <div className="col s1">
-                  <Button text={"დააგენერირე"} iconLeft={"settings"} iconRight={"settings"}
-                      onClick={() => this.onGenerateClick()}/>
+                  <Dropdown
+                    style={styles.fontDropdownContent}
+                    trigger={
+                      <MButton style={styles.fontDropdownButton}> {choose_font_label} </MButton>
+                    }>
+                    {fonts.map((f, i) => <NavItem href={null} key={i} onClick={() => this.setState({ font: f })}> {f} </NavItem>)}
+                  </Dropdown>
                 </div>
-
-                <div className="col s1 offset-s4">
-                  <Spinner
-                    style={spinnerStyle}
-                    innerStyle={{ top: "10%", left: "10%"}}
-                  />
-                </div>
-
-                <div className="col s1">
-                  <Button
-                    text={"გადმოწერე"}
-                    disabled={this.state.downloadUrl.length <= 1 || this.state.isGenerating}
-                    iconRight={"file_download"}
-                    onClick={this.onDownloadClick}
-                  />
-                </div>
-
-                {/*
-                  <Button text={"Render Canvas"} onClick={() =>
-                <div className="col s3">
-                    renderCanvas(this.refs.canvas, this.state.editSlides[this.state.chosenSlideIndex], this.state.editorSize)
-                  } />
-                </div>*/}
               </div>
 
               {/* Bottom-left side */}
               <div style={{ display: "flex" }}>
 
-                {/* Canvas */}
+                {/* Canvas (not visible) */}
                 <canvas ref="canvas" style={styles.canvas} />
 
                 {/* Video */}
-                <video ref="videoPlayer" controls autoPlay loop style={styles.videoPlayer}
+                <video ref="videoPlayer" controls autoPlay style={styles.videoPlayer}
                   width={video_preview_size} height={video_preview_size} />
 
-                {/* Font Picker */}
-                <Dropdown
-                  style={styles.fontDropdownContent}
-                  trigger={
-                    <MButton style={styles.fontDropdownButton}> {choose_font_label} </MButton>
-                  }>
-                  {fonts.map((f, i) => <NavItem href={null} key={i} onClick={() => this.setState({ font: f })}> {f} </NavItem>)}
-                </Dropdown>
+                {/* Generate & Download buttons stacked vertically */}
+                <div style={{ display: "flex", flexDirection: "column" }}>
+
+                  {/* Generate */}
+                  <div style={{ display: "flex", flexDirection: "row", margin: 10 }}>
+                    <MButton
+                      className={"red"}
+                      waves={"light"}
+                      onClick={() => this.onGenerateClick()}>
+                      {"დააგენერირე"}
+                    </MButton>
+
+                    <Spinner style={spinnerStyle} innerStyle={{ top: "10%", left: "10%"}} />
+                  </div>
+
+                  {/* Download */}
+                  <div>
+                    <Button
+                      style={{ margin: 10, paddingLeft: 22, paddingRight: 17 }}
+                      text={"გადმოწერე"}
+                      disabled={this.state.downloadUrl.length <= 1 || this.state.isGenerating}
+                      iconRight={"file_download"}
+                      onClick={this.onDownloadClick}
+                    />
+                  </div>
+
+                </div>
 
               </div>
 
@@ -293,6 +293,7 @@ const styles = {
     backgroundColor: "none",
     width: 30,
     height: 30,
+    marginLeft: 10,
     top: 0,
     left: 0
   },
@@ -301,11 +302,11 @@ const styles = {
     boxShadow: "0px 3px 13px 3px rgba(0,0,0,0.2)"
   },
   fontDropdownButton: {
-    margin: 10,
+    margin: 3,
     paddingLeft: 45,
     paddingRight: 45
   },
   fontDropdownContent: {
-    margin: 10
+    margin: 3
   }
 }
