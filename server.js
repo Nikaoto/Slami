@@ -13,7 +13,7 @@ const app = express()
 app.use(bodyParser.json())
 app.use(cors())
 
-app.use(express.static(`${__dirname}/client/build`))
+//app.use(express.static(`${__dirname}/client/build`))
 
 app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "/client/build", "index.html"))
