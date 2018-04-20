@@ -6,7 +6,7 @@ const cors = require("cors")
 
 const PORT = process.env.PORT || 2000
 
-// Scrapper(s)
+// Scraper
 const scrapeBing = require("./scrapers/bing")
 
 const app = express()
@@ -14,15 +14,6 @@ app.use(bodyParser.json())
 app.use(cors())
 
 app.use(express.static(__dirname + "/client/build"))
-
-/*app.get("/", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "/client/build", "index.html"))
-})*/
-
-/*app.get("/", (req, res) => {
-  res.end("Hi :^)")
-})*/
-
 
 app.get("/images", ({ query }, response) => {
   console.log("GET /bing :", query)
@@ -40,13 +31,9 @@ app.get("/images", ({ query }, response) => {
           info: res.size
         })
       )
-
       response.json(results)
-
-    }).catch(err => { 
-      console.log("err")
-      response.json("Error") 
     })
+    .catch(err => response.json("Error"))
 })
 
 app.get("/proxy", (req, response) => {
@@ -58,6 +45,4 @@ app.get("/proxy", (req, response) => {
   }
 })
 
-app.listen(PORT, () => {
-  console.log("Listening on port", PORT)
-})
+app.listen(PORT, () => console.log("Listening on port", PORT))
