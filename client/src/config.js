@@ -35,20 +35,20 @@ module.exports = {
   },
   partners: [
     {
-      website_href: "https://btu.ge/",
-      logo_src: "img/btu.png",
-      alt_text: "BTU logo"
+      website_href: "https://www.internews.org/",
+      logo_src: "img/internews.png",
+      alt_text: "Internews logo",
     },
     {
       website_href: "http://www.internews.ge/",
-      logo_src: "img/internews.png",
-      alt_text: "Internews Media logo"
+      logo_src: "img/internews-ge.png",
+      alt_text: "Internews Georgia logo"
     },
     {
-      website_href: "https://www.usaid.gov/",
-      logo_src: "img/usaid.png",
-      alt_text: "USAID logo"
-    },
+      website_href: "https://btu.ge/",
+      logo_src: "img/btu.png",
+      alt_text: "BTU logo"
+    }
   ],
   alerts: {
     no_slides_chosen: "გთხოვთ ამოირჩიოთ ერთი სლაიდი მაინც"
