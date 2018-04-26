@@ -1,4 +1,6 @@
 import React, { Component } from "react"
+import Cookies from "universal-cookie"
+import Modal from "../Modal/Modal"
 import Button from "../Button"
 import Slide from "../Slide"
 import SlideEditor from "../SlideEditor"
@@ -33,6 +35,7 @@ export default class SecondPage extends Component {
       chosenSlideIndex: 0,
       editSlides: editSlides,
       downloadUrl: "",
+      modalVisible: true,
       window: { width: window.innerWidth, height: window.innerHeight }
     }
 
@@ -41,6 +44,8 @@ export default class SecondPage extends Component {
     this.updateCurrentSlideText = this.updateCurrentSlideText.bind(this)
     this.updateCurrentSlideTextPosition = this.updateCurrentSlideTextPosition.bind(this)
     this.onKeyDown = this.onKeyDown.bind(this)
+
+    this.cookies = new Cookies()
   }
 
   onBackButtonClick() {
@@ -54,6 +59,8 @@ export default class SecondPage extends Component {
     this.setState({ isGenerating: true })
 
     const canvas = this.refs.canvas
+    canvas.width = canvas_size
+    canvas.height = canvas_size
     const videoPlayer = this.refs.videoPlayer
     videoPlayer.src = "" // Removes video
     const context = canvas.getContext("2d")
@@ -170,15 +177,53 @@ export default class SecondPage extends Component {
       && this.state.window.width > BAD_INTERVAL_MIN_WIDTH
   }
 
+  closeModal() {
+    this.setState({ modalVisible: false })
+    if (this.cookies) {
+      this.cookies.set("page2TutDone", "true")
+    }
+  }
+
+  renderModal() {
+    return (
+        <Modal
+          header={<p style={{ fontSize: 22 }}>ვიდეოს რედაქტირება</p>}
+          body={<div>
+              <p>სლამი გაძლევთ ვიდეოს რედაქტირების საშუალებას.</p>
+              <p>შეგიძლიათ დაამატოთ/წაშალოთ ტექსტი და მოათავსოთ ნებისმიერ ადგილას. თითოეული სლაიდის
+                გადასვლის ეფექტისა და ხანგრძლივობის ცვლილებაც მარტივად შეგიძლიათ.</p>
+              <img src={"img/page2-tutorial.gif"}
+                   alt={"სლამის გამოყენების ინსტრუქცია 1"}
+                   style={{ maxWidth: "100%", maxHeight: "100%", borderRadius: 5 }}/>
+              <p>დააჭირეთ ღილაკს "დააგენერირე" რომ შექმნათ ვიდეო და შემდგომ გადმოწეროთ.</p>
+            </div>}
+          footer={<Button style={{ margin: 10 }} onClick={() => this.closeModal()} text={"გასაგებია"}/>}
+          onClose={() => this.closeModal()}
+        />
+      )
+  }
+
   componentDidMount() {
     const canvas = this.refs.canvas
-    canvas.width = canvas_size
-    canvas.height = canvas_size
+    if (canvas) {
+      canvas.width = canvas_size
+      canvas.height = canvas_size
+    }
+
+    if (this.cookies) {
+      if (this.cookies.get("page2TutDone") === "true") {
+        this.setState({ modalVisible: false })
+      }
+    }
   }
+
+  compo
 
   render() {
     const spinnerStyle = {...styles.spinner, display: this.state.isGenerating ? "block" : "none" }
-
+    if (this.state.modalVisible) {
+      return this.renderModal()
+    }
     return(
       <div
         className={"row scene-element " + this.props.animation}
@@ -307,7 +352,7 @@ const styles = {
     backgroundColor: "none",
     width: 30,
     height: 30,
-    marginLeft: 10,
+    marginLeft: 5,
     top: 0,
     left: 0
   },
