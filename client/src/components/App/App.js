@@ -106,7 +106,7 @@ class App extends Component {
             <div className="row">
 
               {/* Footer Links */}
-              <div className="col s3">
+              <div className="col s4">
                 <a href={"/"}>
                 <h5 className={"white-text"}>სლამი</h5>
                 </a>
