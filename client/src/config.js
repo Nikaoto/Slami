@@ -1,5 +1,5 @@
-const devMode = true
-const localMode = true
+const devMode = false
+const localMode = false
 const imagesEndpoint = "/images"
 const proxyEndpoint = "/proxy"
 
