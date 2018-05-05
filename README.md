@@ -1,8 +1,10 @@
 # Slami
 **Slami** helps media content creators generate short captioned videos to use along with their content (articles, social media posts, blog posts…)
 
+Check it out here >>> https://slami.ge
+
 # Installation
-Yarn and npm are required. //TODO test if this install script actually works
+Yarn and npm are required
 ```
 git clone
 cd slami
