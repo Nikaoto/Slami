@@ -1,7 +1,7 @@
 # Slami
 **Slami** helps media content creators generate short captioned videos to use along with their content (articles, social media posts, blog posts…)
 
-Check it out here >>> https://slami.ge
+Check it out here: https://slami.ge
 
 # Installation
 Yarn and npm are required

@@ -1,10 +1,8 @@
 const devMode = false
-const localMode = false
 const imagesEndpoint = "/images"
 const proxyEndpoint = "/proxy"
 
-const separateDevApiUrl = "https://scr-api.herokuapp.com" // Separate server that runs scrapers
-const devApiUrl = localMode ? "http://localhost:2000" : "https://slami-demo.herokuapp.com"
+const devApiUrl = "http://localhost:2000"
 const prodApiUrl = "https://slami.ge"
 
 module.exports = {
