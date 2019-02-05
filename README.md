@@ -1,7 +1,18 @@
 # Slami
 **Slami** helps media content creators generate short captioned videos to use along with their content (articles, social media posts, blog posts…)
 
-Check it out here: https://slami.ge
+I made Slami as an open-source project for a client. I do not own the domain or the service.
+
+It might still be available here: https://slami.ge
+
+# Preview
+Gifs showing how Slami can be used.
+
+**Scraping resources based on post text**
+![Slami - resource scraper](https://i.imgur.com/h0alxEt.gif)
+
+**Assembling a short slideshow alongside the post"**
+![Slami - slideshow assembler](https://i.imgur.com/7RSxMjx.gif)
 
 # Installation
 Yarn and npm are required
@@ -122,6 +133,6 @@ Example:
 ```
 
 # Note
-The server has full CORS enabled
+The server has full CORS enabled.
 
 The scrapper is made with [Cheerio](https://cheerio.js.org/) -> https://github.com/buchin/nodejs-bing
