@@ -11,7 +11,7 @@ Gifs showing how Slami can be used.
 **Scraping resources based on post text**
 ![Slami - resource scraper](https://i.imgur.com/h0alxEt.gif)
 
-**Assembling a short slideshow alongside the post"**
+**Assembling a short slideshow alongside the post**
 ![Slami - slideshow assembler](https://i.imgur.com/7RSxMjx.gif)
 
 # Installation
