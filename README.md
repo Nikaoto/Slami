@@ -1,9 +1,11 @@
 # Slami
-**Slami** helps media content creators generate short captioned videos to use along with their content (articles, social media posts, blog posts…)
+Slami helps media content creators generate short captioned videos to use along with their content (articles, social media posts, blog posts…)
 
-I made Slami as an open-source project for a client. I do not own the domain or the service.
+I made Slami as an open-source project for a client. I do not own the domain or the service, but the code is free for anyone to use.
 
-It might still be available here: https://slami.ge
+It might still be available at https://slami.ge
+
+Note, however, that the website doesn't belong to me, so it might have changed or been taken down by the time you're reading this.
 
 # Preview
 Gifs showing how Slami can be used.
