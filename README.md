@@ -5,7 +5,7 @@ I made Slami as an open-source project for a client. I do not own the domain or 
 
 It might still be available at https://slami.ge
 
-Note, however, that the website doesn't belong to me, so it might have changed or been taken down by the time you're reading this.
+Note, however, that the website doesn't belong to me, so it might have changed or been taken down by the time you're reading this. In addition, this is an old project which I did whilst learning React, so expect to see atrocities if you peek into the code.
 
 # Preview
 Gifs showing how Slami can be used.
